@@ -142,8 +142,8 @@
 			);
 			dependencies = (
 			);
-			name = mobile;
-			productName = mobile;
+			name = ArFashion;
+			productName = ArFashion;
 			productReference = 919623562C014B08001FF07C /* mobile.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -422,6 +422,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"mobile/Preview Content\"";
+				DEVELOPMENT_TEAM = A68RWCLV6B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
@@ -452,6 +453,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"mobile/Preview Content\"";
+				DEVELOPMENT_TEAM = A68RWCLV6B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
