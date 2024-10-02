@@ -14,12 +14,11 @@
 		911EC44B2C9606BC009EDF2B /* ARExperimentUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911EC44A2C9606BC009EDF2B /* ARExperimentUITestsLaunchTests.swift */; };
 		913039082CA630CA00835C35 /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913039072CA630CA00835C35 /* TabView.swift */; };
 		9130390A2CA635AE00835C35 /* BottomSheetHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913039092CA635AE00835C35 /* BottomSheetHelper.swift */; };
+		918788D62CADA40A00F67C6C /* TappingGestureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918788D52CADA40A00F67C6C /* TappingGestureView.swift */; };
+		918788D82CADA72700F67C6C /* ARViewContainerConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918788D72CADA72700F67C6C /* ARViewContainerConverter.swift */; };
+		918788DC2CADAE5400F67C6C /* SheetContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918788DB2CADAE5400F67C6C /* SheetContentView.swift */; };
+		918788DE2CADBD1B00F67C6C /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918788DD2CADBD1B00F67C6C /* TabBarView.swift */; };
 		91E3FAB22CA6A4C0005AA618 /* MarketPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E3FAB12CA6A4C0005AA618 /* MarketPlaceView.swift */; };
-		91E3FAB42CA6AA42005AA618 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E3FAB32CA6AA42005AA618 /* MainMenuView.swift */; };
-		91E3FAB62CA6AC5D005AA618 /* ARViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E3FAB52CA6AC5D005AA618 /* ARViewContainer.swift */; };
-		91E3FAC52CA6BDAC005AA618 /* Markers.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91E3FAC42CA6BDAC005AA618 /* Markers.xcassets */; };
-		91E3FAD32CA6C4F5005AA618 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91E3FAD22CA6C4F5005AA618 /* Assets.xcassets */; };
-		91E3FADA2CA6C5EF005AA618 /* StatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E3FAD72CA6C5E4005AA618 /* StatusViewController.swift */; };
 		91E3FADE2CA6D09B005AA618 /* CosmonautSuit_en.reality in Resources */ = {isa = PBXBuildFile; fileRef = 91E3FADD2CA6D09B005AA618 /* CosmonautSuit_en.reality */; };
 		91EB60422CA610A9004D4770 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91EB60412CA610A9004D4770 /* SettingsView.swift */; };
 		91EB60452CA610C3004D4770 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91EB60442CA610C3004D4770 /* ProfileView.swift */; };
@@ -54,12 +53,11 @@
 		911EC44A2C9606BC009EDF2B /* ARExperimentUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARExperimentUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		913039072CA630CA00835C35 /* TabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabView.swift; sourceTree = "<group>"; };
 		913039092CA635AE00835C35 /* BottomSheetHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetHelper.swift; sourceTree = "<group>"; };
+		918788D52CADA40A00F67C6C /* TappingGestureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TappingGestureView.swift; sourceTree = "<group>"; };
+		918788D72CADA72700F67C6C /* ARViewContainerConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewContainerConverter.swift; sourceTree = "<group>"; };
+		918788DB2CADAE5400F67C6C /* SheetContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetContentView.swift; sourceTree = "<group>"; };
+		918788DD2CADBD1B00F67C6C /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		91E3FAB12CA6A4C0005AA618 /* MarketPlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketPlaceView.swift; sourceTree = "<group>"; };
-		91E3FAB32CA6AA42005AA618 /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
-		91E3FAB52CA6AC5D005AA618 /* ARViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewContainer.swift; sourceTree = "<group>"; };
-		91E3FAC42CA6BDAC005AA618 /* Markers.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Markers.xcassets; sourceTree = "<group>"; };
-		91E3FAD22CA6C4F5005AA618 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../../Downloads/DetectingImagesInAnARExperience/ARKitImageDetection/Resources/Assets.xcassets; sourceTree = "<group>"; };
-		91E3FAD72CA6C5E4005AA618 /* StatusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusViewController.swift; sourceTree = "<group>"; };
 		91E3FADD2CA6D09B005AA618 /* CosmonautSuit_en.reality */ = {isa = PBXFileReference; lastKnownFileType = file; path = CosmonautSuit_en.reality; sourceTree = "<group>"; };
 		91EB60412CA610A9004D4770 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		91EB60442CA610C3004D4770 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -95,8 +93,8 @@
 			isa = PBXGroup;
 			children = (
 				911EC42C2C9606BB009EDF2B /* ARExperiment */,
-				911EC43D2C9606BC009EDF2B /* ARExperimentTests */,
 				911EC4472C9606BC009EDF2B /* ARExperimentUITests */,
+				911EC43D2C9606BC009EDF2B /* ARExperimentTests */,
 				911EC42B2C9606BB009EDF2B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -114,17 +112,12 @@
 		911EC42C2C9606BB009EDF2B /* ARExperiment */ = {
 			isa = PBXGroup;
 			children = (
-				91E3FADD2CA6D09B005AA618 /* CosmonautSuit_en.reality */,
-				91E3FAD72CA6C5E4005AA618 /* StatusViewController.swift */,
-				91E3FAD22CA6C4F5005AA618 /* Assets.xcassets */,
-				913039092CA635AE00835C35 /* BottomSheetHelper.swift */,
-				91E3FAB32CA6AA42005AA618 /* MainMenuView.swift */,
+				918788D42CAD9F4C00F67C6C /* ARControllers */,
+				918788D32CAD9EA100F67C6C /* AR assets */,
 				91E3FAB82CA6ACC1005AA618 /* MainMenuHelpers */,
-				91E3FAB72CA6ACA5005AA618 /* AR */,
 				91EB60402CA61092004D4770 /* MenuScreen */,
 				911EC42D2C9606BB009EDF2B /* AppDelegate.swift */,
 				911EC42F2C9606BB009EDF2B /* ContentView.swift */,
-				91E3FAC42CA6BDAC005AA618 /* Markers.xcassets */,
 			);
 			path = ARExperiment;
 			sourceTree = "<group>";
@@ -146,17 +139,29 @@
 			path = ARExperimentUITests;
 			sourceTree = "<group>";
 		};
-		91E3FAB72CA6ACA5005AA618 /* AR */ = {
+		918788D32CAD9EA100F67C6C /* AR assets */ = {
 			isa = PBXGroup;
 			children = (
-				91E3FAB52CA6AC5D005AA618 /* ARViewContainer.swift */,
+				91E3FADD2CA6D09B005AA618 /* CosmonautSuit_en.reality */,
 			);
-			path = AR;
+			path = "AR assets";
+			sourceTree = "<group>";
+		};
+		918788D42CAD9F4C00F67C6C /* ARControllers */ = {
+			isa = PBXGroup;
+			children = (
+				918788D52CADA40A00F67C6C /* TappingGestureView.swift */,
+				918788D72CADA72700F67C6C /* ARViewContainerConverter.swift */,
+			);
+			path = ARControllers;
 			sourceTree = "<group>";
 		};
 		91E3FAB82CA6ACC1005AA618 /* MainMenuHelpers */ = {
 			isa = PBXGroup;
 			children = (
+				918788DB2CADAE5400F67C6C /* SheetContentView.swift */,
+				918788DD2CADBD1B00F67C6C /* TabBarView.swift */,
+				913039092CA635AE00835C35 /* BottomSheetHelper.swift */,
 			);
 			path = MainMenuHelpers;
 			sourceTree = "<group>";
@@ -277,9 +282,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				91E3FAD32CA6C4F5005AA618 /* Assets.xcassets in Resources */,
 				91E3FADE2CA6D09B005AA618 /* CosmonautSuit_en.reality in Resources */,
-				91E3FAC52CA6BDAC005AA618 /* Markers.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,16 +307,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				91E3FAB62CA6AC5D005AA618 /* ARViewContainer.swift in Sources */,
 				9130390A2CA635AE00835C35 /* BottomSheetHelper.swift in Sources */,
 				91EB60422CA610A9004D4770 /* SettingsView.swift in Sources */,
+				918788DE2CADBD1B00F67C6C /* TabBarView.swift in Sources */,
+				918788D82CADA72700F67C6C /* ARViewContainerConverter.swift in Sources */,
 				911EC4302C9606BB009EDF2B /* ContentView.swift in Sources */,
-				91E3FADA2CA6C5EF005AA618 /* StatusViewController.swift in Sources */,
-				91E3FAB42CA6AA42005AA618 /* MainMenuView.swift in Sources */,
+				918788D62CADA40A00F67C6C /* TappingGestureView.swift in Sources */,
 				911EC42E2C9606BB009EDF2B /* AppDelegate.swift in Sources */,
 				91EB60452CA610C3004D4770 /* ProfileView.swift in Sources */,
 				91E3FAB22CA6A4C0005AA618 /* MarketPlaceView.swift in Sources */,
 				913039082CA630CA00835C35 /* TabView.swift in Sources */,
+				918788DC2CADAE5400F67C6C /* SheetContentView.swift in Sources */,
 				91EB60472CA610D1004D4770 /* DesignsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

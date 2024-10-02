@@ -25,13 +25,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window.makeKeyAndVisible()
         return true
     }
-    
-//    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-//            window = UIWindow(frame: UIScreen.main.bounds)
-//            window?.rootViewController = ARViewController()  // Your AR view controller
-//            window?.makeKeyAndVisible()
-//            return true
-//        }
 
 
     func applicationWillResignActive(_ application: UIApplication) {
