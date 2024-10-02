@@ -1,16 +1,15 @@
 //
-//  TappingGestureView.swift
+//  TappingGestureController.swift
 //  ARExperiment
 //
 //  Created by David Drobny on 02/10/2024.
 //
 
-//import SwiftUI
 import ARKit
 import RealityKit
 
 
-class TappingGestureView: UIViewController {
+class TappingGestureController: UIViewController {
     @IBOutlet var arView: ARView!
     let virtualAssetName = "CosmonautSuit_en"
     
@@ -89,7 +88,7 @@ class TappingGestureView: UIViewController {
 }
 
 
-extension TappingGestureView: ARSessionDelegate {
+extension TappingGestureController: ARSessionDelegate {
     func session(_ session: ARSession, didAdd anchors: [ARAnchor]) {
         for anchor in anchors {
             if let anchorName = anchor.name {

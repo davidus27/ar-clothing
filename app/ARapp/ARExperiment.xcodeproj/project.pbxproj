@@ -14,10 +14,11 @@
 		911EC44B2C9606BC009EDF2B /* ARExperimentUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911EC44A2C9606BC009EDF2B /* ARExperimentUITestsLaunchTests.swift */; };
 		913039082CA630CA00835C35 /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913039072CA630CA00835C35 /* TabView.swift */; };
 		9130390A2CA635AE00835C35 /* BottomSheetHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913039092CA635AE00835C35 /* BottomSheetHelper.swift */; };
-		918788D62CADA40A00F67C6C /* TappingGestureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918788D52CADA40A00F67C6C /* TappingGestureView.swift */; };
+		918788D62CADA40A00F67C6C /* TappingGestureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918788D52CADA40A00F67C6C /* TappingGestureController.swift */; };
 		918788D82CADA72700F67C6C /* ARViewContainerConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918788D72CADA72700F67C6C /* ARViewContainerConverter.swift */; };
 		918788DC2CADAE5400F67C6C /* SheetContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918788DB2CADAE5400F67C6C /* SheetContentView.swift */; };
 		918788DE2CADBD1B00F67C6C /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918788DD2CADBD1B00F67C6C /* TabBarView.swift */; };
+		918788E02CADC46000F67C6C /* BasicReferenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918788DF2CADC46000F67C6C /* BasicReferenceController.swift */; };
 		91E3FAB22CA6A4C0005AA618 /* MarketPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E3FAB12CA6A4C0005AA618 /* MarketPlaceView.swift */; };
 		91E3FADE2CA6D09B005AA618 /* CosmonautSuit_en.reality in Resources */ = {isa = PBXBuildFile; fileRef = 91E3FADD2CA6D09B005AA618 /* CosmonautSuit_en.reality */; };
 		91EB60422CA610A9004D4770 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91EB60412CA610A9004D4770 /* SettingsView.swift */; };
@@ -53,10 +54,11 @@
 		911EC44A2C9606BC009EDF2B /* ARExperimentUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARExperimentUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		913039072CA630CA00835C35 /* TabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabView.swift; sourceTree = "<group>"; };
 		913039092CA635AE00835C35 /* BottomSheetHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetHelper.swift; sourceTree = "<group>"; };
-		918788D52CADA40A00F67C6C /* TappingGestureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TappingGestureView.swift; sourceTree = "<group>"; };
+		918788D52CADA40A00F67C6C /* TappingGestureController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TappingGestureController.swift; sourceTree = "<group>"; };
 		918788D72CADA72700F67C6C /* ARViewContainerConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewContainerConverter.swift; sourceTree = "<group>"; };
 		918788DB2CADAE5400F67C6C /* SheetContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetContentView.swift; sourceTree = "<group>"; };
 		918788DD2CADBD1B00F67C6C /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
+		918788DF2CADC46000F67C6C /* BasicReferenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicReferenceController.swift; sourceTree = "<group>"; };
 		91E3FAB12CA6A4C0005AA618 /* MarketPlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketPlaceView.swift; sourceTree = "<group>"; };
 		91E3FADD2CA6D09B005AA618 /* CosmonautSuit_en.reality */ = {isa = PBXFileReference; lastKnownFileType = file; path = CosmonautSuit_en.reality; sourceTree = "<group>"; };
 		91EB60412CA610A9004D4770 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -150,8 +152,9 @@
 		918788D42CAD9F4C00F67C6C /* ARControllers */ = {
 			isa = PBXGroup;
 			children = (
-				918788D52CADA40A00F67C6C /* TappingGestureView.swift */,
+				918788D52CADA40A00F67C6C /* TappingGestureController.swift */,
 				918788D72CADA72700F67C6C /* ARViewContainerConverter.swift */,
+				918788DF2CADC46000F67C6C /* BasicReferenceController.swift */,
 			);
 			path = ARControllers;
 			sourceTree = "<group>";
@@ -312,11 +315,12 @@
 				918788DE2CADBD1B00F67C6C /* TabBarView.swift in Sources */,
 				918788D82CADA72700F67C6C /* ARViewContainerConverter.swift in Sources */,
 				911EC4302C9606BB009EDF2B /* ContentView.swift in Sources */,
-				918788D62CADA40A00F67C6C /* TappingGestureView.swift in Sources */,
+				918788D62CADA40A00F67C6C /* TappingGestureController.swift in Sources */,
 				911EC42E2C9606BB009EDF2B /* AppDelegate.swift in Sources */,
 				91EB60452CA610C3004D4770 /* ProfileView.swift in Sources */,
 				91E3FAB22CA6A4C0005AA618 /* MarketPlaceView.swift in Sources */,
 				913039082CA630CA00835C35 /* TabView.swift in Sources */,
+				918788E02CADC46000F67C6C /* BasicReferenceController.swift in Sources */,
 				918788DC2CADAE5400F67C6C /* SheetContentView.swift in Sources */,
 				91EB60472CA610D1004D4770 /* DesignsView.swift in Sources */,
 			);
