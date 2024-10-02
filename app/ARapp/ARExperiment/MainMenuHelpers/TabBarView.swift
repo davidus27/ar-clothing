@@ -1,5 +1,5 @@
 //
-//  TabView.swift
+//  TabBarView.swift
 //  ARExperiment
 //
 //  Created by David Drobny on 02/10/2024.
