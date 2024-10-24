@@ -11,7 +11,7 @@ import RealityKit
 
 class TappingGestureController: UIViewController {
     @IBOutlet var arView: ARView!
-    let virtualAssetName = "CosmonautSuit_en"
+    let virtualAssetName = "Cosmonaut_Suit"
     
     @objc
     func handleTap(recognizer: UITapGestureRecognizer) {
@@ -49,9 +49,9 @@ class TappingGestureController: UIViewController {
         
         arView.session.delegate = self
         
-        setupARView()
+//        setupARView()
         
-        arView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(recognizer:))))
+//        arView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(recognizer:))))
     }
     
     
