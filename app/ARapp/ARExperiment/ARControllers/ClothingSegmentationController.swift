@@ -16,6 +16,8 @@ The sample app shows how to use Vision person segmentation and detect face
 
 import UIKit
 import Vision
+import ARKit
+import RealityKit
 import MetalKit
 import AVFoundation
 import CoreImage.CIFilterBuiltins
@@ -29,9 +31,11 @@ final class ClothingSegmentationController: UIViewController {
     
     // The Vision requests and the handler to perform them.
     private var clothesSegmentationRequest: VNCoreMLRequest!
+    private var maskPixelBuffer: CVPixelBuffer?
+    
     private var frameCount = 0
-    private let frameSkipCount = 10 // Change this to skip more or fewer frames
-
+    private let frameSkipCount = 30 // this is how many fps we skip not performing clothing segmentation
+    
     
     // A structure that contains RGB color intensity values.
     private var colors: AngleColors?
@@ -43,16 +47,6 @@ final class ClothingSegmentationController: UIViewController {
             setupCaptureSession()
         }
     }
-
-    
-//    @IBOutlet weak var cameraView: MTKView! {
-//        didSet {
-//            guard metalDevice == nil else { return }
-//            setupMetal()
-//            setupCoreImage()
-//            setupCaptureSession()
-//        }
-//    }
     
     // The Metal pipeline.
     public var metalDevice: MTLDevice!
@@ -70,7 +64,6 @@ final class ClothingSegmentationController: UIViewController {
     public var session: AVCaptureSession?
     
     // MARK: - ViewController LifeCycle Methods
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -87,115 +80,45 @@ final class ClothingSegmentationController: UIViewController {
     }
     
     // MARK: - Prepare Requests
-    
     private func intializeRequests() {
         // clothing segmentation part
         let model = try! VNCoreMLModel(for: clothSegmentation(configuration: MLModelConfiguration()).model)
         self.clothesSegmentationRequest = VNCoreMLRequest(model: model)
     }
 
-    // MARK: - Perform Requests
+    // MARK: - Perform processing
     private func processVideoFrame(_ framePixelBuffer: CVPixelBuffer) {
-        
         frameCount += 1
-            
-        // Skip processing if the frame count is not at the desired interval
+        
+        let ciImage = CIImage(cvPixelBuffer: framePixelBuffer)
+        
         if frameCount % frameSkipCount != 0 {
+            currentCIImage = ciImage
             return
         }
-
-        // Create a CIImage from the frame pixel buffer
-        let ciImage = CIImage(cvPixelBuffer: framePixelBuffer)
         
         // Create a VNImageRequestHandler with the CIImage
         let handler = VNImageRequestHandler(ciImage: ciImage, options: [:])
         
-        // Perform the clothes segmentation request
-        do {
-            try handler.perform([clothesSegmentationRequest])
+        try! handler.perform([clothesSegmentationRequest])
+        
+        // Extract the pixel buffer from the VNPixelBufferObservation
+        if let result = clothesSegmentationRequest.results?.first as? VNPixelBufferObservation {
+            let maskPixelBuffer = result.pixelBuffer
             
-            // Extract the pixel buffer from the VNPixelBufferObservation
-            if let result = clothesSegmentationRequest.results?.first as? VNPixelBufferObservation {
-                let maskPixelBuffer = result.pixelBuffer // This is already a non-optional
-                
-                // Process the images using the existing blend function
-                blend(original: framePixelBuffer, mask: maskPixelBuffer)
-//                blendAnimation(original: framePixelBuffer, mask: maskPixelBuffer)
-
-            } else {
-                print("No valid result found for the segmentation request.")
-            }
-        } catch {
-            print("Error processing video frame: \(error.localizedDescription)")
+            // Set the new, blended image as current.
+            currentCIImage = blend(original: framePixelBuffer, mask: maskPixelBuffer).outputImage?.oriented(.left)
         }
     }
-    
-    private func createColorfulNoiseAnimation() -> CIImage {
-        let width: CGFloat = 640
-        let height: CGFloat = 480
-        let noiseFilter = CIFilter(name: "CIRandomGenerator")!
-
-        // Generate noise
-        guard let noiseImage = noiseFilter.outputImage?.cropped(to: CGRect(x: 0, y: 0, width: width, height: height)) else {
-            return CIImage.empty() // Return an empty image if noise generation fails
-        }
-
-        // Create a color filter to apply to the noise
-        let colorFilter = CIFilter(name: "CIColorMatrix")!
-        colorFilter.setValue(noiseImage, forKey: kCIInputImageKey)
-
-        // Generate animated colors based on time
-        let time = CACurrentMediaTime()
-        let red = (sin(time) + 1) / 2
-        let green = (sin(time + .pi / 3) + 1) / 2
-        let blue = (sin(time + 2 * .pi / 3) + 1) / 2
-
-        // Set color matrix to colorize noise
-        colorFilter.setValue(CIVector(x: red, y: 0, z: 0, w: 0), forKey: "inputRVector")
-        colorFilter.setValue(CIVector(x: 0, y: green, z: 0, w: 0), forKey: "inputGVector")
-        colorFilter.setValue(CIVector(x: 0, y: 0, z: blue, w: 0), forKey: "inputBVector")
-        
-        return colorFilter.outputImage!.cropped(to: CGRect(x: 0, y: 0, width: width, height: height))
-    }
-
-    private func blendAnimation(original framePixelBuffer: CVPixelBuffer,
-                       mask maskPixelBuffer: CVPixelBuffer) {
-        
-        // Create CIImage objects for the video frame and the segmentation mask.
-        let originalImage = CIImage(cvPixelBuffer: framePixelBuffer).oriented(.right)
-        var maskImage = CIImage(cvPixelBuffer: maskPixelBuffer).oriented(.right)
-
-        // Scale the mask image to fit the bounds of the video frame.
-        let scaleX = originalImage.extent.width / maskImage.extent.width
-        let scaleY = originalImage.extent.height / maskImage.extent.height
-        maskImage = maskImage.transformed(by: .init(scaleX: scaleX, y: scaleY))
-
-        // Create the animated gradient
-        let gradientImage = createColorfulNoiseAnimation()
-        
-        // Invert the mask image
-        maskImage = maskImage.applyingFilter("CIColorInvert")
-        
-        // Blend the original, gradient, and mask images.
-        let blendFilter = CIFilter.blendWithAlphaMask()
-        blendFilter.inputImage = originalImage
-        blendFilter.backgroundImage = gradientImage
-        blendFilter.maskImage = maskImage
-        
-        // Set the new, blended image as current.
-        currentCIImage = blendFilter.outputImage?.oriented(.left)
-    }
-
-
     
     // MARK: - Process Results
     
     // Performs the blend operation.
     private func blend(original framePixelBuffer: CVPixelBuffer,
-                       mask maskPixelBuffer: CVPixelBuffer) {
+                       mask maskPixelBuffer: CVPixelBuffer) -> CIFilter {
         
         // Remove the optionality from generated color intensities or exit early.
-//        guard let colors = colors else { return }
+   //        guard let colors = colors else { return }
         
         // Create CIImage objects for the video frame and the segmentation mask.
         let originalImage = CIImage(cvPixelBuffer: framePixelBuffer).oriented(.right)
@@ -215,7 +138,7 @@ final class ClothingSegmentationController: UIViewController {
             "inputGVector": CIVector(x: 0, y: 0, z: 0, w: 0),
             "inputBVector": CIVector(x: 0, y: 0, z: 0, w: 0)
         ]
-        
+
         // Create a colored background image.
         let backgroundImage = maskImage.applyingFilter("CIColorMatrix",
                                                        parameters: vectors)
@@ -225,14 +148,11 @@ final class ClothingSegmentationController: UIViewController {
         blendFilter.inputImage = originalImage
         blendFilter.backgroundImage = backgroundImage
         blendFilter.maskImage = maskImage
-        
-        // Set the new, blended image as current.
-        currentCIImage = blendFilter.outputImage?.oriented(.left)
+        return blendFilter
     }
 }
 
 // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
-
 extension ClothingSegmentationController: AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         // Grab the pixelbuffer frame from the camera output
@@ -283,32 +203,6 @@ extension ClothingSegmentationController {
     }
 }
 
-/// A structure that provides an RGB color intensity value for the roll, pitch, and yaw angles.
-struct AngleColors {
-    
-    let red: CGFloat
-    let blue: CGFloat
-    let green: CGFloat
-    
-    init(roll: NSNumber?, pitch: NSNumber?, yaw: NSNumber?) {
-        red = AngleColors.convert(value: roll, with: -.pi, and: .pi)
-        blue = AngleColors.convert(value: pitch, with: -.pi / 2, and: .pi / 2)
-        green = AngleColors.convert(value: yaw, with: -.pi / 2, and: .pi / 2)
-    }
-    
-    static func convert(value: NSNumber?, with minValue: CGFloat, and maxValue: CGFloat) -> CGFloat {
-        guard let value = value else { return 0 }
-        let maxValue = maxValue * 0.8
-        let minValue = minValue + (maxValue * 0.2)
-        let facePoseRange = maxValue - minValue
-        
-        guard facePoseRange != 0 else { return 0 } // protect from zero division
-        
-        let colorRange: CGFloat = 1
-        return (((CGFloat(truncating: value) - minValue) * colorRange) / facePoseRange)
-    }
-}
-
 extension ClothingSegmentationController: MTKViewDelegate {
     
     func draw(in view: MTKView) {
@@ -350,5 +244,28 @@ extension ClothingSegmentationController: MTKViewDelegate {
     }
 }
 
-
-
+/// A structure that provides an RGB color intensity value for the roll, pitch, and yaw angles.
+struct AngleColors {
+    
+    let red: CGFloat
+    let blue: CGFloat
+    let green: CGFloat
+    
+    init(roll: NSNumber?, pitch: NSNumber?, yaw: NSNumber?) {
+        red = AngleColors.convert(value: roll, with: -.pi, and: .pi)
+        blue = AngleColors.convert(value: pitch, with: -.pi / 2, and: .pi / 2)
+        green = AngleColors.convert(value: yaw, with: -.pi / 2, and: .pi / 2)
+    }
+    
+    static func convert(value: NSNumber?, with minValue: CGFloat, and maxValue: CGFloat) -> CGFloat {
+        guard let value = value else { return 0 }
+        let maxValue = maxValue * 0.8
+        let minValue = minValue + (maxValue * 0.2)
+        let facePoseRange = maxValue - minValue
+        
+        guard facePoseRange != 0 else { return 0 } // protect from zero division
+        
+        let colorRange: CGFloat = 1
+        return (((CGFloat(truncating: value) - minValue) * colorRange) / facePoseRange)
+    }
+}
