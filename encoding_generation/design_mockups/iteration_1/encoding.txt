@@ -1,0 +1,18 @@
+日 (Hi) – Sun → 0000
+手 (Te) – Hand → 0001
+目 (Me) – Eye → 0010
+口 (Kuchi) – Mouth → 0011
+木 (Ki) – Tree → 0100
+竹 (Take) – Bamboo → 0101
+糸 (Ito) – Thread → 0110
+川 (Kawa) – River → 0111
+山 (Yama) – Mountain → 1000
+石 (Ishi) – Stone → 1001
+火 (Hi) – Fire → 1010
+水 (Mizu) – Water → 1011
+刀 (Katana) – Sword → 1100
+土 (Tsuchi) – Earth → 1101
+空 (Sora) – Sky → 1110
+月 (Tsuki) – Moon → 1111
+
+
