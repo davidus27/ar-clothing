@@ -92,3 +92,7 @@ iOSInjectionProject/
 
 
 venv/
+
+# ignore mov and mp3 files
+*.mov
+.mp3
