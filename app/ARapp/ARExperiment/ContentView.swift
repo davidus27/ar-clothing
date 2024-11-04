@@ -17,7 +17,7 @@ struct ContentView: View {
     var body: some View {
         ZStack(alignment: .bottom) {
             // AR Session
-            ARViewContainerConverter<TappingGestureController>().edgesIgnoringSafeArea(.all)
+            ARViewContainerConverter<DynamicReferenceController>().edgesIgnoringSafeArea(.all)
             
             // Main menu
             TabBarView(activeTab: $activeTab)

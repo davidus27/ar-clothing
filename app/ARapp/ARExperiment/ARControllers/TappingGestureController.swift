@@ -11,7 +11,7 @@ import RealityKit
 
 class TappingGestureController: UIViewController {
     @IBOutlet var arView: ARView!
-    let virtualAssetName = "Cosmonaut_Suit"
+    let virtualAssetName = "pinguin"
     
     @objc
     func handleTap(recognizer: UITapGestureRecognizer) {
@@ -62,15 +62,18 @@ class TappingGestureController: UIViewController {
         
         guard ARWorldTrackingConfiguration.supportsFrameSemantics(.personSegmentationWithDepth) else {
             fatalError("People occlusion is not supported on this device.")
-        }
-
-        
-        configuration.planeDetection = [.horizontal, .vertical]
-        configuration.maximumNumberOfTrackedImages = 1
-        configuration.environmentTexturing = .automatic
-        
+        }        
         // Enable people occlusion into the configuration
         configuration.frameSemantics.insert(.personSegmentationWithDepth)
+
+        configuration.planeDetection = [.horizontal, .vertical]
+        configuration.environmentTexturing = .automatic
+
+        // if the phone supports meshing add the object occulsion to the effect
+        if ARWorldTrackingConfiguration.supportsSceneReconstruction(.mesh) {
+            configuration.sceneReconstruction = .mesh
+        }
+        self.arView.environment.sceneUnderstanding.options.insert(.occlusion)
         arView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
         
     }
