@@ -19,7 +19,6 @@ class DynamicReferenceController: UIViewController, ARSCNViewDelegate {
         NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: videoPlayer.currentItem)
     }
     
-    
     // MARK: - View Controller Life Cycle
 
     override func viewDidLoad() {
@@ -30,8 +29,9 @@ class DynamicReferenceController: UIViewController, ARSCNViewDelegate {
         self.view.addSubview(sceneView)
         sceneView.delegate = self
         sceneView.automaticallyUpdatesLighting = true
-        
         sceneView.scene = SCNScene(named: "AR assets.scnassets/Content.scn")!
+        sceneView.scene.rootNode.isHidden = true
+        
         self.setARScene()
         
         
@@ -46,8 +46,8 @@ class DynamicReferenceController: UIViewController, ARSCNViewDelegate {
     func setVideoMaterial() {
         if let planeNode = sceneView.scene.rootNode.childNode(withName: "videoPlane", recursively: true) {
             guard let videoURL = Bundle.main.url(forResource: "movie.2", withExtension: "mov") else {
-                print("Couldn't find movie")
-                return
+                fatalError("Couldn't find movie")
+
             }
             
             videoPlayer = AVQueuePlayer(url: videoURL)
@@ -64,7 +64,6 @@ class DynamicReferenceController: UIViewController, ARSCNViewDelegate {
                 (notification) in
                 self.videoPlayer.seek(to: .zero)
                 self.videoPlayer.play()
-                    print("Looping Video")
             }
         }
     }
@@ -105,7 +104,9 @@ class DynamicReferenceController: UIViewController, ARSCNViewDelegate {
     
     func renderer(_ renderer: any SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         guard let imageAnchor = anchor as? ARImageAnchor else { return }
-        print("Found image!!!")
+        
+        // show the scene
+        sceneView.scene.rootNode.isHidden = false
         
         guard let container = sceneView.scene.rootNode.childNode(withName: "container", recursively: true) else { return }
         container.removeFromParentNode()
