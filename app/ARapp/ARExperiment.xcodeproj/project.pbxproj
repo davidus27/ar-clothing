@@ -11,9 +11,7 @@
 		9114693E2CD3BC4B0023C212 /* HumanController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9114693D2CD3BC470023C212 /* HumanController.swift */; };
 		911712222CC566B000336A51 /* DynamicReferenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911712212CC566B000336A51 /* DynamicReferenceController.swift */; };
 		91183B872CD933FF0024924E /* AR assets.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 91183B862CD933FF0024924E /* AR assets.scnassets */; };
-		911A838C2CCBD0100021B101 /* StatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911A838B2CCBD0090021B101 /* StatusViewController.swift */; };
 		911B49692CE0153F00D6CB08 /* loading_circle.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 911B49682CE0153F00D6CB08 /* loading_circle.mp4 */; };
-		911B496B2CE019B100D6CB08 /* Abstract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911B496A2CE019AB00D6CB08 /* Abstract.swift */; };
 		911E6C9E2CCE564900A3ECEA /* PerformantClothingSegmentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911E6C9D2CCE55CA00A3ECEA /* PerformantClothingSegmentationController.swift */; };
 		911E6CA12CCEAE4D00A3ECEA /* PasswordDetectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911E6CA02CCEAE4D00A3ECEA /* PasswordDetectionController.swift */; };
 		911EC42E2C9606BB009EDF2B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911EC42D2C9606BB009EDF2B /* AppDelegate.swift */; };
@@ -28,7 +26,7 @@
 		915EE42F2CAEC7AA0083340D /* Markers.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 915EE42E2CAEC7AA0083340D /* Markers.xcassets */; };
 		916785A32CE12CCB00CA85E3 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916785A22CE12CCB00CA85E3 /* ImagePicker.swift */; };
 		916785A52CE12D1600CA85E3 /* TakingImagesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916785A42CE12D0600CA85E3 /* TakingImagesScreen.swift */; };
-		916785A92CE1650900CA85E3 /* TestingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916785A82CE1650900CA85E3 /* TestingController.swift */; };
+		916785AD2CE2398700CA85E3 /* GenericControllerConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916785AC2CE2398700CA85E3 /* GenericControllerConverter.swift */; };
 		918788D62CADA40A00F67C6C /* TappingGestureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918788D52CADA40A00F67C6C /* TappingGestureController.swift */; };
 		918788D82CADA72700F67C6C /* ARViewContainerConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918788D72CADA72700F67C6C /* ARViewContainerConverter.swift */; };
 		918788DC2CADAE5400F67C6C /* SheetContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918788DB2CADAE5400F67C6C /* SheetContentView.swift */; };
@@ -65,9 +63,7 @@
 		9114693D2CD3BC470023C212 /* HumanController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HumanController.swift; sourceTree = "<group>"; };
 		911712212CC566B000336A51 /* DynamicReferenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicReferenceController.swift; sourceTree = "<group>"; };
 		91183B862CD933FF0024924E /* AR assets.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = "AR assets.scnassets"; sourceTree = "<group>"; };
-		911A838B2CCBD0090021B101 /* StatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusViewController.swift; sourceTree = "<group>"; };
 		911B49682CE0153F00D6CB08 /* loading_circle.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = loading_circle.mp4; sourceTree = "<group>"; };
-		911B496A2CE019AB00D6CB08 /* Abstract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Abstract.swift; sourceTree = "<group>"; };
 		911E6C9D2CCE55CA00A3ECEA /* PerformantClothingSegmentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformantClothingSegmentationController.swift; sourceTree = "<group>"; };
 		911E6CA02CCEAE4D00A3ECEA /* PasswordDetectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordDetectionController.swift; sourceTree = "<group>"; };
 		911EC42A2C9606BB009EDF2B /* ARExperiment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARExperiment.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,13 +81,13 @@
 		915EE42E2CAEC7AA0083340D /* Markers.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Markers.xcassets; sourceTree = "<group>"; };
 		916785A22CE12CCB00CA85E3 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		916785A42CE12D0600CA85E3 /* TakingImagesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakingImagesScreen.swift; sourceTree = "<group>"; };
-		916785A82CE1650900CA85E3 /* TestingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingController.swift; sourceTree = "<group>"; };
+		916785AC2CE2398700CA85E3 /* GenericControllerConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericControllerConverter.swift; sourceTree = "<group>"; };
 		918788D52CADA40A00F67C6C /* TappingGestureController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TappingGestureController.swift; sourceTree = "<group>"; };
 		918788D72CADA72700F67C6C /* ARViewContainerConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewContainerConverter.swift; sourceTree = "<group>"; };
 		918788DB2CADAE5400F67C6C /* SheetContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetContentView.swift; sourceTree = "<group>"; };
 		918788DD2CADBD1B00F67C6C /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		918788DF2CADC46000F67C6C /* BasicReferenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicReferenceController.swift; sourceTree = "<group>"; };
-		91A212E62CBF19BA0062119D /* clothSegmentation.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = clothSegmentation.mlmodel; path = ../../models/clothSegmentation.mlmodel; sourceTree = "<group>"; };
+		91A212E62CBF19BA0062119D /* clothSegmentation.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = clothSegmentation.mlmodel; path = ../../../models/clothSegmentation.mlmodel; sourceTree = "<group>"; };
 		91E3FAB12CA6A4C0005AA618 /* MarketPlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketPlaceView.swift; sourceTree = "<group>"; };
 		91E3FADD2CA6D09B005AA618 /* Cosmonaut_Suit.reality */ = {isa = PBXFileReference; lastKnownFileType = file; path = Cosmonaut_Suit.reality; sourceTree = "<group>"; };
 		91E46A2B2CB91FBD00A906FA /* ClothingSegmentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClothingSegmentationController.swift; sourceTree = "<group>"; };
@@ -125,14 +121,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		911A838A2CCBCFC70021B101 /* AugmentedUI */ = {
-			isa = PBXGroup;
-			children = (
-				911A838B2CCBD0090021B101 /* StatusViewController.swift */,
-			);
-			path = AugmentedUI;
-			sourceTree = "<group>";
-		};
 		911EC4212C9606BB009EDF2B = {
 			isa = PBXGroup;
 			children = (
@@ -156,10 +144,10 @@
 		911EC42C2C9606BB009EDF2B /* ARExperiment */ = {
 			isa = PBXGroup;
 			children = (
+				916785AE2CE23A3100CA85E3 /* models */,
 				916785AB2CE236DB00CA85E3 /* ImageSelection */,
 				915EE42E2CAEC7AA0083340D /* Markers.xcassets */,
 				91183B862CD933FF0024924E /* AR assets.scnassets */,
-				91A212E62CBF19BA0062119D /* clothSegmentation.mlmodel */,
 				918788D42CAD9F4C00F67C6C /* ARControllers */,
 				918788D32CAD9EA100F67C6C /* AR assets */,
 				91E3FAB82CA6ACC1005AA618 /* MainMenuHelpers */,
@@ -201,6 +189,7 @@
 			isa = PBXGroup;
 			children = (
 				918788D72CADA72700F67C6C /* ARViewContainerConverter.swift */,
+				916785AC2CE2398700CA85E3 /* GenericControllerConverter.swift */,
 			);
 			path = Converter;
 			sourceTree = "<group>";
@@ -212,6 +201,14 @@
 				916785A42CE12D0600CA85E3 /* TakingImagesScreen.swift */,
 			);
 			path = ImageSelection;
+			sourceTree = "<group>";
+		};
+		916785AE2CE23A3100CA85E3 /* models */ = {
+			isa = PBXGroup;
+			children = (
+				91A212E62CBF19BA0062119D /* clothSegmentation.mlmodel */,
+			);
+			path = models;
 			sourceTree = "<group>";
 		};
 		918788D32CAD9EA100F67C6C /* AR assets */ = {
@@ -227,9 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				916785AA2CE233F300CA85E3 /* Converter */,
-				911B496A2CE019AB00D6CB08 /* Abstract.swift */,
 				9114693D2CD3BC470023C212 /* HumanController.swift */,
-				911A838A2CCBCFC70021B101 /* AugmentedUI */,
 				911E6CA02CCEAE4D00A3ECEA /* PasswordDetectionController.swift */,
 				911E6C9D2CCE55CA00A3ECEA /* PerformantClothingSegmentationController.swift */,
 				918788D52CADA40A00F67C6C /* TappingGestureController.swift */,
@@ -237,7 +232,6 @@
 				91E46A2B2CB91FBD00A906FA /* ClothingSegmentationController.swift */,
 				911712212CC566B000336A51 /* DynamicReferenceController.swift */,
 				9114693B2CD275F30023C212 /* HumanDetectionController.swift */,
-				916785A82CE1650900CA85E3 /* TestingController.swift */,
 			);
 			path = ARControllers;
 			sourceTree = "<group>";
@@ -410,12 +404,10 @@
 				911712222CC566B000336A51 /* DynamicReferenceController.swift in Sources */,
 				918788D62CADA40A00F67C6C /* TappingGestureController.swift in Sources */,
 				911EC42E2C9606BB009EDF2B /* AppDelegate.swift in Sources */,
-				911A838C2CCBD0100021B101 /* StatusViewController.swift in Sources */,
 				91EB60452CA610C3004D4770 /* ProfileView.swift in Sources */,
 				91E3FAB22CA6A4C0005AA618 /* MarketPlaceView.swift in Sources */,
 				911E6C9E2CCE564900A3ECEA /* PerformantClothingSegmentationController.swift in Sources */,
-				916785A92CE1650900CA85E3 /* TestingController.swift in Sources */,
-				911B496B2CE019B100D6CB08 /* Abstract.swift in Sources */,
+				916785AD2CE2398700CA85E3 /* GenericControllerConverter.swift in Sources */,
 				91A212E72CBF19BA0062119D /* clothSegmentation.mlmodel in Sources */,
 				913039082CA630CA00835C35 /* TabView.swift in Sources */,
 				918788E02CADC46000F67C6C /* BasicReferenceController.swift in Sources */,
