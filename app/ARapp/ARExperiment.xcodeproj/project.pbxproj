@@ -27,6 +27,8 @@
 		916785A32CE12CCB00CA85E3 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916785A22CE12CCB00CA85E3 /* ImagePicker.swift */; };
 		916785A52CE12D1600CA85E3 /* TakingImagesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916785A42CE12D0600CA85E3 /* TakingImagesScreen.swift */; };
 		916785AD2CE2398700CA85E3 /* GenericControllerConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916785AC2CE2398700CA85E3 /* GenericControllerConverter.swift */; };
+		916785B02CE23D5900CA85E3 /* TestingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916785AF2CE23D5500CA85E3 /* TestingController.swift */; };
+		916785B22CE23E2C00CA85E3 /* StatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916785B12CE23E2800CA85E3 /* StatusViewController.swift */; };
 		918788D62CADA40A00F67C6C /* TappingGestureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918788D52CADA40A00F67C6C /* TappingGestureController.swift */; };
 		918788D82CADA72700F67C6C /* ARViewContainerConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918788D72CADA72700F67C6C /* ARViewContainerConverter.swift */; };
 		918788DC2CADAE5400F67C6C /* SheetContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918788DB2CADAE5400F67C6C /* SheetContentView.swift */; };
@@ -82,6 +84,8 @@
 		916785A22CE12CCB00CA85E3 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		916785A42CE12D0600CA85E3 /* TakingImagesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakingImagesScreen.swift; sourceTree = "<group>"; };
 		916785AC2CE2398700CA85E3 /* GenericControllerConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericControllerConverter.swift; sourceTree = "<group>"; };
+		916785AF2CE23D5500CA85E3 /* TestingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingController.swift; sourceTree = "<group>"; };
+		916785B12CE23E2800CA85E3 /* StatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusViewController.swift; sourceTree = "<group>"; };
 		918788D52CADA40A00F67C6C /* TappingGestureController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TappingGestureController.swift; sourceTree = "<group>"; };
 		918788D72CADA72700F67C6C /* ARViewContainerConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewContainerConverter.swift; sourceTree = "<group>"; };
 		918788DB2CADAE5400F67C6C /* SheetContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetContentView.swift; sourceTree = "<group>"; };
@@ -223,6 +227,8 @@
 		918788D42CAD9F4C00F67C6C /* ARControllers */ = {
 			isa = PBXGroup;
 			children = (
+				916785B12CE23E2800CA85E3 /* StatusViewController.swift */,
+				916785AF2CE23D5500CA85E3 /* TestingController.swift */,
 				916785AA2CE233F300CA85E3 /* Converter */,
 				9114693D2CD3BC470023C212 /* HumanController.swift */,
 				911E6CA02CCEAE4D00A3ECEA /* PasswordDetectionController.swift */,
@@ -401,6 +407,7 @@
 				918788D82CADA72700F67C6C /* ARViewContainerConverter.swift in Sources */,
 				911EC4302C9606BB009EDF2B /* ContentView.swift in Sources */,
 				916785A52CE12D1600CA85E3 /* TakingImagesScreen.swift in Sources */,
+				916785B22CE23E2C00CA85E3 /* StatusViewController.swift in Sources */,
 				911712222CC566B000336A51 /* DynamicReferenceController.swift in Sources */,
 				918788D62CADA40A00F67C6C /* TappingGestureController.swift in Sources */,
 				911EC42E2C9606BB009EDF2B /* AppDelegate.swift in Sources */,
@@ -412,6 +419,7 @@
 				913039082CA630CA00835C35 /* TabView.swift in Sources */,
 				918788E02CADC46000F67C6C /* BasicReferenceController.swift in Sources */,
 				918788DC2CADAE5400F67C6C /* SheetContentView.swift in Sources */,
+				916785B02CE23D5900CA85E3 /* TestingController.swift in Sources */,
 				911E6CA12CCEAE4D00A3ECEA /* PasswordDetectionController.swift in Sources */,
 				916785A32CE12CCB00CA85E3 /* ImagePicker.swift in Sources */,
 				91EB60472CA610D1004D4770 /* DesignsView.swift in Sources */,

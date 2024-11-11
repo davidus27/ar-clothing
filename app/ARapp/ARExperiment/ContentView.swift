@@ -9,9 +9,6 @@ import SwiftUI
 import ARKit
 import RealityKit
 
-class ImageDataModel: ObservableObject {
-    @Published var selectedImage: UIImage?
-}
 
 
 struct ContentView: View {
@@ -20,28 +17,29 @@ struct ContentView: View {
     @State private var selectedImage: UIImage?
     
     var body: some View {
-        TakingImagesSelection(selectedImage: $selectedImage)
-        // SwiftUIView(selectedImage: $selectedImage)
-        
-        GenericUIViewControllerRepresentable(
-            bindingValue: $selectedImage,
-            makeUIViewController: {
-                TestingController()
-            },
-            updateUIViewController: { (controller, image) in
-                controller.selectedImage = image
-            }
-        )
+        VStack() {
+            TakingImagesSelection(selectedImage: $selectedImage)
+
+            // this way we can pass the argument to the Controller easily
+            GenericControllerConverter(
+                bindingValue: $selectedImage,
+                makeUIViewController: {
+                    DynamicReferenceController()
+                },
+                updateUIViewController: { (controller, image) in
+                    controller.selectedImage = image
+                }
+            ).edgesIgnoringSafeArea(.all)
+        }
         
         ZStack(alignment: .bottom) {
-            // AR Session
-//            TakingImagesScreen()
-            // ARViewContainerConverterTemporary<DynamicReferenceController>().edgesIgnoringSafeArea(.all)
+            // this way we can simply rander the UIKit Controller
+            // ARViewContainerConverter<DynamicReferenceController>().edgesIgnoringSafeArea(.all)
             
             // ARViewContainerConverterTemporary<TestingController>()
             
             // Main menu
-            TabBarView(activeTab: $activeTab)
+//            TabBarView(activeTab: $activeTab)
         }
 //        .task {
 //            showSheet = true

@@ -12,8 +12,15 @@ import UIKit
 
 class DynamicReferenceController: UIViewController, ARSCNViewDelegate {
     
+    var selectedImage: UIImage? {
+        didSet {
+            updateReferenceImage(to: selectedImage)
+        }
+    }
+    
     // MARK: - Properties
     var sceneView: ARSCNView!
+    var configuration: ARWorldTrackingConfiguration!
     var videoPlayer: AVPlayer?
     var loadingPlayer: AVPlayer?
     var videoReady = false
@@ -33,14 +40,23 @@ class DynamicReferenceController: UIViewController, ARSCNViewDelegate {
         setupARView()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        startARSession()
-    }
-    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         sceneView.session.pause()
+    }
+    
+    func updateReferenceImage(to image: UIImage?) {
+        if image == nil { return }
+        
+        guard let cgImage = image?.cgImage else {
+            fatalError("Could not convert image to CGImage.")
+        }
+    
+        let arImage = ARReferenceImage(cgImage, orientation: .up, physicalWidth: 0.1)
+        configuration.detectionImages = [ arImage ]
+        
+        // update existing configuration
+        sceneView.session.run(configuration)
     }
     
     // MARK: - Scene Setup
@@ -59,7 +75,7 @@ class DynamicReferenceController: UIViewController, ARSCNViewDelegate {
             fatalError("Missing expected asset catalog resources.")
         }
         
-        let configuration = ARWorldTrackingConfiguration()
+        configuration = ARWorldTrackingConfiguration()
         if ARWorldTrackingConfiguration.supportsFrameSemantics(.personSegmentationWithDepth) {
             configuration.frameSemantics.insert(.personSegmentationWithDepth)
         }
@@ -147,11 +163,6 @@ class DynamicReferenceController: UIViewController, ARSCNViewDelegate {
         planeGeometry.width = referenceImage.physicalSize.width
         planeGeometry.height = referenceImage.physicalSize.height
         videoPlane.eulerAngles.x = -.pi / 2
-    }
-    
-    // MARK: - AR Session
-    func startARSession() {
-        sceneView.session.run(sceneView.session.configuration!)
     }
     
     // MARK: - ARSCNViewDelegate
