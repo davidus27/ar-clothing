@@ -24,7 +24,8 @@ struct ContentView: View {
             GenericControllerConverter(
                 bindingValue: $selectedImage,
                 makeUIViewController: {
-                    DynamicReferenceController()
+//                    DynamicReferenceController()
+                    SimplifiedDynamicReferenceController()
                 },
                 updateUIViewController: { (controller, image) in
                     controller.selectedImage = image

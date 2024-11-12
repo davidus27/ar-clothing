@@ -25,6 +25,10 @@ class DynamicReferenceController: UIViewController, ARSCNViewDelegate {
     var loadingPlayer: AVPlayer?
     var videoReady = false
     
+    // anchors estimation
+    var lastImageAnchor: ARAnchor?
+    var lastJointAnchor: ARAnchor?
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
@@ -167,7 +171,30 @@ class DynamicReferenceController: UIViewController, ARSCNViewDelegate {
     
     // MARK: - ARSCNViewDelegate
     func renderer(_ renderer: any SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        guard let imageAnchor = anchor as? ARImageAnchor else { return }
-        placeContent(in: imageAnchor, with: node)
+//        guard let imageAnchor = anchor as? ARImageAnchor else { return }
+//        placeContent(in: imageAnchor, with: node)
+        
+        if let imageAnchor = anchor as? ARImageAnchor {
+            placeContent(in: imageAnchor, with: node)
+        } else if let bodyAnchor = anchor as? ARBodyAnchor {
+            if let spineJointTransform = bodyAnchor.skeleton.modelTransform(for: .root) {
+                lastJointAnchor = ARAnchor(transform: spineJointTransform)
+            }
+        }
+    }
+    
+    func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
+        if let imageAnchor = anchor as? ARImageAnchor {
+               // Update position when image is visible
+               lastImageAnchor = imageAnchor
+               placeContent(in: imageAnchor, with: node)
+               
+        } else if anchor == lastJointAnchor {
+               // Fallback to joint anchor if image is not visible
+               if lastImageAnchor == nil {
+                   // placeContent(in: nil, with: node)
+                   node.simdTransform = lastJointAnchor?.transform ?? matrix_identity_float4x4
+               }
+           }
     }
 }
