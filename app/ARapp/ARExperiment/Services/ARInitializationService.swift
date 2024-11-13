@@ -31,11 +31,17 @@ class ARInitializationService: ARInitializable {
         guard let referenceImages = ARReferenceImage.referenceImages(inGroupNamed: "AR Resources", bundle: nil) else {
             fatalError("Missing expected asset catalog resources.")
         }
+    
+        // Enable body tracking if available
+        if ARBodyTrackingConfiguration.isSupported {
+            configuration.frameSemantics.insert(.bodyDetection)
+        }
         
         configuration = ARWorldTrackingConfiguration()
         if ARWorldTrackingConfiguration.supportsFrameSemantics(.personSegmentationWithDepth) {
             configuration.frameSemantics.insert(.personSegmentationWithDepth)
         }
+        configuration.isLightEstimationEnabled = true
         configuration.environmentTexturing = .automatic
         configuration.detectionImages = referenceImages
         configuration.maximumNumberOfTrackedImages = 1
@@ -53,7 +59,7 @@ class ARInitializationService: ARInitializable {
             fatalError("Could not convert image to CGImage.")
         }
     
-        let arImage = ARReferenceImage(cgImage, orientation: .up, physicalWidth: 0.1)
+        let arImage = ARReferenceImage(cgImage, orientation: .up, physicalWidth: 0.07)
         configuration.detectionImages = [ arImage ]
         
         // update existing configuration
