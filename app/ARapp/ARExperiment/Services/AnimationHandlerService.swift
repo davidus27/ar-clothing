@@ -14,7 +14,14 @@ class AnimationHandlerService: AnimationHandler {
     var videoReady = false
     
     deinit {
-        NotificationCenter.default.removeObserver(self)
+        // remove observer for playerItem
+        if let playerItem = videoPlayer?.currentItem {
+            NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: playerItem)
+        }
+        // remove observer for loadingItem
+        if let loadingItem = loadingPlayer?.currentItem {
+            NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: loadingItem)
+        }
     }
     
     init(sceneView: ARSCNView) {
@@ -40,7 +47,7 @@ class AnimationHandlerService: AnimationHandler {
         NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: player?.currentItem, queue: nil) {
             (notification) in
             player?.seek(to: .zero)
-            player?.play()
+//            player?.play()
         }
     }
     
@@ -83,6 +90,9 @@ class AnimationHandlerService: AnimationHandler {
         guard let container = sceneView.scene.rootNode.childNode(withName: "container", recursively: true) else { return self }
         container.removeFromParentNode()
         node.addChildNode(container)
+        
+        // container.scale = physical size (imageAnchor.referenceImage.physicalSize)
+        
         container.scale = SCNVector3(1.0, 1.0, 1.0)
         container.isHidden = false
         
@@ -106,6 +116,32 @@ class AnimationHandlerService: AnimationHandler {
         planeGeometry.width = referenceImage.physicalSize.width
         planeGeometry.height = referenceImage.physicalSize.height
         videoPlane.eulerAngles.x = -.pi / 2
+        
+        return self
+    }
+    
+    func updateContentPosition(in anchor: ARAnchor, with node: SCNNode) -> AnimationHandler {
+        node.simdTransform = anchor.transform
+        
+        return self
+    }
+    
+    func placeContentNearBodyAnchor(_ bodyAnchor: ARBodyAnchor, with node: SCNNode) -> AnimationHandler {
+        // Obtain the chest joint’s position in the AR session
+        guard let chestJoint = bodyAnchor.skeleton.modelTransform(for: .root) else { return self }
+        
+        let chestPosition = SCNVector3(
+            chestJoint.columns.3.x,
+            chestJoint.columns.3.y,
+            chestJoint.columns.3.z
+        )
+
+        // Place node at the chest position and apply a stable scale
+        node.position = chestPosition
+        node.scale = SCNVector3(1.0, 1.0, 1.0)
+        
+        // Add the node to the scene
+        sceneView.scene.rootNode.addChildNode(node)
         
         return self
     }
