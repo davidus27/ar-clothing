@@ -8,6 +8,8 @@
 import ARKit
 
 protocol CommunicationHandler {
-    func updateReferenceImage(to image: UIImage?)
-    func updateAnimation() // changes the material based on the input, either video, url, or resource
+    @discardableResult
+    func updateReferenceImage(to image: UIImage?) -> CommunicationHandler
+    @discardableResult
+    func updateAnimation() -> CommunicationHandler // changes the material based on the input, either video, url, or resource
 }

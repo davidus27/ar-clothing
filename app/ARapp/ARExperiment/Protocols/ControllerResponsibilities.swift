@@ -15,6 +15,14 @@ protocol ARInitializable {
     
     @discardableResult
     func updateReferenceImage(to image: UIImage?) -> ARInitializable
+    
+    @discardableResult
+    // Function to add a marker for the image anchor
+    func addAnchorMarker(for imageAnchor: ARImageAnchor, to node: SCNNode) -> ARInitializable
+    
+    @discardableResult
+    // Function to add a marker for the body anchor
+    func addBodyAnchorMarker(for bodyAnchor: ARBodyAnchor) -> ARInitializable
 }
 
 

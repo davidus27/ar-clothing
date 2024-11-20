@@ -9,8 +9,6 @@ import SwiftUI
 import ARKit
 import RealityKit
 
-
-
 struct ContentView: View {
     @State private var showSheet: Bool = false
     @State private var activeTab: Tab = .designs
@@ -18,35 +16,43 @@ struct ContentView: View {
     
     var body: some View {
         VStack() {
-            TakingImagesSelection(selectedImage: $selectedImage)
-
+//             TakingImagesSelection(selectedImage: $selectedImage)
+            
+//            ARViewContainerConverter<SimplifiedDynamicReferenceController>().edgesIgnoringSafeArea(.all)
+            
             // this way we can pass the argument to the Controller easily
-            GenericControllerConverter(
-                bindingValue: $selectedImage,
-                makeUIViewController: {
-//                    DynamicReferenceController()
-                    SimplifiedDynamicReferenceController()
-                },
-                updateUIViewController: { (controller, image) in
-                    controller.selectedImage = image
-                }
-            ).edgesIgnoringSafeArea(.all)
+            //            GenericControllerConverter(
+            //                bindingValue: $selectedImage,
+            //                makeUIViewController: {
+            //                    SimplifiedDynamicReferenceController()
+            //                },
+            //                updateUIViewController: { (controller, image) in
+            //                    controller.selectedImage = image
+            //                }
+            //            ).edgesIgnoringSafeArea(.all)
         }
         
         ZStack(alignment: .bottom) {
             // this way we can simply rander the UIKit Controller
             // ARViewContainerConverter<DynamicReferenceController>().edgesIgnoringSafeArea(.all)
             
-            // ARViewContainerConverterTemporary<TestingController>()
-            
+            GenericControllerConverter(
+                bindingValue: $selectedImage,
+                makeUIViewController: {
+                    TestController()
+                },
+                updateUIViewController: { (controller, image) in
+                    // controller.selectedImage = image
+                }
+            ).edgesIgnoringSafeArea(.all)
             // Main menu
-//            TabBarView(activeTab: $activeTab)
+            TabBarView(activeTab: $activeTab)
         }
-//        .task {
-//            showSheet = true
-//        }
-//        .sheet(isPresented: $showSheet) {
-//            SheetContentView(activeTab: $activeTab)
-//        }
+        .task {
+            showSheet = true
         }
+        .sheet(isPresented: $showSheet) {
+            SheetContentView(activeTab: $activeTab)
+        }
+    }
 }

@@ -86,6 +86,7 @@ class AnimationHandlerService: AnimationHandler {
         return self
     }
     
+    @discardableResult
     func placeContent(in imageAnchor: ARImageAnchor, with node: SCNNode) -> AnimationHandler {
         guard let container = sceneView.scene.rootNode.childNode(withName: "container", recursively: true) else { return self }
         container.removeFromParentNode()
@@ -116,32 +117,6 @@ class AnimationHandlerService: AnimationHandler {
         planeGeometry.width = referenceImage.physicalSize.width
         planeGeometry.height = referenceImage.physicalSize.height
         videoPlane.eulerAngles.x = -.pi / 2
-        
-        return self
-    }
-    
-    func updateContentPosition(in anchor: ARAnchor, with node: SCNNode) -> AnimationHandler {
-        node.simdTransform = anchor.transform
-        
-        return self
-    }
-    
-    func placeContentNearBodyAnchor(_ bodyAnchor: ARBodyAnchor, with node: SCNNode) -> AnimationHandler {
-        // Obtain the chest joint’s position in the AR session
-        guard let chestJoint = bodyAnchor.skeleton.modelTransform(for: .root) else { return self }
-        
-        let chestPosition = SCNVector3(
-            chestJoint.columns.3.x,
-            chestJoint.columns.3.y,
-            chestJoint.columns.3.z
-        )
-
-        // Place node at the chest position and apply a stable scale
-        node.position = chestPosition
-        node.scale = SCNVector3(1.0, 1.0, 1.0)
-        
-        // Add the node to the scene
-        sceneView.scene.rootNode.addChildNode(node)
         
         return self
     }

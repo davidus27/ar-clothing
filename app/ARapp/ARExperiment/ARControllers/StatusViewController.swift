@@ -13,7 +13,7 @@ import ARKit
  the status of the AR experience, as well as the ability to control restarting
  the experience altogether.
 */
-class StatusViewController: UIViewController {
+class CoolStatusViewController: UIViewController {
 
     enum MessageType {
         case trackingStateEscalation

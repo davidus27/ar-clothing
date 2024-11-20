@@ -74,6 +74,9 @@
             ReferencedContainer = "container:ARExperiment.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <DeviceSensorReplayFileReference
+         identifier = "../../../../AR_recordings/Long-test.mov">
+      </DeviceSensorReplayFileReference>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

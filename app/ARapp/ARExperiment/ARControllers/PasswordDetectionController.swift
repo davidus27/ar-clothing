@@ -26,6 +26,7 @@ final class PasswordDetectionARViewController: StatusViewController, ARSCNViewDe
 
         // Configure AR Session
         let configuration = ARWorldTrackingConfiguration()
+        configuration.planeDetection = [ .horizontal, .vertical]
         sceneView.session.run(configuration)
         
         // Set up text recognition request with additional configurations
@@ -97,10 +98,10 @@ final class PasswordDetectionARViewController: StatusViewController, ARSCNViewDe
         }
 
         let center = CGPoint(x: boundingBox.midX, y: boundingBox.midY)
-        let screenCenter = CGPoint(x: center.x * sceneView.bounds.width, y: center.y * sceneView.bounds.height)
-        print("Screen center calculated: \(screenCenter)")
+        // let screenCenter = CGPoint(x: center.x, y: center.y)
+        print("Screen center calculated: \(center)")
 
-        guard let raycastQuery = sceneView.raycastQuery(from: screenCenter, allowing: .estimatedPlane, alignment: .any) else {
+        guard let raycastQuery = sceneView.raycastQuery(from: center, allowing: .estimatedPlane, alignment: .any) else {
             print("Failed to create raycast query.")
             return
         }
