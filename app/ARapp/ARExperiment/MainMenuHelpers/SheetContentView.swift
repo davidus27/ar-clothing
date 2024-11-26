@@ -8,27 +8,26 @@
 import SwiftUI
 
 struct SheetContentView: View {
-    @Binding var activeTab: Tab
+    @Binding var activeTab: TabOption
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 10, content: {
-            Text(activeTab.rawValue)
-                .font(.title2)
-                .fontWeight(.semibold)
-            
-            //                switch activeTab {
-            //                    case .designs:
-            //                        DesignsView()
-            //                    case .marketPlace:
-            //                        MarketPlaceView()
-            //                    case .settings:
-            //                        SettingsView()
-            //                    case .profile:
-            //                        ProfileView()
-            //                }
+            switch activeTab {
+            case .library:
+                LibraryView()
+            case .explore:
+                ExploreView()
+            case .settings:
+                SettingsView()
+            case .profile:
+                ProfileView()
+            case .add:
+                CreateView()
+            }
         })
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        .presentationDetents([.height(60), .medium, .large])
+        .presentationDetents([.height(110), .medium, .large ])
         .presentationCornerRadius(20)
         .presentationBackground(.regularMaterial)
         .presentationDragIndicator(.visible)

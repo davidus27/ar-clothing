@@ -11,48 +11,33 @@ import RealityKit
 
 struct ContentView: View {
     @State private var showSheet: Bool = false
-    @State private var activeTab: Tab = .designs
-    @State private var selectedImage: UIImage?
+    @State private var activeTab: TabOption = .explore // default selected view at the start
+    @State private var sheetHeight = 0.0
+    @State private var isGuideShown: Bool = false // this will normally be set to true
+    @State private var appStatus: String = "Initializing..."
     
     var body: some View {
-        VStack() {
-//             TakingImagesSelection(selectedImage: $selectedImage)
-            
-//            ARViewContainerConverter<SimplifiedDynamicReferenceController>().edgesIgnoringSafeArea(.all)
-            
-            // this way we can pass the argument to the Controller easily
-            //            GenericControllerConverter(
-            //                bindingValue: $selectedImage,
-            //                makeUIViewController: {
-            //                    SimplifiedDynamicReferenceController()
-            //                },
-            //                updateUIViewController: { (controller, image) in
-            //                    controller.selectedImage = image
-            //                }
-            //            ).edgesIgnoringSafeArea(.all)
+        if isGuideShown {
+            AppGuideView(isGuideShown: $isGuideShown)
         }
-        
-        ZStack(alignment: .bottom) {
-            // this way we can simply rander the UIKit Controller
-            // ARViewContainerConverter<DynamicReferenceController>().edgesIgnoringSafeArea(.all)
-            
-            GenericControllerConverter(
-                bindingValue: $selectedImage,
-                makeUIViewController: {
-                    TestController()
-                },
-                updateUIViewController: { (controller, image) in
-                    // controller.selectedImage = image
-                }
-            ).edgesIgnoringSafeArea(.all)
-            // Main menu
-            TabBarView(activeTab: $activeTab)
-        }
-        .task {
-            showSheet = true
-        }
-        .sheet(isPresented: $showSheet) {
-            SheetContentView(activeTab: $activeTab)
+        else {
+            ZStack(alignment: .bottom) {
+                MainARView(isGuideShown: $isGuideShown, appStatus: $appStatus)
+                
+                // Main menu
+                TabBarView(activeTab: $activeTab)
+            }
+            .task {
+                appStatus = "Ready to explore"
+                showSheet = true
+            }
+            .sheet(isPresented: $showSheet) {
+                SheetContentView(activeTab: $activeTab)
+            }
         }
     }
+}
+
+#Preview {
+    ContentView()
 }

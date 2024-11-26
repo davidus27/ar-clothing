@@ -16,6 +16,7 @@ extension View {
         self
             .background(SheetRootViewFinder(height: height))
     }
+
 }
 
 fileprivate struct SheetRootViewFinder: UIViewRepresentable {
