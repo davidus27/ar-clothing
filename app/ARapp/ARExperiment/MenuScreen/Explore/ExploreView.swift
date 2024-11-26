@@ -11,43 +11,75 @@ struct ExploreView: View {
     var data: ExplorePageData = MockExplorePageData()
     @State var tabNames: [String] = ["Custom clothing", "Japanese edition", "Password edition"]
     @State private var selectedTab = 0
-    
-    var body: some View {
-        VStack(spacing: 10) {
-            Text("Explore")
-                .font(.title)
-                .fontWeight(.semibold)
-            TabSelectionView(tabNames: $tabNames, selectedTab: selectedTab)
-            Spacer()
-            // show content based on the selectedTab value
-//            if selectedTab == 0 {
-//                CustomClothingView(data: data.fetchPreviews(of: CustomClothing.self))
-//            } else if selectedTab == 1 {
-//                JapaneseEditionView(data: data.fetchPreviews(of: JapaneseEdition.self))
-//            } else if selectedTab == 2 {
-//                
-//            }
-            Spacer()
-        }
-    }
-}
-
-struct TabButton: View {
-    let title: String
-    let isSelected: Bool
-    let action: () -> Void
 
     var body: some View {
-        Button(action: action) {
-            Text(title)
-                .font(.footnote)
-                .foregroundColor(isSelected ? .white : .black)
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background(isSelected ? Color.blue : Color.clear)
-                .cornerRadius(8)
+        VStack(spacing: 0) { // Zero spacing to tightly control layout
+            // Fixed Header
+            VStack {
+                HStack(spacing: 5) {
+                    Text("Explore")
+                        .font(.largeTitle)
+                        .fontWeight(.semibold)
+
+                    Image(systemName: "star")
+                        .font(.title) // Match the text size
+                        .foregroundColor(.yellow)
+                        .onAppear {
+                            withAnimation(.easeInOut(duration: 1).repeatForever(autoreverses: true)) {
+                                // Custom bounce effect
+                            }
+                        }
+                }
+            }
+
+            
+            
+            // Dynamic Content
+            ScrollView {
+                VStack(spacing: 10) {
+                    TabSelectionView(tabNames: $tabNames, selectedTab: selectedTab)
+
+                    // Dynamic components below the header
+                    AnimationListItem(onButtonCreatePressed: {
+                        print("Pressed Create button in AnimationListItem")
+                    })
+                    
+                    Text("Featured artists")
+                        .font(.headline)
+                        .fontWeight(.heavy)
+                    
+                    ExploreArtist(
+                        author: Author(
+                            id: 1,
+                            profileImageName: "author1",
+                            name: "John Doe",
+                            contentImageName: "photo",
+                            description: "John is a musician known for his soulful tracks and meaningful lyrics."
+                        ),
+                        onProfileTap: {
+                            print("Navigate to John's profile")
+                        }
+                    )
+                    
+                    Text("New becoming artists")
+                        .font(.headline)
+                        .fontWeight(.heavy)
+                    
+                    ExploreArtist(
+                        author: Author(
+                            id: 2,
+                            profileImageName: "author2",
+                            name: "Jane Smith",
+                            contentImageName: "photo",
+                            description: "Jane is a visual artist creating surreal digital art with stunning detail."
+                        ),
+                        onProfileTap: {
+                            print("Navigate to Jane's profile")
+                        }
+                    )
+                }
+            }
         }
-        .animation(.easeInOut, value: isSelected)
     }
 }
 
