@@ -69,7 +69,7 @@ class BasicReferenceController: UIViewController, ARSCNViewDelegate {
     // Load the animation
     func loadCosmonautAnimation(on node: SCNNode, for imageAnchor: ARImageAnchor) {
         do {
-            let cosmonautScene = try Entity.load(named: "CosmonautSuit_en")
+            _ = try Entity.load(named: "CosmonautSuit_en")
             
 //            self.view.scene.anchors.append(cosmonautScene)
 //            ARView.scene.addAnchor(cosmonautScene)

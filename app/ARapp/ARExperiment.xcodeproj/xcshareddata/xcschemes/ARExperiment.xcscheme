@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1540"
+   LastUpgradeVersion = "1600"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -75,7 +75,7 @@
          </BuildableReference>
       </BuildableProductRunnable>
       <DeviceSensorReplayFileReference
-         identifier = "../../../AR recordings/Rela&#x301;cia AR 2.mov">
+         identifier = "../../../../AR_recordings/Long-test.mov">
       </DeviceSensorReplayFileReference>
    </LaunchAction>
    <ProfileAction

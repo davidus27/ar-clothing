@@ -6,8 +6,6 @@
 //
 
 import SwiftUI
-import ARKit
-import RealityKit
 
 struct ARViewContainerConverter<Controller: UIViewController>: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> Controller {
@@ -16,4 +14,3 @@ struct ARViewContainerConverter<Controller: UIViewController>: UIViewControllerR
 
     func updateUIViewController(_ uiViewController: Controller, context: Context) {}
 }
-

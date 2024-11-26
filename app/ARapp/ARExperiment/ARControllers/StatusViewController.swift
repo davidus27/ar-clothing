@@ -2,14 +2,18 @@
 //  StatusViewController.swift
 //  ARExperiment
 //
-//  Created by David Drobny on 25/10/2024.
+//  Created by David Drobny on 11/11/2024.
 //
 
-import UIKit
+import Foundation
 import ARKit
 
-
-class StatusViewController: UIViewController {
+/**
+ Displayed at the top of the main interface of the app that allows users to see
+ the status of the AR experience, as well as the ability to control restarting
+ the experience altogether.
+*/
+class CoolStatusViewController: UIViewController {
 
     enum MessageType {
         case trackingStateEscalation
@@ -23,11 +27,11 @@ class StatusViewController: UIViewController {
 
     // MARK: - IBOutlets
 
-    private var messagePanel: UIVisualEffectView! = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+    @IBOutlet weak private var messagePanel: UIVisualEffectView!
     
-    private var messageLabel: UILabel! = UILabel()
+    @IBOutlet weak private var messageLabel: UILabel!
     
-    private var restartExperienceButton: UIButton! = UIButton()
+    @IBOutlet weak private var restartExperienceButton: UIButton!
 
     // MARK: - Properties
     
@@ -35,7 +39,7 @@ class StatusViewController: UIViewController {
     var restartExperienceHandler: () -> Void = {}
     
     /// Seconds before the timer message should fade out. Adjust if the app needs longer transient messages.
-    private let displayDuration: TimeInterval = 15
+    private let displayDuration: TimeInterval = 6
     
     // Timer for hiding messages.
     private var messageHideTimer: Timer?
@@ -107,7 +111,7 @@ class StatusViewController: UIViewController {
     
     // MARK: - IBActions
     
-    private func restartExperience(_ sender: UIButton) {
+    @IBAction private func restartExperience(_ sender: UIButton) {
         restartExperienceHandler()
     }
     
@@ -127,7 +131,6 @@ class StatusViewController: UIViewController {
         }, completion: nil)
     }
 }
-
 
 extension ARCamera.TrackingState {
     var presentationString: String {

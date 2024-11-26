@@ -13,7 +13,6 @@ The sample app shows how to use Vision person segmentation and detect face
  to perform realtime image masking effects.
 */
 
-
 import UIKit
 import Vision
 import ARKit
