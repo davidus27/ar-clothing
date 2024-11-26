@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TabBarView: View {
-    @Binding var activeTab: Tab
+    @Binding var activeTab: TabOption
     var body: some View {
         TabBar()
             .frame(height: 49)
@@ -19,7 +19,7 @@ struct TabBarView: View {
     @ViewBuilder
     func TabBar() -> some View {
         HStack(spacing: 0) {
-            ForEach(Tab.allCases, id: \.rawValue) {
+            ForEach(TabOption.allCases, id: \.rawValue) {
                 tab in Button(action: { activeTab = tab}, label: {
                     VStack(spacing: 2) {
                         Image(systemName: tab.symbol)
