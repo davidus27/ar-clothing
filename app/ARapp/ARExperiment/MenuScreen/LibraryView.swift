@@ -1,5 +1,5 @@
 //
-//  DesignsView.swift
+//  LibraryView.swift
 //  ARExperiment
 //
 //  Created by David Drobny on 26/09/2024.
@@ -7,16 +7,16 @@
 
 import SwiftUI
 
-struct DesignsView: View {
+struct LibraryView: View {
     var body: some View {
-        Text("Designs")
+        Text("Library")
             .font(.title2)
             .fontWeight(.semibold)
         
-        Text("Designs view")
+        Text("Library view")
     }
 }
 
 #Preview {
-    DesignsView()
+    LibraryView()
 }

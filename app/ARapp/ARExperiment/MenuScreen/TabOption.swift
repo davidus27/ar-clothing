@@ -7,18 +7,21 @@
 
 import SwiftUI
 
-enum Tab: String, CaseIterable {
-    case designs = "My designs"
-    case marketPlace = "Marketplace"
+enum TabOption: String, CaseIterable {
+    case library = "My library"
+    case explore = "Explore"
+    case add = "Add"
     case settings = "Settings"
     case profile = "Me"
     
     var symbol: String {
         switch self {
-        case .designs:
+        case .library:
             return "heart.circle"
-        case .marketPlace:
-            return "cart"
+        case .explore:
+            return "sparkle.magnifyingglass"
+        case .add:
+            return "plus.app"
         case .settings:
             return "gear"
         case .profile:
