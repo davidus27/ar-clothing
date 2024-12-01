@@ -10,10 +10,14 @@ import SwiftUI
 
 struct ProfileView: View {
 //    @State private var profileData: ProfileData? = nil // Holds the profile data after loading
-    @StateObject var profileStore = UserDataStore()
-    @State private var isLoading: Bool = true         // Tracks the loading state
+    @EnvironmentObject var profileStore: UserDataStore
+//    @State private var isLoading: Bool = true         // Tracks the loading state
+    
+    var isLoading: Bool {
+        profileStore.user == nil
+    }
     @State private var isEditProfilePresented: Bool = false
-    @State private var linkedClothing: [LinkedGarmentData] = [] // Holds linked garments
+//    @State private var linkedClothing: [LinkedGarmentData] = [] // Holds linked garments
     @State private var isLinkClothingPresented: Bool = false // Toggles the QR code scanning page
 
     var body: some View {
@@ -36,7 +40,7 @@ struct ProfileView: View {
             if isLoading {
                 ProgressView("Loading Profile...")
                     .padding()
-            } else if let profile = profileStore.user {
+            } else if !profileStore.didFail, let profile = profileStore.user {
                 NavigationView {
                     VStack(spacing: 20) {
                         // Profile Image
@@ -80,12 +84,12 @@ struct ProfileView: View {
                                 .font(.headline)
                                 .padding(.bottom, 5)
                             
-                            if linkedClothing.isEmpty {
+                            if profileStore.linkedGarments.isEmpty {
                                 Text("No clothing linked yet.")
                                     .font(.caption)
                                     .foregroundColor(.gray)
                             } else {
-                                ForEach(linkedClothing) { clothing in
+                                ForEach(profileStore.linkedGarments) { clothing in
                                     HStack {
                                         Text(clothing.name)
                                             .font(.body)
@@ -119,23 +123,28 @@ struct ProfileView: View {
             }
         }
         .sheet(isPresented: $isLinkClothingPresented) {
-            LinkClothingView(linkedClothing: $linkedClothing)
+            LinkClothingView().environmentObject(profileStore)
         }
         .onAppear {
-            loadProfileData()
+            if profileStore.user == nil {
+                print("Load new data")
+                loadProfileData()
+            }
         }
     }
 
     /// Function to simulate fetching profile data from the backend
     private func loadProfileData() {
-        isLoading = true
+//        isLoading = true
         Task {
             do {
                 // Simulated delay for loading data
                 try await Task.sleep(nanoseconds: 1_000_000_000) // 1 second
                 profileStore.fetchMockupData()
+//                profileStore.isUserLoaded = true
                 
-                isLoading = false
+                
+//                isLoading = false
             }
         }
     }

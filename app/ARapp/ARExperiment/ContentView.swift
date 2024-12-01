@@ -10,6 +10,7 @@ import ARKit
 import RealityKit
 
 struct ContentView: View {
+    @StateObject var profileStore = UserDataStore()
     @State private var showSheet: Bool = false
     @State private var activeTab: TabOption = .create // default selected view at the start
     @State private var sheetHeight = 0.0
@@ -34,6 +35,7 @@ struct ContentView: View {
                 }
                 .sheet(isPresented: $showSheet) {
                     SheetContentView(activeTab: $activeTab)
+                        .environmentObject(profileStore)
                 }
             }
         }
