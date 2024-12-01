@@ -13,7 +13,7 @@ import SwiftUI
 
 struct LinkClothingView: View {
     @Environment(\.dismiss) var dismiss
-    @Binding var linkedClothing: [LinkedClothingData]
+    @Binding var linkedClothing: [LinkedGarmentData]
     @State private var scannedUID: String = ""
     @State private var garmentName: String = ""
     @State private var validationMessage: String = ""
@@ -132,7 +132,7 @@ struct LinkClothingView: View {
 
                 if httpResponse.statusCode == 200 {
                     // Success: Add clothing and dismiss view
-                    linkedClothing.append(LinkedClothingData(id: scannedUID, name: garmentName, uid: scannedUID))
+                    linkedClothing.append(LinkedGarmentData(id: scannedUID, name: garmentName, uid: scannedUID))
                     dismiss()
                 } else {
                     // Parse error message from response
@@ -157,7 +157,7 @@ struct LinkClothingView: View {
             DispatchQueue.main.async {
                 // Simulate a successful response
                 isSaving = false
-                linkedClothing.append(LinkedClothingData(id: scannedUID, name: garmentName, uid: scannedUID))
+                linkedClothing.append(LinkedGarmentData(id: scannedUID, name: garmentName, uid: scannedUID))
                 dismiss()  // Close the view after successful save
             }
         }

@@ -13,8 +13,4 @@ struct UserProfileData: Codable {
 }
 
 
-struct LinkedClothingData: Codable, Identifiable {
-    var id: String // Unique ID for the clothing
-    var name: String
-    var uid: String // Encoded UID of the clothing
-}
+

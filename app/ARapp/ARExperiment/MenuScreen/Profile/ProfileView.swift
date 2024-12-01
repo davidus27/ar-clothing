@@ -13,7 +13,7 @@ struct ProfileView: View {
     @StateObject var profileStore = UserDataStore()
     @State private var isLoading: Bool = true         // Tracks the loading state
     @State private var isEditProfilePresented: Bool = false
-    @State private var linkedClothing: [LinkedClothingData] = [] // Holds linked garments
+    @State private var linkedClothing: [LinkedGarmentData] = [] // Holds linked garments
     @State private var isLinkClothingPresented: Bool = false // Toggles the QR code scanning page
 
     var body: some View {
