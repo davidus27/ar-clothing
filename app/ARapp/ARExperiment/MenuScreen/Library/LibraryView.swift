@@ -20,11 +20,11 @@ struct LibraryView: View {
             VStack {
                 HStack(spacing: 5) {
                     Text("Library")
-                        .font(.largeTitle)
+                        .font(.title2)
                         .fontWeight(.semibold)
 
                     Image(systemName: "plus.square.on.square")
-                        .font(.title) // Match the text size
+                        .font(.title2) // Match the text size
                         .foregroundColor(.yellow)
                         .onAppear {
                             withAnimation(.easeInOut(duration: 1).repeatForever(autoreverses: true)) {
@@ -32,6 +32,7 @@ struct LibraryView: View {
                             }
                         }
                 }
+                .padding(10)
             }
             
             // Dynamic Content
