@@ -7,97 +7,125 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct SettingsView: View {
     @State private var notificationsEnabled: Bool = true
     @State private var darkModeEnabled: Bool = false
     @State private var username: String = "John Doe"
     @State private var appVersion: String = "1.0.0"
     @State private var feedbackMessage: String = ""
-
+    @Binding var activeTab: TabOption
+    
     var body: some View {
-        NavigationView {
-            List {
-                // Account Section
-                Section(header: Text("Account")) {
-                    HStack {
-                        Text("Username")
-                        Spacer()
-                        Text(username)
-                            .foregroundColor(.gray)
-                    }
+        VStack(spacing: 0) { // Zero spacing to tightly control layout
+            // Fixed Header
+            VStack {
+                HStack(spacing: 5) {
+                    Text("Settings")
+                        .font(.title2)
+                        .fontWeight(.semibold)
                     
-                    Button(action: {
-                        // Logic for editing profile
-                    }) {
-                        Text("Edit Profile")
-                    }
-                    
-                    Button(action: {
-                        // Logic for signing out
-                    }) {
-                        Text("Sign Out")
-                            .foregroundColor(.red)
-                    }
+                    Image(systemName: "gearshape")
+                        .font(.title2) // Match the text size
+                        .foregroundColor(.yellow)
+                        .onAppear {
+                            withAnimation(.easeInOut(duration: 1).repeatForever(autoreverses: true)) {
+                                // Custom bounce effect if needed
+                            }
+                        }
                 }
-                
-                // Preferences Section
-                Section(header: Text("Preferences")) {
-                    Toggle(isOn: $notificationsEnabled) {
-                        Text("Enable Notifications")
-                    }
-                    
-                    Toggle(isOn: $darkModeEnabled) {
-                        Text("Dark Mode")
-                    }
-                }
-                
-                // Support Section
-                Section(header: Text("Support")) {
-                    Button(action: {
-                        // Logic to handle sending feedback
-                    }) {
-                        Text("Send Feedback")
-                    }
-                    
-                    Button(action: {
-                        // Logic to view help or FAQs
-                    }) {
-                        Text("Help & FAQs")
-                    }
-                }
-                
-                // About Section
-                Section(header: Text("About")) {
-                    HStack {
-                        Text("App Version")
-                        Spacer()
-                        Text(appVersion)
-                            .foregroundColor(.gray)
-                    }
-                    
-                    Button(action: {
-                        // Logic to open Terms & Conditions
-                    }) {
-                        Text("Terms & Conditions")
-                    }
-                    
-                    Button(action: {
-                        // Logic to open Privacy Policy
-                    }) {
-                        Text("Privacy Policy")
-                    }
-                }
+                .padding(10)
             }
-            .listStyle(GroupedListStyle())
-            .navigationTitle("Settings")
-            .navigationBarTitleDisplayMode(.large)
+            
+            // Dynamic Content
+            NavigationView {
+                List {
+                    // Account Section
+                    Section(header: Text("Account")) {
+                        HStack {
+                            Text("Username")
+                            Spacer()
+                            Text(username)
+                                .foregroundColor(.gray)
+                        }
+                        
+                        Button(action: {
+                            print("Edit Profile tapped")
+                            // move to the Profile
+                            activeTab = .profile
+                            
+                        }) {
+                            Text("Edit Profile")
+                        }
+                    
+                        Button(action: {
+                            print("Sign Out tapped")
+                            // Add sign-out logic here
+                        }) {
+                            Text("Sign Out")
+                                .foregroundColor(.red)
+                        }
+                    }
+                    
+                    // Preferences Section
+                    Section(header: Text("Preferences")) {
+                        Toggle(isOn: $notificationsEnabled) {
+                            Text("Enable Notifications")
+                        }
+                        .onChange(of: notificationsEnabled) {
+                        }
+                        
+                        Toggle(isOn: $darkModeEnabled) {
+                            Text("Dark Mode")
+                        }
+                        .onChange(of: darkModeEnabled) {
+                            print("Dark Mode enabled: \(darkModeEnabled)")
+                        }
+                    }
+                    
+                    // Support Section
+                    Section(header: Text("Support")) {
+                        Button(action: {
+                            print("Send Feedback tapped")
+                            // Open feedback form or logic to send feedback
+                        }) {
+                            Text("Send Feedback")
+                        }
+                        
+                        Button(action: {
+                            print("Help & FAQs tapped")
+                            // Open Help & FAQs screen
+                        }) {
+                            Text("Help & FAQs")
+                        }
+                    }
+                    
+                    // About Section
+                    Section(header: Text("About")) {
+                        HStack {
+                            Text("App Version")
+                            Spacer()
+                            Text(appVersion)
+                                .foregroundColor(.gray)
+                        }
+                        
+                        Button(action: {
+                            print("Terms & Conditions tapped")
+                            // Open Terms & Conditions screen
+                        }) {
+                            Text("Terms & Conditions")
+                        }
+                        
+                        Button(action: {
+                            print("Privacy Policy tapped")
+                            // Open Privacy Policy screen
+                        }) {
+                            Text("Privacy Policy")
+                        }
+                    }
+                }
+                .listStyle(GroupedListStyle())
+                .navigationBarTitleDisplayMode(.large)
+            }
         }
     }
-}
-
-
-#Preview {
-    SettingsView()
 }
