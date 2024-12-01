@@ -10,7 +10,7 @@ import SwiftUI
 enum TabOption: String, CaseIterable {
     case library = "My library"
     case explore = "Explore"
-    case add = "Add"
+    case create = "Create design"
     case settings = "Settings"
     case profile = "Me"
     
@@ -20,7 +20,7 @@ enum TabOption: String, CaseIterable {
             return "heart.circle"
         case .explore:
             return "sparkle.magnifyingglass"
-        case .add:
+        case .create:
             return "plus.app"
         case .settings:
             return "gear"

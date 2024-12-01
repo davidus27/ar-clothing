@@ -9,6 +9,8 @@ import SwiftUI
 
 struct TakingImagesSelection: View {
     @Binding var selectedImage: UIImage? // Holds the selected image
+    
+    var onImageSelected : () -> Void
     @State private var showImagePicker: Bool = false
     @State private var isTakingPhoto: Bool = false
     
@@ -66,6 +68,7 @@ struct TakingImagesSelection: View {
             // Reset `isTakingPhoto` state whenever the image picker is dismissed
             if !showImagePicker {
                 isTakingPhoto = false
+                onImageSelected()
             }
         }
         .fullScreenCover(isPresented: $showImagePicker) {
