@@ -24,6 +24,7 @@
 		915EE42F2CAEC7AA0083340D /* Markers.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 915EE42E2CAEC7AA0083340D /* Markers.xcassets */; };
 		916785A32CE12CCB00CA85E3 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916785A22CE12CCB00CA85E3 /* ImagePicker.swift */; };
 		916785A52CE12D1600CA85E3 /* TakingImagesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916785A42CE12D0600CA85E3 /* TakingImagesScreen.swift */; };
+		917D8F672CFCB2DF0053B963 /* GarmentSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917D8F662CFCB2DB0053B963 /* GarmentSelectionView.swift */; };
 		918788DC2CADAE5400F67C6C /* SheetContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918788DB2CADAE5400F67C6C /* SheetContentView.swift */; };
 		918788DE2CADBD1B00F67C6C /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918788DD2CADBD1B00F67C6C /* TabBarView.swift */; };
 		918A52142CAEB9BD008827C7 /* Cosmonaut_Suit.reality in Resources */ = {isa = PBXBuildFile; fileRef = 91E3FADD2CA6D09B005AA618 /* Cosmonaut_Suit.reality */; };
@@ -97,6 +98,7 @@
 		915EE42E2CAEC7AA0083340D /* Markers.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Markers.xcassets; sourceTree = "<group>"; };
 		916785A22CE12CCB00CA85E3 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		916785A42CE12D0600CA85E3 /* TakingImagesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakingImagesScreen.swift; sourceTree = "<group>"; };
+		917D8F662CFCB2DB0053B963 /* GarmentSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GarmentSelectionView.swift; sourceTree = "<group>"; };
 		918788DB2CADAE5400F67C6C /* SheetContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetContentView.swift; sourceTree = "<group>"; };
 		918788DD2CADBD1B00F67C6C /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		91A212E62CBF19BA0062119D /* clothSegmentation.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = clothSegmentation.mlmodel; path = ../../../models/clothSegmentation.mlmodel; sourceTree = "<group>"; };
@@ -340,6 +342,7 @@
 		91E21EF52CEE4BEB00E8ACA4 /* Create */ = {
 			isa = PBXGroup;
 			children = (
+				917D8F662CFCB2DB0053B963 /* GarmentSelectionView.swift */,
 				91A7E3C92CEDFFBA00EDD1C8 /* CreateView.swift */,
 			);
 			path = Create;
@@ -561,6 +564,7 @@
 				91CB4A922CFB9D6000E2A844 /* UserDataStore.swift in Sources */,
 				91E21EFE2CEE528F00E8ACA4 /* ExploreArtist.swift in Sources */,
 				911ED0832CF8AA5E0060A9D3 /* AnimationView.swift in Sources */,
+				917D8F672CFCB2DF0053B963 /* GarmentSelectionView.swift in Sources */,
 				91A35F2E2CE2ADBD007D92DE /* ControllerResponsibilities.swift in Sources */,
 				918788DE2CADBD1B00F67C6C /* TabBarView.swift in Sources */,
 				91F796FC2CE2B5F5000822CE /* AnimationHandlerService.swift in Sources */,

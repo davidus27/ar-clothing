@@ -63,6 +63,13 @@ class UserDataStore: ObservableObject {
             joinedDate: "01/01/24"
         )
         
+        linkedGarments = [
+            LinkedGarmentData(id: "1", name: "T-Shirt", uid: "je:asdiuasibd"),
+            LinkedGarmentData(id: "2", name: "Jeans", uid: "je:daiosubdob"),
+            LinkedGarmentData(id: "3", name: "Jacket", uid: "pe:jabsbdiasbd")
+
+        ]
+        
         decodedImage = getImage(base64String: user!.imageBase64)
     }
     
