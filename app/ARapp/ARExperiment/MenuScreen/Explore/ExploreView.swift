@@ -11,6 +11,8 @@ struct ExploreView: View {
     var data: ExplorePageData = MockExplorePageData()
     @State var tabNames: [String] = ["Custom clothing", "Japanese edition", "Password edition"]
     @State private var selectedTab = 0
+    @State private var selectedMode: String = "Custom Clothing"
+
 
     var body: some View {
         VStack(spacing: 0) { // Zero spacing to tightly control layout
@@ -18,11 +20,11 @@ struct ExploreView: View {
             VStack {
                 HStack(spacing: 5) {
                     Text("Explore")
-                        .font(.largeTitle)
+                        .font(.title2)
                         .fontWeight(.semibold)
 
                     Image(systemName: "star")
-                        .font(.title) // Match the text size
+                        .font(.title2) // Match the text size
                         .foregroundColor(.yellow)
                         .onAppear {
                             withAnimation(.easeInOut(duration: 1).repeatForever(autoreverses: true)) {
@@ -30,6 +32,7 @@ struct ExploreView: View {
                             }
                         }
                 }
+                .padding(10)
             }
 
             
@@ -38,6 +41,13 @@ struct ExploreView: View {
             ScrollView {
                 VStack(spacing: 10) {
                     TabSelectionView(tabNames: $tabNames, selectedTab: selectedTab)
+                    Picker("Animation Mode", selection: $selectedMode) {
+                        Text("Custom Clothing").tag("Custom Clothing")
+                        Text("Japanese Edition").tag("Japanese Edition")
+                        Text("Password Edition").tag("Password Edition")
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding(.bottom)
 
                     // Dynamic components below the header
                     AnimationListItem(onButtonCreatePressed: {

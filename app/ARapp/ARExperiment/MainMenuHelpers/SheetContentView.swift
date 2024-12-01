@@ -18,10 +18,10 @@ struct SheetContentView: View {
             case .explore:
                 ExploreView()
             case .settings:
-                SettingsView()
+                SettingsView(activeTab: $activeTab)
             case .profile:
                 ProfileView()
-            case .add:
+            case .create:
                 CreateView()
             }
         })

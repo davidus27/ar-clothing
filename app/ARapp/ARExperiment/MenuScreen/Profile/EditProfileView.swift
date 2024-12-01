@@ -3,14 +3,14 @@
 //  ARExperiment
 //
 //  Created by David Drobny on 22/11/2024.
-//
-import SwiftUI
 
+import SwiftUI
 struct EditProfilePage: View {
     @Binding var profileImage: Image
     @Binding var name: String
     @Binding var description: String
     
+    @State private var isSaving: Bool = false  // To indicate if the save process is happening
     @State private var isImagePickerPresented: Bool = false
 
     var body: some View {
@@ -52,6 +52,25 @@ struct EditProfilePage: View {
                     .cornerRadius(8)
                     .padding(.horizontal)
             }
+            
+            // Save Button
+              Button(action: {
+                  // Simulate saving by waiting 0.5 seconds
+                  isSaving = true
+                  DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                      // After the 0.5 seconds, reset saving state and simulate saving
+                      isSaving = false
+                      print("Saved: \(name), \(description)")
+                  }
+              }) {
+                  Text(isSaving ? "Saving..." : "Save")
+                      .foregroundColor(.white)
+                      .frame(maxWidth: .infinity)
+                      .padding()
+                      .background(isSaving ? Color.gray : Color.blue) // Change color when saving
+                      .cornerRadius(10)
+              }
+              .padding(.horizontal)
             
             Spacer()
         }
@@ -98,4 +117,3 @@ struct ImagePickerView: UIViewControllerRepresentable {
         }
     }
 }
-
