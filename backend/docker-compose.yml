@@ -1,25 +1,19 @@
-version: "3.8"
+version: '3'
 services:
-  app:
+  mongo:
+    image: mongo:latest
+    container_name: fastapi-mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: adminpass
+    ports:
+      - "27017:27017"
+  fastapi:
     build: .
-    container_name: fastapi_app
+    container_name: fastapi-server
     ports:
       - "8000:8000"
     depends_on:
       - mongo
     environment:
-      - MONGO_URI=mongodb://admin:adminpass@mongo:27017/
-  
-  mongo:
-    image: mongo:latest
-    container_name: mongo
-    ports:
-      - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: adminpass
-    volumes:
-      - mongo_data:/data/db
-
-volumes:
-  mongo_data:
+      MONGO_URI: "mongodb://admin:adminpass@mongo:27017"

@@ -68,3 +68,9 @@ then running:
 ```sh
 docker run --name fastapi-mongo -d -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=adminpass mongo:latest
 ```
+
+```sh
+docker-compose down
+
+docker-compose up
+```
