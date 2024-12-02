@@ -10,7 +10,8 @@ PyObjectId = Annotated[str, BeforeValidator(str)]
 
 # Custom Pydantic model to handle ObjectId serialization
 class UserBase(BaseModel):
-    id: Optional[PyObjectId] = Field(alias="_id", default=None)
+    # id: Optional[PyObjectId] = Field(alias="_id", default=None)
+    id: Optional[str] = None
     name: str
     email: str
 

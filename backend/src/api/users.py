@@ -6,7 +6,8 @@ router = APIRouter()
 
 @router.get("/", response_model=list[UserResponse])
 async def get_all_users():
-    return UserRepository.get_all_users()
+    users = UserRepository.get_all_users()
+    return users
 
 @router.get("/{user_id}", response_model=UserResponse)
 async def get_user(user_id: str):
@@ -17,7 +18,9 @@ async def get_user(user_id: str):
 
 @router.post("/", response_model=UserResponse)
 async def create_user(user: UserCreate):
-    return UserRepository.create_user(user.model_dump())
+    user_data = user.model_dump(by_alias=True)
+    return UserRepository.create_user(user_data)
+
 
 @router.put("/{user_id}", response_model=bool)
 async def update_user(user_id: str, user_update: UserUpdate):
@@ -32,3 +35,7 @@ async def delete_user(user_id: str):
     if not deleted:
         raise HTTPException(status_code=404, detail="User not found")
     return deleted
+
+@router.delete("/", response_model=bool)
+async def delete_all_users():
+    return UserRepository.delete_all_users()
