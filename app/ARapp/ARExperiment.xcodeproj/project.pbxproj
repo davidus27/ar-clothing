@@ -28,6 +28,7 @@
 		918788DC2CADAE5400F67C6C /* SheetContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918788DB2CADAE5400F67C6C /* SheetContentView.swift */; };
 		918788DE2CADBD1B00F67C6C /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918788DD2CADBD1B00F67C6C /* TabBarView.swift */; };
 		918A52142CAEB9BD008827C7 /* Cosmonaut_Suit.reality in Resources */ = {isa = PBXBuildFile; fileRef = 91E3FADD2CA6D09B005AA618 /* Cosmonaut_Suit.reality */; };
+		9191FEBE2CFF20BF002ED16D /* ProfileContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9191FEBD2CFF20BA002ED16D /* ProfileContent.swift */; };
 		91A212E72CBF19BA0062119D /* clothSegmentation.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 91A212E62CBF19BA0062119D /* clothSegmentation.mlmodel */; };
 		91A22DB72CE3DF740029AE2E /* AnimationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A22DB62CE3DF740029AE2E /* AnimationHandler.swift */; };
 		91A22DB92CE3DF8F0029AE2E /* CommunicationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A22DB82CE3DF8F0029AE2E /* CommunicationHandler.swift */; };
@@ -42,7 +43,6 @@
 		91CB1C9B2CF610CD00FCE1DA /* StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91CB1C9A2CF610C700FCE1DA /* StatusView.swift */; };
 		91CB1C9E2CF6138B00FCE1DA /* AppGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91CB1C9D2CF6138500FCE1DA /* AppGuideView.swift */; };
 		91CB1CA02CF613B900FCE1DA /* SlideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91CB1C9F2CF613B800FCE1DA /* SlideView.swift */; };
-		91CB4A8E2CFB6FC400E2A844 /* UserProfileData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91CB4A8D2CFB6FB800E2A844 /* UserProfileData.swift */; };
 		91CB4A902CFB8B9B00E2A844 /* ImageAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91CB4A8F2CFB8B9800E2A844 /* ImageAnalysis.swift */; };
 		91CB4A922CFB9D6000E2A844 /* UserDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91CB4A912CFB9D5A00E2A844 /* UserDataStore.swift */; };
 		91CD407D2CFB279200DDDE58 /* LinkClothingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91CD407C2CFB278E00DDDE58 /* LinkClothingView.swift */; };
@@ -101,6 +101,7 @@
 		917D8F662CFCB2DB0053B963 /* GarmentSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GarmentSelectionView.swift; sourceTree = "<group>"; };
 		918788DB2CADAE5400F67C6C /* SheetContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetContentView.swift; sourceTree = "<group>"; };
 		918788DD2CADBD1B00F67C6C /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
+		9191FEBD2CFF20BA002ED16D /* ProfileContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileContent.swift; sourceTree = "<group>"; };
 		91A212E62CBF19BA0062119D /* clothSegmentation.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = clothSegmentation.mlmodel; path = ../../../models/clothSegmentation.mlmodel; sourceTree = "<group>"; };
 		91A22DB62CE3DF740029AE2E /* AnimationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationHandler.swift; sourceTree = "<group>"; };
 		91A22DB82CE3DF8F0029AE2E /* CommunicationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationHandler.swift; sourceTree = "<group>"; };
@@ -115,7 +116,6 @@
 		91CB1C9A2CF610C700FCE1DA /* StatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusView.swift; sourceTree = "<group>"; };
 		91CB1C9D2CF6138500FCE1DA /* AppGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGuideView.swift; sourceTree = "<group>"; };
 		91CB1C9F2CF613B800FCE1DA /* SlideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideView.swift; sourceTree = "<group>"; };
-		91CB4A8D2CFB6FB800E2A844 /* UserProfileData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileData.swift; sourceTree = "<group>"; };
 		91CB4A8F2CFB8B9800E2A844 /* ImageAnalysis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAnalysis.swift; sourceTree = "<group>"; };
 		91CB4A912CFB9D5A00E2A844 /* UserDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataStore.swift; sourceTree = "<group>"; };
 		91CD407C2CFB278E00DDDE58 /* LinkClothingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkClothingView.swift; sourceTree = "<group>"; };
@@ -297,7 +297,6 @@
 			isa = PBXGroup;
 			children = (
 				91CB4A912CFB9D5A00E2A844 /* UserDataStore.swift */,
-				91CB4A8D2CFB6FB800E2A844 /* UserProfileData.swift */,
 				91A7E3CD2CEE02D700EDD1C8 /* ExplorePageData.swift */,
 			);
 			path = DataFormats;
@@ -351,6 +350,7 @@
 		91E21EF62CEE4BFA00E8ACA4 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				9191FEBD2CFF20BA002ED16D /* ProfileContent.swift */,
 				91CD407C2CFB278E00DDDE58 /* LinkClothingView.swift */,
 				910A5A422CF0D0CB004BB9C4 /* EditProfileView.swift */,
 				91EB60442CA610C3004D4770 /* ProfileView.swift */,
@@ -568,6 +568,7 @@
 				91A35F2E2CE2ADBD007D92DE /* ControllerResponsibilities.swift in Sources */,
 				918788DE2CADBD1B00F67C6C /* TabBarView.swift in Sources */,
 				91F796FC2CE2B5F5000822CE /* AnimationHandlerService.swift in Sources */,
+				9191FEBE2CFF20BF002ED16D /* ProfileContent.swift in Sources */,
 				91A7E3CA2CEDFFBD00EDD1C8 /* CreateView.swift in Sources */,
 				910A5A432CF0D0CF004BB9C4 /* EditProfileView.swift in Sources */,
 				91CB4A902CFB8B9B00E2A844 /* ImageAnalysis.swift in Sources */,
@@ -595,7 +596,6 @@
 				91A7E3C52CEDF93B00EDD1C8 /* GenericControllerConverter.swift in Sources */,
 				91A7E3C62CEDF93B00EDD1C8 /* ARViewContainerConverter.swift in Sources */,
 				91EB60472CA610D1004D4770 /* LibraryView.swift in Sources */,
-				91CB4A8E2CFB6FC400E2A844 /* UserProfileData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

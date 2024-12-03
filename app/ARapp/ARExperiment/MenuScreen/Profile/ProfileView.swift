@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 struct ProfileView: View {
 //    @State private var profileData: ProfileData? = nil // Holds the profile data after loading
     @EnvironmentObject var profileStore: UserDataStore
@@ -40,17 +39,27 @@ struct ProfileView: View {
             if isLoading {
                 ProgressView("Loading Profile...")
                     .padding()
+                    .frame(maxWidth: .infinity)
+                    .fontWeight(.semibold)
+                    .font(.title)
             } else if !profileStore.didFail, let profile = profileStore.user {
                 NavigationView {
                     VStack(spacing: 20) {
                         // Profile Image
+//                        profileStore.decodedImage
+//                            .resizable()
+//                            .scaledToFill()
+//                            .frame(width: 100, height: 100)
+//                            .clipShape(Circle())
+//                            .overlay(Circle().stroke(Color.blue, lineWidth: 2))
+//                            .shadow(radius: 5)
+                        
                         profileStore.decodedImage
                             .resizable()
-                            .scaledToFill()
+                            .scaledToFit()
                             .frame(width: 100, height: 100)
                             .clipShape(Circle())
-                            .overlay(Circle().stroke(Color.blue, lineWidth: 2))
-                            .shadow(radius: 5)
+
                         
                         // Profile Name
                         Text(profile.name)
@@ -58,10 +67,16 @@ struct ProfileView: View {
                             .bold()
                         
                         // Profile Description
+//                        Text(profile.description)
+//                            .font(.body)
+//                            .multilineTextAlignment(.center)
+//                            .foregroundColor(.gray)
+                        
                         Text(profile.description)
                             .font(.body)
                             .multilineTextAlignment(.center)
-                            .foregroundColor(.gray)
+                            .lineLimit(3) // Limit to 3 lines
+                            .truncationMode(.tail)
                         
                         // Edit Profile Navigation
                         NavigationLink(destination: EditProfilePage(
@@ -135,25 +150,10 @@ struct ProfileView: View {
 
     /// Function to simulate fetching profile data from the backend
     private func loadProfileData() {
-//        isLoading = true
         Task {
             do {
-                // Simulated delay for loading data
-                try await Task.sleep(nanoseconds: 1_000_000_000) // 1 second
-                profileStore.fetchMockupData()
-//                profileStore.isUserLoaded = true
-                
-                
-//                isLoading = false
+                profileStore.fetchUserData()
             }
         }
     }
 }
-
-/// Represents the profile data fetched from the server
-//struct ProfileData {
-//    let image: Image
-//    let name: String
-//    let description: String
-//    let joinedDate: String
-//}
