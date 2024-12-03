@@ -29,11 +29,12 @@ struct CreateView: View {
     @State private var uploadSuccess = false
     @State private var errorMessage = ""
     @State private var showCreateAnchor = false
-    @State private var selectedClothing: String? = nil
-    @State private var wardrobeItems: [String] = [] // This will be populated from backend
+    @State private var selectedGarment: LinkedGarmentData?
+    
+    @EnvironmentObject var userDataStore: UserDataStore
     
     @State private var selectedAnimation: SelectedMedia?
-   @State private var validationMessage: String = ""
+    @State private var validationMessage: String = ""
     @State private var isLoading: Bool = false
     @State private var showFilePicker: Bool = false
     
@@ -45,7 +46,6 @@ struct CreateView: View {
                     Text("Create your own designs")
                         .font(.title2)
                         .fontWeight(.semibold)
-                        .padding()
 
                     Image(systemName: "plus.square.on.square")
                         .font(.title2)
@@ -56,7 +56,6 @@ struct CreateView: View {
                             }
                         }
                 }
-                .padding()
             }
             
             // Dynamic Content
@@ -120,13 +119,6 @@ struct CreateView: View {
                             .cornerRadius(8)
                     }
                     .padding(.bottom, 10)
-
-//                    if let selectedImage = selectedImage {
-//                        Image(uiImage: selectedImage)
-//                            .resizable()
-//                            .scaledToFit()
-//                            .frame(width: 200, height: 200)
-//                    }
 
                     Text("Upload an image or video for your animation. Accepted formats: jpg, png, gif, mov, mp4.")
                         .font(.subheadline)
@@ -211,18 +203,12 @@ struct CreateView: View {
                             .font(.subheadline)
                             .foregroundColor(.gray)
                             .padding(.bottom, 10)
+                        
+                        GarmentSelectionView(selectedGarment: $selectedGarment, selectedMode: $selectedMode)
+                                    .environmentObject(userDataStore)
 
-                        // Here you would populate the wardrobeItems from the backend
-                        List(wardrobeItems, id: \.self) { item in
-                            Button(action: {
-                                selectedClothing = item
-                            }) {
-                                Text(item)
-                                    .padding()
-                                    .background(selectedClothing == item ? Color.blue.opacity(0.5) : Color.clear)
-                                    .cornerRadius(8)
-                            }
-                        }
+                        
+                    
                     }
                 }
 
@@ -318,8 +304,8 @@ struct CreateView: View {
         uploadSuccess = false
         errorMessage = ""
         showCreateAnchor = false
-        selectedClothing = nil
-        wardrobeItems = []
+//        selectedClothing = nil
+//        wardrobeItems = []
         
         isLoading = false
         showFilePicker = false

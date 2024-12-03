@@ -1,0 +1,39 @@
+version: '3'
+services:
+  mongo:
+    image: mongo:latest
+    container_name: fastapi-mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: adminpass
+    networks:
+      - internal
+
+  fastapi:
+    build: .
+    container_name: fastapi-server
+    depends_on:
+      - mongo
+    environment:
+      MONGO_URI: "mongodb://admin:adminpass@mongo:27017"
+    networks:
+      - internal
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - fastapi
+    networks:
+      - internal
+      - external
+
+networks:
+  internal:
+    internal: true
+  external:
+    driver: bridge
