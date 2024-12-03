@@ -1,4 +1,5 @@
 from ..core.database import db
+import datetime
 
 class UserRepository:
 
@@ -9,7 +10,7 @@ class UserRepository:
             user['id'] = str(user['_id'])
             del user['_id']
         return users
-
+ 
     # src/repositories/user_repository.py
     @staticmethod
     def get_user_by_id(user_id: str):
@@ -26,7 +27,10 @@ class UserRepository:
     
     @staticmethod
     def create_user(user_data: dict):
+        # add today date
+        user_data['joinedDate'] = datetime.datetime.now().strftime("%d/%m/%Y")
         result = db.users.insert_one(user_data)
+        
         user_data['id'] = str(result.inserted_id)
         return user_data
     
