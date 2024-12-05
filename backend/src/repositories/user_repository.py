@@ -14,11 +14,6 @@ class UserRepository:
         for user in users:
             user['id'] = str(user['_id'])
             del user['_id']
-
-            # do the same for each garment in the user's garments array
-            # for garment in user['garments']:
-            #     garment['id'] = str(garment['_id'])
-            #     del garment['_id']
         return users
  
     # src/repositories/user_repository.py
