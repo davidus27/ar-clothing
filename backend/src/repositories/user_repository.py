@@ -27,6 +27,14 @@ class UserRepository:
         return user
     
     @staticmethod
+    def get_user_by_name(name: str):
+        user = db.users.find_one({"name": name})
+        if user:
+            user['id'] = str(user['_id'])
+            del user['_id']
+        return user
+    
+    @staticmethod
     def create_user(user_data: dict):
         # add today date
         user_data['joinedDate'] = datetime.datetime.now().strftime("%d/%m/%Y")

@@ -35,7 +35,8 @@ class UserBase(BaseModel):
 
 
 class UserCreate(UserBase):
-    pass
+    token: str  # Add token field to response
+
 
 
 class UserUpdate(BaseModel):

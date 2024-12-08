@@ -3,6 +3,7 @@ from fastapi import APIRouter, HTTPException
 from ..models.user import UserCreate, UserResponse, UserUpdate
 from ..models.garments import Garment, GarmentCreate
 from ..repositories.user_repository import UserRepository
+from ..utils.security import create_access_token
 
 router = APIRouter()
 
@@ -18,10 +19,18 @@ async def get_user(user_id: str):
         raise HTTPException(status_code=404, detail="User not found")
     return user
 
-@router.post("/", response_model=UserResponse)
-async def create_user(user: UserCreate):
-    user_data = user.model_dump(by_alias=True)
-    return UserRepository.create_user(user_data)
+
+@router.post("/", response_model=UserCreate)
+async def create_user(user: UserResponse):
+    existing_user = UserRepository.get_user_by_name(user.name)
+    if existing_user:
+        raise HTTPException(status_code=400, detail="Username already registered")
+    
+    created_user = UserRepository.create_user(user.model_dump(by_alias=True))
+    token = create_access_token(created_user['id'])
+    created_user['token'] = token
+    return created_user
+
 
 
 @router.put("/{user_id}", response_model=bool)
