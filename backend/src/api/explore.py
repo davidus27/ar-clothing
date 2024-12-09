@@ -22,8 +22,10 @@ async def get_animations_for_explore(
                 "thumbnail": animation.get("thumbnail", ""),
                 "author_name": UserRepository.get_user_by_id(animation["author_id"]).get("name", ""),
                 "author_profile_image": UserRepository.get_user_by_id(animation["author_id"]).get("imageBase64", ""),
-                "title": animation.get("animationName", ""),
+                "description": animation.get("animationName", ""),
                 "created_at": animation.get("created_at", ""),
+                "physical_width": animation.get("physicalWidth", ""),
+                "physical_height": animation.get("physicalHeight", ""),
             }
             for animation in animations
         ],
