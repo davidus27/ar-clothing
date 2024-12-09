@@ -1,5 +1,10 @@
 import requests
 import json
+import base64
+
+def get_file_base64():
+    with open("/Users/daviddrobny/Downloads/giraffe.gif", "rb") as file:
+        return base64.b64encode(file.read())
 
 def send_data():
     url = "http://127.0.0.1:8000/animations"
@@ -8,7 +13,8 @@ def send_data():
         "animation_description": "This is a sample animation.",
         "is_public": True,
         "physical_width": 10,
-        "physical_height": 10
+        "physical_height": 10,
+        "thumbnail": get_file_base64(),
     }
     files = {
         "file": open("/Users/daviddrobny/Downloads/giraffe.gif", "rb"),
@@ -19,7 +25,7 @@ def send_data():
 
     response = requests.post(url, data=animation_data, files=files, headers=headers)
     print(response.status_code)
+    print(response.json())
 
 if __name__ == "__main__":
-    for i in range(100):
-        send_data()
+    send_data()
