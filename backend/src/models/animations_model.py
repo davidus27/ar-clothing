@@ -1,7 +1,8 @@
 from pydantic import BaseModel, Field
 from typing import Optional
 from bson import ObjectId
-from datetime import datetime
+from fastapi import APIRouter, HTTPException, UploadFile, File, Depends
+
 
 class AnimationBase(BaseModel):
     animationName: str = ""
@@ -9,9 +10,7 @@ class AnimationBase(BaseModel):
     isPublic: bool = False
     physicalWidth: int
     physicalHeight: int
-    # animationFileId: Optional[str] = None  # Reference to GridFS file ID
-    # thumbnailFileId: Optional[str] = None  # Reference to GridFS thumbnail file ID
-
+    # add here the field for file upload
 
 class AnimationRequest(AnimationBase):
     pass
@@ -20,3 +19,4 @@ class AnimationCreate(AnimationRequest):
     id: str
     author_id: str  # Reference to the User who created the animation
     created_at: str  # Creation date
+    file: UploadFile = File(...)
