@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from fastapi import UploadFile, File
+from typing import Optional
 
 
 class AnimationBase(BaseModel):
@@ -15,6 +16,7 @@ class AnimationRequest(AnimationBase):
 
 class AnimationCreate(AnimationRequest):
     id: str
-    author_id: str  # Reference to the User who created the animation
-    created_at: str  # Creation date
+    author_id: str 
+    created_at: str
     file: UploadFile = File(...)
+    thumbnail: str

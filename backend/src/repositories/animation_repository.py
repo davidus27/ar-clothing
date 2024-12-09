@@ -1,7 +1,6 @@
 from ..core.database import db, grid_fs
 from ..models.animations_model import AnimationRequest
 from .user_repository import UserRepository
-# from ..schemas.animation_schemas import AnimationPreview, AnimationDetail
 from bson import ObjectId
 from datetime import datetime
 
@@ -57,3 +56,15 @@ class AnimationRepository:
     def delete_all_animations():
         result = db.animations.delete_many({})
         return bool(result.deleted_count)
+    
+    @staticmethod
+    def get_all_animations(limit: int = 10, offset: int = 0):
+        animations = list(db.animations.find().skip(offset).limit(limit))
+        for animation in animations:
+            animation['id'] = str(animation['_id'])
+            del animation['_id']
+        return animations
+
+    @staticmethod
+    def get_total_count():
+        return db.animations.count_documents({})

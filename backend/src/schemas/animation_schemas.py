@@ -9,6 +9,7 @@ class AnimationCreate(BaseModel):
     isPublic: bool
     physicalWidth: int
     physicalHeight: int
+    # thumbnail: str
 
 class AnimationResponse(AnimationCreate):
     id: str

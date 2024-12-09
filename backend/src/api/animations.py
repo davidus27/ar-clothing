@@ -15,6 +15,7 @@ async def create_animation(
     is_public: Annotated[bool, Form()],
     physical_width: Annotated[int, Form()],
     physical_height: Annotated[int, Form()],
+    thumbnail: Annotated[str, Form()],
     request: Request,
     file: UploadFile = File(...),
     user = Depends(get_current_user),
@@ -26,16 +27,17 @@ async def create_animation(
             animationDescription=animation_description,
             isPublic=is_public,
             physicalWidth=physical_width,
-            physicalHeight=physical_height,
+            physicalHeight=physical_height
         )
 
         # Save file
         file_id = await AnimationRepository.save_file_to_gridfs(file)
 
         # Save animation metadata
-        animation_data = animation.dict()
+        animation_data = animation.model_dump()
         animation_data["author_id"] = user["id"]
         animation_data["animationFileId"] = str(file_id)
+        animation_data["thumbnail"] = thumbnail
 
         created_animation = AnimationRepository.create_animation(animation_data)
         
