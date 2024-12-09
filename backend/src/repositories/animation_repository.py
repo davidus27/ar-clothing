@@ -52,3 +52,8 @@ class AnimationRepository:
         # Retrieve the file from GridFS
         grid_out = grid_fs.get(ObjectId(file_id))
         return grid_out
+    
+    @staticmethod
+    def delete_all_animations():
+        result = db.animations.delete_many({})
+        return bool(result.deleted_count)

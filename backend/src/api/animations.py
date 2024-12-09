@@ -98,3 +98,7 @@ async def get_animation_file(animation_id: str):
             "Content-Disposition": f"attachment; filename={grid_out.filename}"
         }
     )
+
+@router.delete("/", response_model=bool)
+async def delete_all_animations():
+    return AnimationRepository.delete_all_animations()
