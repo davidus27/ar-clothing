@@ -1,9 +1,8 @@
-from fastapi import APIRouter, Form, HTTPException, UploadFile, File, Depends
+from fastapi import APIRouter, Form, HTTPException, UploadFile, File, Depends, Request
 from fastapi.responses import StreamingResponse
-from ..models.animations_model import AnimationCreate
+from ..schemas.animation_schemas import AnimationCreate, AnimationResponse
 from ..repositories.animation_repository import AnimationRepository
 from ..utils.dependencies import get_current_user
-from ..schemas.animation_schemas import AnimationCreate, AnimationResponse
 from typing import Annotated, List
 from io import BytesIO
 
@@ -16,8 +15,9 @@ async def create_animation(
     is_public: Annotated[bool, Form()],
     physical_width: Annotated[int, Form()],
     physical_height: Annotated[int, Form()],
+    request: Request,
     file: UploadFile = File(...),
-    user = Depends(get_current_user)
+    user = Depends(get_current_user),
 ):
     try:
         # Parse data into the AnimationCreate structure
@@ -38,21 +38,37 @@ async def create_animation(
         animation_data["animationFileId"] = str(file_id)
 
         created_animation = AnimationRepository.create_animation(animation_data)
+        
+        # Add HATEOAS links
+        created_animation['links'] = [
+            {"rel": "self", "href": str(request.url_for("get_animation", animation_id=created_animation['id']))},
+            {"rel": "file", "href": str(request.url_for("get_animation_file", animation_id=created_animation['id']))}
+        ]
+        
         return created_animation
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    
 
 @router.get("/", response_model=List[AnimationResponse])
-async def get_animations():
+async def get_animations(request: Request):
     animations = AnimationRepository.get_all_animations()
+    for animation in animations:
+        animation['links'] = [
+            {"rel": "self", "href": str(request.url_for("get_animation", animation_id=animation['id']))},
+            {"rel": "file", "href": str(request.url_for("get_animation_file", animation_id=animation['id']))}
+        ]
     return animations
 
 @router.get("/{animation_id}", response_model=AnimationResponse)
-async def get_animation(animation_id: str):
+async def get_animation(animation_id: str, request: Request):
     animation = AnimationRepository.get_animation_by_id(animation_id)
     if not animation:
         raise HTTPException(status_code=404, detail="Animation not found")
+    
+    animation['links'] = [
+        {"rel": "self", "href": str(request.url_for("get_animation", animation_id=animation_id))},
+        {"rel": "file", "href": str(request.url_for("get_animation_file", animation_id=animation_id))}
+    ]
     return animation
 
 @router.get("/{animation_id}/file")

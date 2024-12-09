@@ -1,5 +1,5 @@
 from ..core.database import db
-from ..models.garments import Garment, GarmentCreate
+from ..models.garments_model import Garment, GarmentCreate
 import datetime
 from bson import ObjectId
 

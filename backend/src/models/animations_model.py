@@ -1,7 +1,5 @@
-from pydantic import BaseModel, Field
-from typing import Optional
-from bson import ObjectId
-from fastapi import APIRouter, HTTPException, UploadFile, File, Depends
+from pydantic import BaseModel
+from fastapi import UploadFile, File
 
 
 class AnimationBase(BaseModel):

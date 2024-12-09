@@ -1,10 +1,10 @@
 from pydantic import BaseModel
 from typing import Optional, List
-from pydantic import BaseModel, Field
-from bson import ObjectId
+from pydantic import BaseModel
 from typing_extensions import Annotated
 from pydantic.functional_validators import BeforeValidator
-from .garments import Garment
+from ..models.garments_model import Garment
+from .links import Link
 
 
 PyObjectId = Annotated[str, BeforeValidator(str)]
@@ -25,15 +25,6 @@ class UserBase(BaseModel):
     garments: Optional[List[Garment]] = []
 
 
-# Custom Pydantic model to handle ObjectId serialization
-# not sure if still needed
-#     class Config:   
-#         # Add a custom encoder for ObjectId to be converted into a string
-#         json_encoders = {
-#             ObjectId: str  # Converts ObjectId to a string
-#         }
-
-
 class UserCreate(UserBase):
     token: str  # Add token field to response
 
@@ -47,4 +38,4 @@ class UserUpdate(BaseModel):
 
 
 class UserResponse(UserBase):
-    pass
+    links: List[Link] = []
