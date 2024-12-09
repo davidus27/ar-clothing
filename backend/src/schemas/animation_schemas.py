@@ -1,6 +1,7 @@
 # src/schemas/animation_schemas.py
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List
+from ..models.links import Link
 
 class AnimationCreate(BaseModel):
     animationName: str
@@ -14,3 +15,4 @@ class AnimationResponse(AnimationCreate):
     author_id: str
     animationFileId: Optional[str] = None
     created_at: Optional[str] = None
+    links: Optional[List[Link]] = None

@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Form, HTTPException, UploadFile, File, Depends, Request
 from fastapi.responses import StreamingResponse
+from typing import Annotated, List
 from ..schemas.animation_schemas import AnimationCreate, AnimationResponse
 from ..repositories.animation_repository import AnimationRepository
 from ..utils.dependencies import get_current_user
-from typing import Annotated, List
 from io import BytesIO
 
 router = APIRouter()
@@ -48,6 +48,7 @@ async def create_animation(
         return created_animation
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
 
 @router.get("/", response_model=List[AnimationResponse])
 async def get_animations(request: Request):
