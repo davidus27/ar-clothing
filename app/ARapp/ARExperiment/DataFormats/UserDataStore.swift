@@ -21,27 +21,37 @@ struct UserData: Identifiable, Codable {
     var name: String
     var description: String
     var joinedDate: String
+    var linkedGarments: [LinkedGarmentData]
     
     static let mockupUser = UserData(
         id: "0",
         imageBase64: "",
         name: "Loading...",
         description: "Fetching your profile details...",
-        joinedDate: ""
+        joinedDate: "",
+        linkedGarments: []
     )
 }
 
 class UserDataStore: ObservableObject {
-    @Published var user: UserData?
-    @Published var linkedGarments: [LinkedGarmentData] = []
+    @Published var user: UserData
+    var isMockup: Bool = false
+    var isLoaded: Bool = false
+    
+    init() {
+        user = UserData.mockupUser
+        isMockup = true
+        isLoaded = true
+    }
     
     public var didFail: Bool = false
     public var decodedImage: Image = Image(systemName: "exclamationmark.icloud.fill")
     
     // Example function for fetching user data from a REST API
-    func fetchUserData() {
-        // Assume we have an API URL
-        guard let url = URL(string: "http://192.168.1.19:8000/users/674edb056dbea5d239033941") else { return }
+    func fetchUserData(fromSource state: AppState) {
+        let userAddress = state.externalSource + "/users/" + state.userId
+        
+        guard let url = URL(string: userAddress) else { return }
 
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             
@@ -63,7 +73,9 @@ class UserDataStore: ObservableObject {
             }
         }.resume()
         
-        decodedImage = getImage(base64String: user?.imageBase64 ?? getBase64ImageValue(image: UIImage(systemName: "person.crop.circle.fill")!))
+        decodedImage = getImage(base64String: user.imageBase64 ?? getBase64ImageValue(image: UIImage(systemName: "person.crop.circle.fill")!))
+        
+        isLoaded = true
     }
     
     func fetchMockupData() {
@@ -72,17 +84,15 @@ class UserDataStore: ObservableObject {
             imageBase64: getBase64ImageValue(image: UIImage(systemName: "person.crop.circle.fill")!), // base-64
             name: "John Doe",
             description: "Creative designer with a passion for art and AR.",
-            joinedDate: "01/01/24"
+            joinedDate: "01/01/24",
+            linkedGarments: [
+                LinkedGarmentData(id: "1", name: "T-Shirt", uid: "je:asdiuasibd"),
+                LinkedGarmentData(id: "2", name: "Jeans", uid: "je:daiosubdob"),
+                LinkedGarmentData(id: "3", name: "Jacket", uid: "pe:jabsbdiasbd")
+            ]
         )
         
-        linkedGarments = [
-            LinkedGarmentData(id: "1", name: "T-Shirt", uid: "je:asdiuasibd"),
-            LinkedGarmentData(id: "2", name: "Jeans", uid: "je:daiosubdob"),
-            LinkedGarmentData(id: "3", name: "Jacket", uid: "pe:jabsbdiasbd")
-
-        ]
-        
-        decodedImage = getImage(base64String: user!.imageBase64!)
+        decodedImage = getImage(base64String: user.imageBase64!)
     }
     
     func getImage(base64String: String) -> Image {

@@ -147,71 +147,7 @@ struct CreateView: View {
                         .foregroundColor(.gray)
                         .padding(.bottom, 20)
                 }
-
-                // Animation Mode Section (Selection Menu)
-                VStack {
-                    Text("Select Animation Mode")
-                        .font(.headline)
-                        .padding(.bottom, 5)
-                    Menu {
-                        Button("Custom Clothing") { selectedMode = "Custom Clothing" }
-                        Button("Japanese Edition") { selectedMode = "Japanese Edition" }
-                        Button("Password Edition") { selectedMode = "Password Edition" }
-                    } label: {
-                        Text(selectedMode)
-                            .font(.body)
-                            .padding()
-                            .background(Color.gray.opacity(0.2))
-                            .cornerRadius(8)
-                    }
-                    .padding(.bottom, 10)
-                    Text("Choose the mode that best describes how the animation should be displayed.")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
-                        .padding(.bottom, 20)
-                }
-
-                // Additional Fields based on Mode
-                if selectedMode == "Custom Clothing" {
-                    VStack(alignment: .leading) {
-                        Text("Create Anchor")
-                            .font(.headline)
-                            .padding(.bottom, 5)
-                        Text("Select an image from your gallery or take a picture. This image will serve as the anchor point for your animation. Ensure the object has good lighting, a unique shape, and visible colors.")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                            .padding(.bottom, 10)
-                        
-                        // Using TakingImagesSelection component here
-                        TakingImagesSelection(
-                            selectedImage: $selectedAnchor,
-                            onImageSelected: { onUploadAnchor() }
-                        )
-//                            .frame(height: 250)
-                        if !validationMessage.isEmpty {
-                            Text(validationMessage)
-                                .foregroundColor(.red)
-                                .padding()
-                        }
-                    }
-                } else if selectedMode == "Password Edition" || selectedMode == "Japanese Edition" {
-                    VStack(alignment: .leading) {
-                        Text("Select Clothing from Your Wardrobe")
-                            .font(.headline)
-                            .padding(.bottom, 5)
-                        Text("Choose a clothing item from your existing wardrobe.")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                            .padding(.bottom, 10)
-                        
-                        GarmentSelectionView(selectedGarment: $selectedGarment, selectedMode: $selectedMode)
-                                    .environmentObject(userDataStore)
-
-                        
-                    
-                    }
-                }
-
+                
                 // Loading Indicator
                 if showLoadingIndicator {
                     ProgressView("Submitting...").padding()
@@ -244,8 +180,6 @@ struct CreateView: View {
             .padding()
         }
         .sheet(isPresented: $showImagePicker) {
-//            
-//            ImagePicker(selectedImage: $selectedImage, sourceType: .photoLibrary, isPresented: $showImagePicker)
         }
     }
     
@@ -304,8 +238,6 @@ struct CreateView: View {
         uploadSuccess = false
         errorMessage = ""
         showCreateAnchor = false
-//        selectedClothing = nil
-//        wardrobeItems = []
         
         isLoading = false
         showFilePicker = false

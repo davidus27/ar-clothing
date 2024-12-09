@@ -11,11 +11,12 @@ import RealityKit
 
 struct ContentView: View {
     @StateObject var profileStore = UserDataStore()
+    @StateObject var appStateStore = AppStateStore()
     @State private var showSheet: Bool = false
     @State private var activeTab: TabOption = .create // default selected view at the start
     @State private var sheetHeight = 0.0
     @State private var isGuideShown: Bool = false // this will normally be set to true
-    @State private var appStatus: String = "Initializing..."
+//    @State private var appStatus: String = "Initializing..."
     
     var body: some View {
         ZStack {
@@ -24,20 +25,28 @@ struct ContentView: View {
             }
             else {
                 ZStack(alignment: .bottom) {
-                    MainARView(isGuideShown: $isGuideShown, appStatus: $appStatus)
+                    MainARView(isGuideShown: $isGuideShown, appStatus: $appStateStore.state.appStatus)
                     
                     // Main menu
                     TabBarView(activeTab: $activeTab)
                 }
                 .task {
-                    appStatus = "Ready to explore"
+                    appStateStore.state.appStatus = "Ready to explore"
                     showSheet = true
+                    
+                    // set the external IP address to the backend
+                    appStateStore.state.externalSource = "http://192.168.1.23:8000"
                 }
                 .sheet(isPresented: $showSheet) {
                     SheetContentView(activeTab: $activeTab)
                         .environmentObject(profileStore)
+                        .environmentObject(appStateStore)
                 }
             }
+            
+            // this checks the connection
+            ConnectionStatusPopupView()
+                .environmentObject(appStateStore)
         }
     }
 }

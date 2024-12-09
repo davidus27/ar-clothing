@@ -20,6 +20,8 @@
 		913039082CA630CA00835C35 /* TabOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913039072CA630CA00835C35 /* TabOption.swift */; };
 		9130390A2CA635AE00835C35 /* BottomSheetHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913039092CA635AE00835C35 /* BottomSheetHelper.swift */; };
 		913355CC2CCB898D00462BAF /* movie.2.mov in Resources */ = {isa = PBXBuildFile; fileRef = 913355C82CCB898D00462BAF /* movie.2.mov */; };
+		913AB6D62D0769940024DB30 /* ConnectionStatusPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913AB6D52D0769850024DB30 /* ConnectionStatusPopup.swift */; };
+		913AB6D82D07775B0024DB30 /* AppStateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913AB6D72D0777570024DB30 /* AppStateStore.swift */; };
 		91521C7F2CE7515100994EA5 /* japanese.heic in Resources */ = {isa = PBXBuildFile; fileRef = 91521C7E2CE7515100994EA5 /* japanese.heic */; };
 		915EE42F2CAEC7AA0083340D /* Markers.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 915EE42E2CAEC7AA0083340D /* Markers.xcassets */; };
 		916785A32CE12CCB00CA85E3 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916785A22CE12CCB00CA85E3 /* ImagePicker.swift */; };
@@ -94,6 +96,8 @@
 		913039072CA630CA00835C35 /* TabOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabOption.swift; sourceTree = "<group>"; };
 		913039092CA635AE00835C35 /* BottomSheetHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetHelper.swift; sourceTree = "<group>"; };
 		913355C82CCB898D00462BAF /* movie.2.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = movie.2.mov; sourceTree = "<group>"; };
+		913AB6D52D0769850024DB30 /* ConnectionStatusPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionStatusPopup.swift; sourceTree = "<group>"; };
+		913AB6D72D0777570024DB30 /* AppStateStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStateStore.swift; sourceTree = "<group>"; };
 		91521C7E2CE7515100994EA5 /* japanese.heic */ = {isa = PBXFileReference; lastKnownFileType = file; path = japanese.heic; sourceTree = "<group>"; };
 		915EE42E2CAEC7AA0083340D /* Markers.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Markers.xcassets; sourceTree = "<group>"; };
 		916785A22CE12CCB00CA85E3 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
@@ -193,6 +197,7 @@
 				918788D32CAD9EA100F67C6C /* AR assets */,
 				91E3FAB82CA6ACC1005AA618 /* MainMenuHelpers */,
 				91EB60402CA61092004D4770 /* MenuScreen */,
+				913AB6D52D0769850024DB30 /* ConnectionStatusPopup.swift */,
 				911EC42D2C9606BB009EDF2B /* AppDelegate.swift */,
 				911EC42F2C9606BB009EDF2B /* ContentView.swift */,
 				913355CA2CCB898D00462BAF /* Videos */,
@@ -296,6 +301,7 @@
 		91A7E3CC2CEE02CC00EDD1C8 /* DataFormats */ = {
 			isa = PBXGroup;
 			children = (
+				913AB6D72D0777570024DB30 /* AppStateStore.swift */,
 				91CB4A912CFB9D5A00E2A844 /* UserDataStore.swift */,
 				91A7E3CD2CEE02D700EDD1C8 /* ExplorePageData.swift */,
 			);
@@ -587,12 +593,14 @@
 				91E3FAB22CA6A4C0005AA618 /* ExploreView.swift in Sources */,
 				91CB1CA02CF613B900FCE1DA /* SlideView.swift in Sources */,
 				91CD407F2CFB281600DDDE58 /* QRCodeScannerView.swift in Sources */,
+				913AB6D62D0769940024DB30 /* ConnectionStatusPopup.swift in Sources */,
 				91A22DB92CE3DF8F0029AE2E /* CommunicationHandler.swift in Sources */,
 				91A212E72CBF19BA0062119D /* clothSegmentation.mlmodel in Sources */,
 				91A7E3CE2CEE02E100EDD1C8 /* ExplorePageData.swift in Sources */,
 				913039082CA630CA00835C35 /* TabOption.swift in Sources */,
 				918788DC2CADAE5400F67C6C /* SheetContentView.swift in Sources */,
 				916785A32CE12CCB00CA85E3 /* ImagePicker.swift in Sources */,
+				913AB6D82D07775B0024DB30 /* AppStateStore.swift in Sources */,
 				91A7E3C52CEDF93B00EDD1C8 /* GenericControllerConverter.swift in Sources */,
 				91A7E3C62CEDF93B00EDD1C8 /* ARViewContainerConverter.swift in Sources */,
 				91EB60472CA610D1004D4770 /* LibraryView.swift in Sources */,

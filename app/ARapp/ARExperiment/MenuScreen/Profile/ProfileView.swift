@@ -12,13 +12,14 @@ struct ProfileView: View {
     @EnvironmentObject var profileStore: UserDataStore
 //    @State private var isLoading: Bool = true         // Tracks the loading state
     
-    var isLoading: Bool {
-        profileStore.user == nil
-    }
+    @State var isLoading: Bool = true
+    
     @State private var isEditProfilePresented: Bool = false
 //    @State private var linkedClothing: [LinkedGarmentData] = [] // Holds linked garments
     @State private var isLinkClothingPresented: Bool = false // Toggles the QR code scanning page
 
+    @EnvironmentObject var appStateStore: AppStateStore
+    
     var body: some View {
         VStack(spacing: 0) {
             // Fixed Header
@@ -42,7 +43,7 @@ struct ProfileView: View {
                     .frame(maxWidth: .infinity)
                     .fontWeight(.semibold)
                     .font(.title)
-            } else if !profileStore.didFail, let profile = profileStore.user {
+            } else if !profileStore.didFail {
                 NavigationView {
                     VStack(spacing: 20) {
                         // Profile Image
@@ -62,7 +63,7 @@ struct ProfileView: View {
 
                         
                         // Profile Name
-                        Text(profile.name)
+                        Text(profileStore.user.name)
                             .font(.title)
                             .bold()
                         
@@ -72,7 +73,7 @@ struct ProfileView: View {
 //                            .multilineTextAlignment(.center)
 //                            .foregroundColor(.gray)
                         
-                        Text(profile.description)
+                        Text(profileStore.user.description)
                             .font(.body)
                             .multilineTextAlignment(.center)
                             .lineLimit(3) // Limit to 3 lines
@@ -81,8 +82,8 @@ struct ProfileView: View {
                         // Edit Profile Navigation
                         NavigationLink(destination: EditProfilePage(
                             profileImage: .constant(profileStore.decodedImage),
-                            name: .constant(profile.name),
-                            description: .constant(profile.description)
+                            name: .constant(profileStore.user.name),
+                            description: .constant(profileStore.user.description)
                         )) {
                             Text("Edit Profile")
                                 .foregroundColor(.white)
@@ -99,12 +100,13 @@ struct ProfileView: View {
                                 .font(.headline)
                                 .padding(.bottom, 5)
                             
-                            if profileStore.linkedGarments.isEmpty {
+                            
+                            if profileStore.user.linkedGarments.isEmpty {
                                 Text("No clothing linked yet.")
                                     .font(.caption)
                                     .foregroundColor(.gray)
                             } else {
-                                ForEach(profileStore.linkedGarments) { clothing in
+                                ForEach(profileStore.user.linkedGarments) { clothing in
                                     HStack {
                                         Text(clothing.name)
                                             .font(.body)
@@ -141,9 +143,11 @@ struct ProfileView: View {
             LinkClothingView().environmentObject(profileStore)
         }
         .onAppear {
-            if profileStore.user == nil {
+
+            if !profileStore.isLoaded {
                 print("Load new data")
                 loadProfileData()
+                self.isLoading = false
             }
         }
     }
@@ -152,7 +156,7 @@ struct ProfileView: View {
     private func loadProfileData() {
         Task {
             do {
-                profileStore.fetchUserData()
+                profileStore.fetchUserData(fromSource: appStateStore.state)
             }
         }
     }
