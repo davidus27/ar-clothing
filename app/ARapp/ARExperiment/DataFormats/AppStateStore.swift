@@ -20,8 +20,8 @@ struct AppState {
         value: 0,
         externalSource: "http://localhost:8000",
         appStatus: "Initializing...",
-        userId: "6755c9940385d641f334638f",
-        authToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzU1Yzk5NDAzODVkNjQxZjMzNDYzOGYiLCJpYXQiOjE3MzM2NzU0MTJ9.az7hekF17QU89OTMtDYHs1N-RuIUBOOXzE_2_v6RJgM"
+        userId: "67582f2fbdad884371e8fdc1",
+        authToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzU4MmYyZmJkYWQ4ODQzNzFlOGZkYzEiLCJpYXQiOjE3MzM4MzI0OTV9.3zV4UplyaeiwPGoG9AXeW2sX3jnqs7SY4iXT_mf5XBI"
     )
 }
 
@@ -37,6 +37,10 @@ class AppStateStore: ObservableObject {
     // Example function for fetching user data from a REST API
     func fetchAppState() {
         
+    }
+    
+    var userAddress: String {
+        return "\(state.externalSource)/users/\(state.userId)"
     }
 
 }

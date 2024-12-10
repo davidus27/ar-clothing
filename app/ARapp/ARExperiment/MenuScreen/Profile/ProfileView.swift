@@ -8,18 +8,13 @@
 import SwiftUI
 
 struct ProfileView: View {
-//    @State private var profileData: ProfileData? = nil // Holds the profile data after loading
     @EnvironmentObject var profileStore: UserDataStore
-//    @State private var isLoading: Bool = true         // Tracks the loading state
-    
-    @State var isLoading: Bool = true
-    
-    @State private var isEditProfilePresented: Bool = false
-//    @State private var linkedClothing: [LinkedGarmentData] = [] // Holds linked garments
-    @State private var isLinkClothingPresented: Bool = false // Toggles the QR code scanning page
-
     @EnvironmentObject var appStateStore: AppStateStore
     
+    @State private var isLoading: Bool = true
+    @State private var isEditProfilePresented: Bool = false
+    @State private var isLinkClothingPresented: Bool = false // Toggles the QR code scanning page
+
     var body: some View {
         VStack(spacing: 0) {
             // Fixed Header
@@ -101,12 +96,12 @@ struct ProfileView: View {
                                 .padding(.bottom, 5)
                             
                             
-                            if profileStore.user.linkedGarments.isEmpty {
+                            if profileStore.user.garments.isEmpty {
                                 Text("No clothing linked yet.")
                                     .font(.caption)
                                     .foregroundColor(.gray)
                             } else {
-                                ForEach(profileStore.user.linkedGarments) { clothing in
+                                ForEach(profileStore.user.garments) { clothing in
                                     HStack {
                                         Text(clothing.name)
                                             .font(.body)
@@ -143,11 +138,8 @@ struct ProfileView: View {
             LinkClothingView().environmentObject(profileStore)
         }
         .onAppear {
-
-            if !profileStore.isLoaded {
-                print("Load new data")
+            if !profileStore.isLoaded && !profileStore.didFail {
                 loadProfileData()
-                self.isLoading = false
             }
         }
     }
@@ -156,7 +148,8 @@ struct ProfileView: View {
     private func loadProfileData() {
         Task {
             do {
-                profileStore.fetchUserData(fromSource: appStateStore.state)
+                profileStore.fetchUserData(urlAddress: appStateStore.userAddress)
+                isLoading = false
             }
         }
     }

@@ -13,15 +13,21 @@ struct LinkedGarmentData: Codable, Identifiable {
     var name: String
     var uid: String // Encoded UID of the clothing
 }
+
+struct Link: Codable {
+    var rel: String
+    var href: String
+}
         
 // UserData structure conforms to Codable and ObservableObject
 struct UserData: Identifiable, Codable {
     var id: String
-    var imageBase64: String? // URL or path to the image
+    var imageBase64: String?
     var name: String
     var description: String
     var joinedDate: String
-    var linkedGarments: [LinkedGarmentData]
+    var garments: [LinkedGarmentData]
+    var links: [Link]
     
     static let mockupUser = UserData(
         id: "0",
@@ -29,7 +35,8 @@ struct UserData: Identifiable, Codable {
         name: "Loading...",
         description: "Fetching your profile details...",
         joinedDate: "",
-        linkedGarments: []
+        garments: [],
+        links: []
     )
 }
 
@@ -41,42 +48,58 @@ class UserDataStore: ObservableObject {
     init() {
         user = UserData.mockupUser
         isMockup = true
-        isLoaded = true
     }
     
     public var didFail: Bool = false
     public var decodedImage: Image = Image(systemName: "exclamationmark.icloud.fill")
     
     // Example function for fetching user data from a REST API
-    func fetchUserData(fromSource state: AppState) {
-        let userAddress = state.externalSource + "/users/" + state.userId
-        
-        guard let url = URL(string: userAddress) else { return }
+    func fetchUserData(urlAddress: String) {
+        print("Starting to fetch user data")
+        guard let url = URL(string: urlAddress) else {
+            print("Invalid URL: \(urlAddress)")
+            didFail = true
+            return
+        }
 
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-            
-            // if error occurs store it in error
-            if error != nil {
-                self?.didFail = true
+            if let error = error {
+                DispatchQueue.main.async {
+                    print("Error fetching data: \(error.localizedDescription)")
+                    self?.didFail = true
+                }
+                return
             }
             
-            guard let data = data, error == nil else { return }
-            
-            print("data: \(data)")
-            
-            // Decode JSON into UserData
-            let decoder = JSONDecoder()
-            if let userData = try? decoder.decode(UserData.self, from: data) {
+            guard let data = data else {
                 DispatchQueue.main.async {
-                    self?.user = userData
+                    print("No data received.")
+                    self?.didFail = true
+                }
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                let fetchedUser = try decoder.decode(UserData.self, from: data)
+                DispatchQueue.main.async {
+                    self?.user = fetchedUser
+                    
+                    // TODO: this inline handling should be done properly
+                    self?.decodedImage = (fetchedUser.imageBase64 != nil) ? getImage(base64String: fetchedUser.imageBase64 ?? "") : Image(systemName: "person.crop.circle.fill")
+                                        
+                    self?.isLoaded = true
+                    print("User data successfully loaded")
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    print("Decoding error: \(error.localizedDescription)")
+                    self?.didFail = true
                 }
             }
         }.resume()
-        
-        decodedImage = getImage(base64String: user.imageBase64 ?? getBase64ImageValue(image: UIImage(systemName: "person.crop.circle.fill")!))
-        
-        isLoaded = true
     }
+
     
     func fetchMockupData() {
         user = UserData(
@@ -85,31 +108,35 @@ class UserDataStore: ObservableObject {
             name: "John Doe",
             description: "Creative designer with a passion for art and AR.",
             joinedDate: "01/01/24",
-            linkedGarments: [
+            garments: [
                 LinkedGarmentData(id: "1", name: "T-Shirt", uid: "je:asdiuasibd"),
                 LinkedGarmentData(id: "2", name: "Jeans", uid: "je:daiosubdob"),
                 LinkedGarmentData(id: "3", name: "Jacket", uid: "pe:jabsbdiasbd")
-            ]
+            ],
+            links: []
         )
         
         decodedImage = getImage(base64String: user.imageBase64!)
     }
-    
-    func getImage(base64String: String) -> Image {
-        // Decode the Base64 string into Data
-        guard let imageData = Data(base64Encoded: base64String) else {
-            fatalError("Failed to decode Base64 string")
-            
-        }
-        
-        // Create a UIImage from the data
-        guard let uiImage = UIImage(data: imageData) else {
-            fatalError("Failed to create UIImage from data")
-        }
-        
-        // Convert UIImage to SwiftUI Image
-        let image = Image(uiImage: uiImage)
-        return image
-    }
+}
 
+func getImage(base64String: String) -> Image {
+    if base64String.isEmpty {
+        return Image(systemName: "exclamationmark.triangle")
+    }
+    
+    // Decode the Base64 string into Data
+    guard let imageData = Data(base64Encoded: base64String) else {
+        print("Wrong base64 string")
+        return Image(systemName: "exclamationmark.triangle")
+    }
+    
+    // Create a UIImage from the data
+    guard let uiImage = UIImage(data: imageData) else {
+        fatalError("Failed to create UIImage from data")
+    }
+    
+    // Convert UIImage to SwiftUI Image
+    let image = Image(uiImage: uiImage)
+    return image
 }

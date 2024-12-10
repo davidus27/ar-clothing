@@ -33,9 +33,6 @@ struct ContentView: View {
                 .task {
                     appStateStore.state.appStatus = "Ready to explore"
                     showSheet = true
-                    
-                    // set the external IP address to the backend
-                    appStateStore.state.externalSource = "http://192.168.1.23:8000"
                 }
                 .sheet(isPresented: $showSheet) {
                     SheetContentView(activeTab: $activeTab)
