@@ -15,8 +15,9 @@ async def create_animation(
     is_public: Annotated[bool, Form()],
     physical_width: Annotated[int, Form()],
     physical_height: Annotated[int, Form()],
-    thumbnail: Annotated[str, Form()],
+    # thumbnail: Annotated[str, Form()],
     request: Request,
+    thumbnail: UploadFile = File(...),
     file: UploadFile = File(...),
     user = Depends(get_current_user),
 ):
@@ -32,12 +33,14 @@ async def create_animation(
 
         # Save file
         file_id = await AnimationRepository.save_file_to_gridfs(file)
+        thumbnail_id = await AnimationRepository.save_file_to_gridfs(thumbnail)
 
         # Save animation metadata
         animation_data = animation.model_dump()
         animation_data["author_id"] = user["id"]
         animation_data["animationFileId"] = str(file_id)
-        animation_data["thumbnail"] = thumbnail
+        # animation_data["thumbnail"] = thumbnail
+        animation_data["thumbnailFileId"] = str(thumbnail_id)
 
         created_animation = AnimationRepository.create_animation(animation_data)
         
@@ -74,7 +77,7 @@ async def get_animation(animation_id: str, request: Request):
     ]
     return animation
 
-@router.get("/{animation_id}/file")
+@router.get("/{animation_id}/animation")
 async def get_animation_file(animation_id: str):
     animation = AnimationRepository.get_animation_by_id(animation_id)
     if not animation:
@@ -83,6 +86,34 @@ async def get_animation_file(animation_id: str):
     file_id = animation.get("animationFileId")
     if not file_id:
         raise HTTPException(status_code=404, detail="Animation file not found")
+    
+    try:
+        # Retrieve the file from GridFS
+        grid_out = await AnimationRepository.get_animation_file(file_id)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Error retrieving the file")
+    
+    if not grid_out:
+        raise HTTPException(status_code=404, detail="File not found in storage")
+    
+    file_stream = BytesIO(grid_out.read())
+    return StreamingResponse(
+        file_stream,
+        media_type=grid_out.content_type or "application/octet-stream",
+        headers={
+            "Content-Disposition": f"attachment; filename={grid_out.filename}"
+        }
+    )
+
+@router.get("/{animation_id}/thumbnail")
+async def get_animation_thumbnail(animation_id: str):
+    animation = AnimationRepository.get_animation_by_id(animation_id)
+    if not animation:
+        raise HTTPException(status_code=404, detail="Animation not found")
+    
+    file_id = animation.get("thumbnailFileId")
+    if not file_id:
+        raise HTTPException(status_code=404, detail="Thumbnail not found")
     
     try:
         # Retrieve the file from GridFS
