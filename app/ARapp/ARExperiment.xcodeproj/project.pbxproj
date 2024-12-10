@@ -31,6 +31,10 @@
 		918788DE2CADBD1B00F67C6C /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918788DD2CADBD1B00F67C6C /* TabBarView.swift */; };
 		918A52142CAEB9BD008827C7 /* Cosmonaut_Suit.reality in Resources */ = {isa = PBXBuildFile; fileRef = 91E3FADD2CA6D09B005AA618 /* Cosmonaut_Suit.reality */; };
 		9191FEBE2CFF20BF002ED16D /* ProfileContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9191FEBD2CFF20BA002ED16D /* ProfileContent.swift */; };
+		9192A1D42D0870540036B2E0 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9192A1D32D0870510036B2E0 /* APIClient.swift */; };
+		9192A1D62D08725F0036B2E0 /* AnimationMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9192A1D52D0872530036B2E0 /* AnimationMedia.swift */; };
+		9192A1D92D0872C00036B2E0 /* Base64Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9192A1D82D0872BD0036B2E0 /* Base64Encoding.swift */; };
+		9192A1DB2D08794E0036B2E0 /* FilePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9192A1DA2D08794A0036B2E0 /* FilePicker.swift */; };
 		91A212E72CBF19BA0062119D /* clothSegmentation.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 91A212E62CBF19BA0062119D /* clothSegmentation.mlmodel */; };
 		91A22DB72CE3DF740029AE2E /* AnimationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A22DB62CE3DF740029AE2E /* AnimationHandler.swift */; };
 		91A22DB92CE3DF8F0029AE2E /* CommunicationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A22DB82CE3DF8F0029AE2E /* CommunicationHandler.swift */; };
@@ -106,6 +110,10 @@
 		918788DB2CADAE5400F67C6C /* SheetContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetContentView.swift; sourceTree = "<group>"; };
 		918788DD2CADBD1B00F67C6C /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		9191FEBD2CFF20BA002ED16D /* ProfileContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileContent.swift; sourceTree = "<group>"; };
+		9192A1D32D0870510036B2E0 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		9192A1D52D0872530036B2E0 /* AnimationMedia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationMedia.swift; sourceTree = "<group>"; };
+		9192A1D82D0872BD0036B2E0 /* Base64Encoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base64Encoding.swift; sourceTree = "<group>"; };
+		9192A1DA2D08794A0036B2E0 /* FilePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePicker.swift; sourceTree = "<group>"; };
 		91A212E62CBF19BA0062119D /* clothSegmentation.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = clothSegmentation.mlmodel; path = ../../../models/clothSegmentation.mlmodel; sourceTree = "<group>"; };
 		91A22DB62CE3DF740029AE2E /* AnimationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationHandler.swift; sourceTree = "<group>"; };
 		91A22DB82CE3DF8F0029AE2E /* CommunicationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationHandler.swift; sourceTree = "<group>"; };
@@ -186,6 +194,7 @@
 		911EC42C2C9606BB009EDF2B /* ARExperiment */ = {
 			isa = PBXGroup;
 			children = (
+				9192A1D72D0872910036B2E0 /* Utils */,
 				91A7E3CC2CEE02CC00EDD1C8 /* DataFormats */,
 				916785AE2CE23A3100CA85E3 /* MLModels */,
 				915EE42E2CAEC7AA0083340D /* Markers.xcassets */,
@@ -197,7 +206,6 @@
 				918788D32CAD9EA100F67C6C /* AR assets */,
 				91E3FAB82CA6ACC1005AA618 /* MainMenuHelpers */,
 				91EB60402CA61092004D4770 /* MenuScreen */,
-				913AB6D52D0769850024DB30 /* ConnectionStatusPopup.swift */,
 				911EC42D2C9606BB009EDF2B /* AppDelegate.swift */,
 				911EC42F2C9606BB009EDF2B /* ContentView.swift */,
 				913355CA2CCB898D00462BAF /* Videos */,
@@ -267,6 +275,16 @@
 				912B2F9F2CD00C2A001437F9 /* pinguin.usdz */,
 			);
 			path = "AR assets";
+			sourceTree = "<group>";
+		};
+		9192A1D72D0872910036B2E0 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				9192A1D82D0872BD0036B2E0 /* Base64Encoding.swift */,
+				9192A1D52D0872530036B2E0 /* AnimationMedia.swift */,
+				9192A1D32D0870510036B2E0 /* APIClient.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		91A35F2F2CE2AF37007D92DE /* Services */ = {
@@ -375,6 +393,7 @@
 		91E21EF82CEE4C0C00E8ACA4 /* HelpUtils */ = {
 			isa = PBXGroup;
 			children = (
+				9192A1DA2D08794A0036B2E0 /* FilePicker.swift */,
 				91CB4A8F2CFB8B9800E2A844 /* ImageAnalysis.swift */,
 				91E21EFA2CEE4EB000E8ACA4 /* ListItems */,
 				91E21EF92CEE4EA400E8ACA4 /* TabViews */,
@@ -406,6 +425,7 @@
 				918788DB2CADAE5400F67C6C /* SheetContentView.swift */,
 				918788DD2CADBD1B00F67C6C /* TabBarView.swift */,
 				913039092CA635AE00835C35 /* BottomSheetHelper.swift */,
+				913AB6D52D0769850024DB30 /* ConnectionStatusPopup.swift */,
 			);
 			path = MainMenuHelpers;
 			sourceTree = "<group>";
@@ -564,6 +584,7 @@
 				91F796FA2CE2B3E0000822CE /* ARInitializationService.swift in Sources */,
 				91CB1C992CF60C1E00FCE1DA /* HelpMenuButton.swift in Sources */,
 				91E21EF12CEE3C1300E8ACA4 /* TabSelectionView.swift in Sources */,
+				9192A1D92D0872C00036B2E0 /* Base64Encoding.swift in Sources */,
 				91CB1C972CF60B9200FCE1DA /* MainARView.swift in Sources */,
 				9130390A2CA635AE00835C35 /* BottomSheetHelper.swift in Sources */,
 				91EB60422CA610A9004D4770 /* SettingsView.swift in Sources */,
@@ -580,6 +601,7 @@
 				91CB4A902CFB8B9B00E2A844 /* ImageAnalysis.swift in Sources */,
 				911EC4302C9606BB009EDF2B /* ContentView.swift in Sources */,
 				91CD407D2CFB279200DDDE58 /* LinkClothingView.swift in Sources */,
+				9192A1D62D08725F0036B2E0 /* AnimationMedia.swift in Sources */,
 				916785A52CE12D1600CA85E3 /* TakingImagesScreen.swift in Sources */,
 				91CB1C9B2CF610CD00FCE1DA /* StatusView.swift in Sources */,
 				91CB1C9E2CF6138B00FCE1DA /* AppGuideView.swift in Sources */,
@@ -588,6 +610,7 @@
 				91CD40812CFB2A3F00DDDE58 /* QRCodeScannerViewMockup.swift in Sources */,
 				91EB60452CA610C3004D4770 /* ProfileView.swift in Sources */,
 				91D3092C2CF8BA17007D87EC /* AnimationImagesPreview.swift in Sources */,
+				9192A1D42D0870540036B2E0 /* APIClient.swift in Sources */,
 				91E21EFC2CEE4EC300E8ACA4 /* AnimationListItem.swift in Sources */,
 				91A7E3C12CEDF55400EDD1C8 /* TestController.swift in Sources */,
 				91E3FAB22CA6A4C0005AA618 /* ExploreView.swift in Sources */,
@@ -595,6 +618,7 @@
 				91CD407F2CFB281600DDDE58 /* QRCodeScannerView.swift in Sources */,
 				913AB6D62D0769940024DB30 /* ConnectionStatusPopup.swift in Sources */,
 				91A22DB92CE3DF8F0029AE2E /* CommunicationHandler.swift in Sources */,
+				9192A1DB2D08794E0036B2E0 /* FilePicker.swift in Sources */,
 				91A212E72CBF19BA0062119D /* clothSegmentation.mlmodel in Sources */,
 				91A7E3CE2CEE02E100EDD1C8 /* ExplorePageData.swift in Sources */,
 				913039082CA630CA00835C35 /* TabOption.swift in Sources */,
