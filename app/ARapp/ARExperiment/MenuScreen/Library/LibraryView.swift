@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct LibraryView: View {
+    @Binding var activeTab: TabOption
     @State var effectTabs: [String] = ["Global effects", "Image anchor", "Interactive"]
     @State private var selectedEffect = 0
 
@@ -44,6 +45,7 @@ struct LibraryView: View {
                         .padding(.horizontal)
                     
                     AnimationListItem(onButtonCreatePressed: {
+                        activeTab = .create
                         print("Button create pressed")
                     })
                     Spacer()
