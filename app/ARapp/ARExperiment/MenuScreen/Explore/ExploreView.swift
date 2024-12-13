@@ -33,10 +33,12 @@ struct ExploreView: View {
                                     FeaturedArtistCard(animation: animation)
                                 }
                                 .foregroundStyle(.black)
+                                .background(Color.clear)
                             }
                         }
                         .padding(.horizontal)
                     }
+                    .background(Color.clear)
                     
                     Text("Recently Added")
                         .font(.title2)
@@ -69,16 +71,18 @@ struct ExploreView: View {
                                 AnimationGridItem(animation: animation)
                             }
                             .foregroundStyle(.black)
+                            .background(Color.clear)
                         }
                     }
                     .padding(.horizontal)
                 }
-            }
+            }.background(Color.clear)
             .navigationTitle("Explore")
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 exploreData.fetch()
             }
+            .background(Color.clear)
         }
     }
 }
@@ -121,6 +125,7 @@ struct ArtistProfileView: View {
         }
         .padding()
         .navigationTitle(animation.author_name)
+        .background(Color.clear)
     }
 }
 

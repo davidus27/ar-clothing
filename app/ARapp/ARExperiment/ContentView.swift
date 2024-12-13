@@ -13,7 +13,7 @@ struct ContentView: View {
     @StateObject var profileStore = UserDataStore()
     @StateObject var appStateStore = AppStateStore()
     @State private var showSheet: Bool = false
-    @State private var activeTab: TabOption = .create // default selected view at the start
+    @State private var activeTab: TabOption = .library // default selected view at the start
     @State private var sheetHeight = 0.0
     @State private var isGuideShown: Bool = false // this will normally be set to true
 //    @State private var appStatus: String = "Initializing..."

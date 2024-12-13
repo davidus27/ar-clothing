@@ -14,7 +14,7 @@ struct SheetContentView: View {
         VStack(alignment: .leading, spacing: 10, content: {
             switch activeTab {
             case .library:
-                LibraryView(activeTab: $activeTab)
+                LibraryView()
             case .explore:
                 ExploreView()
             case .settings:

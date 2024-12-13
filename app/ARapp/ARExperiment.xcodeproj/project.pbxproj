@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		910A5A432CF0D0CF004BB9C4 /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910A5A422CF0D0CB004BB9C4 /* EditProfileView.swift */; };
+		9112F63F2D0B64C9003F97AE /* CustomGarmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9112F63E2D0B64C2003F97AE /* CustomGarmentView.swift */; };
+		9112F6412D0B6599003F97AE /* GarmentAnimationLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9112F6402D0B6598003F97AE /* GarmentAnimationLinkView.swift */; };
 		91183B872CD933FF0024924E /* AR assets.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 91183B862CD933FF0024924E /* AR assets.scnassets */; };
 		911B49692CE0153F00D6CB08 /* loading_circle.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 911B49682CE0153F00D6CB08 /* loading_circle.mp4 */; };
 		911EC42E2C9606BB009EDF2B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911EC42D2C9606BB009EDF2B /* AppDelegate.swift */; };
@@ -85,6 +87,8 @@
 
 /* Begin PBXFileReference section */
 		910A5A422CF0D0CB004BB9C4 /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
+		9112F63E2D0B64C2003F97AE /* CustomGarmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomGarmentView.swift; sourceTree = "<group>"; };
+		9112F6402D0B6598003F97AE /* GarmentAnimationLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GarmentAnimationLinkView.swift; sourceTree = "<group>"; };
 		91183B862CD933FF0024924E /* AR assets.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = "AR assets.scnassets"; sourceTree = "<group>"; };
 		911B49682CE0153F00D6CB08 /* loading_circle.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = loading_circle.mp4; sourceTree = "<group>"; };
 		911EC42A2C9606BB009EDF2B /* ARExperiment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARExperiment.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -357,6 +361,8 @@
 		91E21EF32CEE4B9100E8ACA4 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				9112F6402D0B6598003F97AE /* GarmentAnimationLinkView.swift */,
+				9112F63E2D0B64C2003F97AE /* CustomGarmentView.swift */,
 				91EB60462CA610D1004D4770 /* LibraryView.swift */,
 			);
 			path = Library;
@@ -587,6 +593,7 @@
 				9192A1D92D0872C00036B2E0 /* Base64Encoding.swift in Sources */,
 				91CB1C972CF60B9200FCE1DA /* MainARView.swift in Sources */,
 				9130390A2CA635AE00835C35 /* BottomSheetHelper.swift in Sources */,
+				9112F63F2D0B64C9003F97AE /* CustomGarmentView.swift in Sources */,
 				91EB60422CA610A9004D4770 /* SettingsView.swift in Sources */,
 				91CB4A922CFB9D6000E2A844 /* UserDataStore.swift in Sources */,
 				91E21EFE2CEE528F00E8ACA4 /* ExploreArtist.swift in Sources */,
@@ -595,6 +602,7 @@
 				91A35F2E2CE2ADBD007D92DE /* ControllerResponsibilities.swift in Sources */,
 				918788DE2CADBD1B00F67C6C /* TabBarView.swift in Sources */,
 				91F796FC2CE2B5F5000822CE /* AnimationHandlerService.swift in Sources */,
+				9112F6412D0B6599003F97AE /* GarmentAnimationLinkView.swift in Sources */,
 				9191FEBE2CFF20BF002ED16D /* ProfileContent.swift in Sources */,
 				91A7E3CA2CEDFFBD00EDD1C8 /* CreateView.swift in Sources */,
 				910A5A432CF0D0CF004BB9C4 /* EditProfileView.swift in Sources */,
