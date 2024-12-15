@@ -4,23 +4,28 @@ import base64
 
 def get_file_base64():
     with open("/Users/daviddrobny/Downloads/giraffe.gif", "rb") as file:
-        return base64.b64encode(file.read())
+        value = base64.b64encode(file.read())
+        print(value)
+        return value
+
+token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzVlZmVlZjkxYThkYjM2N2VhYjhiMzciLCJpYXQiOjE3MzQyNzg4OTV9._8XbFmoMUiEVebnqzOMJJXMHp7TROHcAa0vw17ZjPnE"
 
 def send_data():
     url = "http://127.0.0.1:8000/animations"
     animation_data = {
-        "animation_name": "Sample Animation",
-        "animation_description": "This is a sample animation.",
+        "animation_name": "The ultimate burger",
+        "animation_description": "This is a my burger animation.",
         "is_public": True,
         "physical_width": 10,
         "physical_height": 10,
-        "thumbnail": get_file_base64(),
+        # "thumbnail": get_file_base64(),
     }
     files = {
-        "file": open("/Users/daviddrobny/Downloads/giraffe.gif", "rb"),
+        "thumbnail": open("/Users/daviddrobny/Downloads/burger.jpg", "rb"),
+        "file": open("/Users/daviddrobny/Downloads/burger.jpg", "rb"),
     }
     headers = {
-        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzU1Yzk5NDAzODVkNjQxZjMzNDYzOGYiLCJpYXQiOjE3MzM2NzU0MTJ9.az7hekF17QU89OTMtDYHs1N-RuIUBOOXzE_2_v6RJgM"
+        "Authorization": f"Bearer {token}"
     }
 
     response = requests.post(url, data=animation_data, files=files, headers=headers)
