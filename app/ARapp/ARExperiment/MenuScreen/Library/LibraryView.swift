@@ -142,10 +142,8 @@ struct AnimationCard: View {
 
     var body: some View {
         VStack {
-            if let animation = animation,
-               let thumbnailData = Data(base64Encoded: animation.thumbnail_id),
-               let uiImage = UIImage(data: thumbnailData) {
-                Image(uiImage: uiImage)
+            if let animation = animation {
+                animation.thumbnail
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 100, height: 100)
@@ -183,11 +181,8 @@ class LibraryPageData: ObservableObject {
         // Fetch mock data
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.purchasedAnimations = [
-                AnimationModel(animation_name: "Animation 1", animation_id: "1", thumbnail_id: "", author_name: "Alice", author_profile_image: "", description: "Beautiful animation", created_at: "2024-12-10", physical_width: 10, physical_height: 10),
-                AnimationModel(animation_name: "Animation 2", animation_id: "2", thumbnail_id: "", author_name: "Bob", author_profile_image: "", description: "Mesmerizing design", created_at: "2024-12-11", physical_width: 10, physical_height: 10),
-                AnimationModel(animation_name: "Animation 1", animation_id: "1", thumbnail_id: "", author_name: "Alice", author_profile_image: "", description: "Beautiful animation", created_at: "2024-12-10", physical_width: 10, physical_height: 10),
-                AnimationModel(animation_name: "Animation 1", animation_id: "1", thumbnail_id: "", author_name: "Alice", author_profile_image: "", description: "Beautiful animation", created_at: "2024-12-10", physical_width: 10, physical_height: 10),
-                AnimationModel(animation_name: "Animation 1", animation_id: "1", thumbnail_id: "", author_name: "Alice", author_profile_image: "", description: "Beautiful animation", created_at: "2024-12-10", physical_width: 10, physical_height: 10),
+                AnimationModel(animation_name: "Animation 1", animation_id: "1", author_id: "1", author_name: "Alice", description: "Beautiful animation", created_at: "2024-12-10", physical_width: 10, physical_height: 10, thumbnail: Image(systemName: "star.fill"), author_profile_image: Image(systemName: "star.fill")),
+                AnimationModel(animation_name: "Animation 2", animation_id: "2", author_id: "2", author_name: "Bob", description: "Beautiful animation", created_at: "2024-12-10", physical_width: 10, physical_height: 10, thumbnail: Image(systemName: "star.fill"), author_profile_image: Image(systemName: "star.fill")),
             ]
 
             self.garments = [

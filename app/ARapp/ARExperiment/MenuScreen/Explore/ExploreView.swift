@@ -28,13 +28,21 @@ struct ExploreView: View {
                     
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 16) {
-                            ForEach(exploreData.animations.prefix(5), id: \ .id) { animation in
+                            let uniqueAnimations = Array(
+                                Dictionary(grouping: exploreData.animations, by: \.author_id)
+                                    .compactMapValues { $0.first }
+                                    .values
+                                    .prefix(5)
+                            )
+                            
+                            ForEach(uniqueAnimations, id: \.id) { animation in
                                 NavigationLink(destination: ArtistProfileView(animation: animation)) {
                                     FeaturedArtistCard(animation: animation)
                                 }
                                 .foregroundStyle(.black)
                                 .background(Color.clear)
                             }
+
                         }
                         .padding(.horizontal)
                     }
@@ -47,7 +55,7 @@ struct ExploreView: View {
                     
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 16) {
-                            ForEach(exploreData.animations.sorted(by: { $0.created_at > $1.created_at }).prefix(5), id: \ .id) { animation in
+                            ForEach(exploreData.animations.sorted(by: { $0.created_at > $1.created_at }).prefix(3), id: \ .id) { animation in
                                 NavigationLink(destination: AnimationPreviewView(animation: animation)) {
                                     AnimationGridItem(animation: animation)
                                 }
@@ -80,7 +88,7 @@ struct ExploreView: View {
             .navigationTitle("Explore")
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
-                exploreData.fetch()
+                exploreData.fetchData()
             }
             .background(Color.clear)
         }
@@ -92,24 +100,11 @@ struct ArtistProfileView: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            if let profileImageData = Data(base64Encoded: animation.author_profile_image),
-               let uiImage = UIImage(data: profileImageData) {
-                Image(uiImage: uiImage)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 120, height: 120)
-                    .clipShape(Circle())
-            } else {
-                Circle()
-                    .fill(Color.gray.opacity(0.3))
-                    .frame(width: 120, height: 120)
-                    .overlay(
-                        Text(animation.author_name.prefix(1))
-                            .font(.largeTitle)
-                            .bold()
-                    )
-            }
-
+            animation.author_profile_image
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .clipShape(Circle())
+            
             Text(animation.author_name)
                 .font(.title)
                 .bold()
@@ -138,14 +133,12 @@ struct AnimationPreviewView: View {
                 Rectangle()
                     .fill(Color.gray.opacity(0.3))
                     .aspectRatio(1, contentMode: .fit)
-
-                if let thumbnailData = Data(base64Encoded: animation.thumbnail_id),
-                   let uiImage = UIImage(data: thumbnailData) {
-                    Image(uiImage: uiImage)
+                
+                animation.thumbnail
                         .resizable()
+//                        .frame(width: 400, height: 500)
                         .aspectRatio(contentMode: .fill)
                         .clipped()
-                }
             }
             .cornerRadius(8)
 
@@ -181,24 +174,11 @@ struct FeaturedArtistCard: View {
 
     var body: some View {
         VStack {
-            if let profileImageData = Data(base64Encoded: animation.author_profile_image),
-               let uiImage = UIImage(data: profileImageData) {
-                Image(uiImage: uiImage)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 100, height: 100)
-                    .clipShape(Circle())
-            } else {
-                Circle()
-                    .fill(Color.gray.opacity(0.3))
-                    .frame(width: 100, height: 100)
-                    .overlay(
-                        Text(animation.author_name.prefix(1))
-                            .font(.largeTitle)
-                            .bold()
-                            .foregroundColor(.white)
-                    )
-            }
+            animation.author_profile_image
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 100, height: 100)
+                .clipShape(Circle())
 
             Text(animation.author_name)
                 .font(.headline)
@@ -223,13 +203,12 @@ struct AnimationGridItem: View {
                     .fill(Color.gray.opacity(0.3))
                     .aspectRatio(1, contentMode: .fit)
 
-                if let thumbnailData = Data(base64Encoded: animation.thumbnail_id),
-                   let uiImage = UIImage(data: thumbnailData) {
-                    Image(uiImage: uiImage)
+                    
+                    animation.thumbnail
                         .resizable()
+                        .frame(width: 150, height: 150)
                         .aspectRatio(contentMode: .fill)
                         .clipped()
-                }
             }
             .cornerRadius(8)
 
@@ -250,31 +229,135 @@ struct AnimationGridItem: View {
 class ExplorePageData: ObservableObject {
     @Published var animations: [AnimationModel] = []
 
-    func fetch() {
-        // Simulate fetch here. In real code, this would perform a network request.
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.animations = [
-                AnimationModel(animation_name: "Animation 1", animation_id: "1", thumbnail_id: "", author_name: "Alice", author_profile_image: "", description: "Beautiful animation", created_at: "2024-12-10", physical_width: 10, physical_height: 10),
-                AnimationModel(animation_name:"Animation 2", animation_id: "2", thumbnail_id: "", author_name: "Bob", author_profile_image: "", description: "Mesmerizing design", created_at: "2024-12-11", physical_width: 10, physical_height: 10),
-                AnimationModel(animation_name:"Animation 2", animation_id: "3", thumbnail_id: "", author_name: "Bob", author_profile_image: "", description: "Mesmerizing design", created_at: "2024-12-11", physical_width: 10, physical_height: 10),
-                AnimationModel(animation_name:"Animation 2", animation_id: "4", thumbnail_id: "", author_name: "Bob", author_profile_image: "", description: "Mesmerizing design", created_at: "2024-12-11", physical_width: 10, physical_height: 10),
-                AnimationModel(animation_name:"Animation 2", animation_id: "5", thumbnail_id: "", author_name: "Bob", author_profile_image: "", description: "Mesmerizing design", created_at: "2024-12-11", physical_width: 10, physical_height: 10),
-            ]
-        }
-    }
+    func fetchData() {
+          guard let url = URL(string: "http://localhost:8000/explore/animations") else {
+              print("Invalid URL")
+              return
+          }
+
+          URLSession.shared.dataTask(with: url) { data, response, error in
+              if let error = error {
+                  print("Error fetching animations: \(error.localizedDescription)")
+                  return
+              }
+
+              guard let data = data else {
+                  print("No data received")
+                  return
+              }
+
+              do {
+                  let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                  
+                  if let animationsArray = json?["animations"] as? [[String: Any]] {
+                      DispatchQueue.main.async {
+                          self.processAnimations(animationsArray)
+                      }
+                  }
+              } catch {
+                  print("Error parsing JSON: \(error.localizedDescription)")
+              }
+          }.resume()
+      }
+
+      private func processAnimations(_ animationsArray: [[String: Any]]) {
+          var fetchedAnimations: [AnimationModel] = []
+
+          let group = DispatchGroup()
+          for animationData in animationsArray {
+              guard
+                  let animation_id = animationData["animation_id"] as? String,
+                  let animation_name = animationData["animation_name"] as? String,
+                  let author_name = animationData["author_name"] as? String,
+                  let base64ProfileImage = animationData["author_profile_image"] as? String,
+                  let author_id = animationData["author_id"] as? String,
+                  let description = animationData["description"] as? String,
+                  let created_at = animationData["created_at"] as? String,
+                  let physical_width = animationData["physical_width"] as? Int,
+                  let physical_height = animationData["physical_height"] as? Int
+              else {
+                  print("Did not parse animation data correctly")
+                  continue
+              }
+
+              group.enter()
+
+              let authorProfileImage = getImage(base64String: base64ProfileImage)
+
+              fetchThumbnail(animation_id: animation_id) { thumbnailImage in
+                  if let thumbnailImage = thumbnailImage {
+                      let extendedAuthorModel = AnimationModel(
+                          animation_name: animation_name,
+                          animation_id: animation_id,
+                          author_id: author_id,
+                          author_name: author_name,
+                          description: description,
+                          created_at: created_at,
+                          physical_width: physical_width,
+                          physical_height: physical_height,
+                          thumbnail: thumbnailImage,
+                          author_profile_image: authorProfileImage
+                      )
+                      fetchedAnimations.append(extendedAuthorModel)
+                  }
+                  group.leave()
+              }
+          }
+          
+          print("Fetched animations: \(fetchedAnimations)")
+
+          group.notify(queue: .main) {
+              self.animations = fetchedAnimations
+          }
+      }
+
+      private func fetchThumbnail(animation_id: String, completion: @escaping (Image?) -> Void) {
+          guard let url = URL(string: "http://192.168.1.23:8000/animations/\(animation_id)/thumbnail") else {
+              print("Invalid thumbnail URL")
+              completion(nil)
+              return
+          }
+
+          URLSession.shared.dataTask(with: url) { data, response, error in
+              if let error = error {
+                  print("Error fetching thumbnail: \(error.localizedDescription)")
+                  completion(nil)
+                  return
+              }
+
+              guard let data = data, let uiImage = UIImage(data: data) else {
+                  print("Invalid thumbnail data")
+                  completion(nil)
+                  return
+              }
+
+              let image = Image(uiImage: uiImage)
+              completion(image)
+          }.resume()
+      }
+
+      private func getImage(base64String: String) -> Image {
+          guard let data = Data(base64Encoded: base64String), let uiImage = UIImage(data: data) else {
+              return Image(systemName: "person.circle") // Default image in case of error
+          }
+          return Image(uiImage: uiImage)
+      }
 }
 
 struct AnimationModel: Identifiable {
     var id: String { animation_id }
     let animation_name: String
     let animation_id: String
-    let thumbnail_id: String
+    let author_id: String
     let author_name: String
-    let author_profile_image: String
     let description: String
     let created_at: String
     let physical_width: Int
     let physical_height: Int
+    
+    // images
+    let thumbnail: Image
+    let author_profile_image: Image
 }
 
 #Preview {

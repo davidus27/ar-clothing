@@ -20,3 +20,24 @@ func getBase64ImageValue(image: UIImage) -> String {
     let base64String = pngData.base64EncodedString()
     return base64String
 }
+
+func getImage(base64String: String) -> Image {
+    if base64String.isEmpty {
+        return Image(systemName: "exclamationmark.triangle")
+    }
+    
+    // Decode the Base64 string into Data
+    guard let imageData = Data(base64Encoded: base64String) else {
+        print("Wrong base64 string")
+        return Image(systemName: "exclamationmark.triangle")
+    }
+    
+    // Create a UIImage from the data
+    guard let uiImage = UIImage(data: imageData) else {
+        fatalError("Failed to create UIImage from data")
+    }
+    
+    // Convert UIImage to SwiftUI Image
+    let image = Image(uiImage: uiImage)
+    return image
+}

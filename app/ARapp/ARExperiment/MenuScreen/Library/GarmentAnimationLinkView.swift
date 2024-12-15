@@ -49,19 +49,11 @@ struct GarmentAnimationLinkView: View {
                     onAnimationChange()
                 }) {
                     HStack {
-                        if let thumbnailData = Data(base64Encoded: animation.thumbnail_id),
-                           let uiImage = UIImage(data: thumbnailData) {
-                            Image(uiImage: uiImage)
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 50, height: 50)
-                                .clipShape(RoundedRectangle(cornerRadius: 8))
-                        } else {
-                            RoundedRectangle(cornerRadius: 8)
-                                .fill(Color.gray.opacity(0.3))
-                                .frame(width: 50, height: 50)
-                        }
-
+                        animation.thumbnail                               .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 50, height: 50)
+                            .clipShape(RoundedRectangle(cornerRadius: 8))
+                        
                         VStack(alignment: .leading) {
                             Text(animation.animation_name)
                                 .font(.headline)
