@@ -39,18 +39,9 @@ def save_to_git(filename, output_dir):
     dest_path = os.path.join(output_dir, filename)
     os.rename(filename, dest_path)
 
-    # Initialize Git repo if not already initialized
-    if not os.path.exists(os.path.join(output_dir, ".git")):
-        subprocess.run(["git", "init"], cwd=output_dir)
-
     # Add, commit, and manage history
-    subprocess.run(["git", "add", "."], cwd=output_dir)
+    subprocess.run(["git", "add", "-A"], cwd=output_dir)
     subprocess.run(["git", "commit", "-m", f"Thesis backup on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"], cwd=output_dir)
-
-    # Limit Git history to the last 10 commits
-    #subprocess.run(["git", "prune"], cwd=output_dir)
-    #subprocess.run(["git", "gc"], cwd=output_dir)
-    #subprocess.run(["git", "push"], cwd=output_dir)
 
 if __name__ == "__main__":
     try:
