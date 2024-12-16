@@ -39,7 +39,7 @@ struct GarmentSelectionView: View {
     }
 
     private var filteredGarments: [LinkedGarmentData] {
-        userDataStore.linkedGarments.filter { garment in
+        userDataStore.user.garments.filter { garment in
             garmentType(from: garment.uid) == selectedMode
         }
     }

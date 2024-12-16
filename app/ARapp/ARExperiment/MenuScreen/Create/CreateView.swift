@@ -6,311 +6,322 @@
 //
 import SwiftUI
 
-enum MediaType {
-    case image, video, unknown
+
+struct AnimationData {
+    var animationName: String = ""
+    var animationDescription: String = ""
+    var isPublic: Bool = true
+    var physicalWidth: String = ""
+    var physicalHeight: String = ""
 }
 
-struct SelectedMedia {
-    var data: Any
-    var type: MediaType
-}
 
 struct CreateView: View {
-    @State private var animationName: String = ""
-    @State private var animationDescription: String = ""
-    @State private var isPublic: Bool = false
-//    @State private var selectedImage: UIImage? = nil
-    @State private var selectedAnchor: UIImage? = nil // if custom clothing is selected
-    @State private var physicalWidth: String = ""
-    @State private var physicalHeight: String = ""
-    @State private var selectedMode: String = "Custom Clothing"
-    @State private var showImagePicker = false
+    // animation data
+//    @State private var animationName: String = ""
+//    @State private var animationDescription: String = ""
+//    @State private var isPublic: Bool = false
+//    @State private var physicalWidth: String = ""
+//    @State private var physicalHeight: String = ""
+    
+    @State private var animationData = AnimationData()
+    
     @State private var showLoadingIndicator = false
     @State private var uploadSuccess = false
     @State private var errorMessage = ""
-    @State private var showCreateAnchor = false
-    @State private var selectedGarment: LinkedGarmentData?
-    
-    @EnvironmentObject var userDataStore: UserDataStore
-    
-    @State private var selectedAnimation: SelectedMedia?
     @State private var validationMessage: String = ""
     @State private var isLoading: Bool = false
-    @State private var showFilePicker: Bool = false
     
+    // stores
+    @EnvironmentObject var userDataStore: UserDataStore
+    @EnvironmentObject var appStateStore: AppStateStore
+    
+    // Data pickers
+    @State private var selectedThumbnail: UIImage? = nil
+    @State private var showThumbnailPicker = false
+    
+    @State private var showFilePicker = false
+    @State private var selectedAnimation: UIImage? = nil // this should be Data? for generic data
+    // TEMP solution
+
     var body: some View {
         VStack(spacing: 20) {
-            // Fixed Header
-            VStack {
-                HStack(spacing: 5) {
-                    Text("Create your own designs")
-                        .font(.title2)
-                        .fontWeight(.semibold)
-
-                    Image(systemName: "plus.square.on.square")
-                        .font(.title2)
-                        .foregroundColor(.yellow)
-                        .onAppear {
-                            withAnimation(.easeInOut(duration: 1).repeatForever(autoreverses: true)) {
-                                // Custom bounce effect
-                            }
-                        }
-                }
-            }
-            
             // Dynamic Content
-            ScrollView {
-                // Animation Name Section
-                VStack(alignment: .leading) {
-                    Text("Animation Name")
-                        .font(.headline)
-                        .padding(.bottom, 5)
-                    TextField("Enter animation name", text: $animationName)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding(.bottom, 10)
-                    Text("Give your animation a name for identification.")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
-                        .padding(.bottom, 20)
-                }
-
-                // Animation Description Section
-                VStack(alignment: .leading) {
-                    Text("Description")
-                        .font(.headline)
-                        .padding(.bottom, 5)
-                    TextField("Enter description", text: $animationDescription)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding(.bottom, 10)
-                    Text("Provide a description of what the animation does or represents.")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
-                        .padding(.bottom, 20)
-                }
-
-                // Public/Private Setting Section
-                VStack {
-                    Text("Public or Private?")
-                        .font(.headline)
-                        .padding(.bottom, 5)
-                    Toggle(isOn: $isPublic) {
-                        Text(isPublic ? "Public" : "Private")
-                            .font(.body)
+            NavigationView {
+                ScrollView {
+                    // Animation Name Section
+                    VStack(alignment: .leading) {
+                        Text("Animation Name")
+                            .font(.headline)
+                            .padding(.bottom, 5)
+                        TextField("Enter animation name", text: $animationData.animationName)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding(.bottom, 10)
+                        Text("Give your animation a name for identification.")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                            .padding(.bottom, 20)
                     }
-                    .padding(.bottom, 10)
-                    Text("Choose whether this animation will be publicly available or kept private.")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
-                        .padding(.bottom, 20)
-                }
 
-                // File Upload Section (Image Picker)
-                VStack {
-                    Text("Upload Design")
-                        .font(.headline)
-                        .padding(.bottom, 5)
+                    // Animation Description Section
+                    VStack(alignment: .leading) {
+                        Text("Description")
+                            .font(.headline)
+                            .padding(.bottom, 5)
+                        TextField("Enter description", text: $animationData.animationDescription)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding(.bottom, 10)
+                        Text("Provide a description of what the animation does or represents.")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                            .padding(.bottom, 20)
+                    }
+
+                    // Public/Private Setting Section
+                    VStack {
+                        Text("Public or Private?")
+                            .font(.headline)
+                            .padding(.bottom, 5)
+                        Toggle(isOn: $animationData.isPublic) {
+                            Text(animationData.isPublic ? "Public" : "Private")
+                                .font(.body)
+                        }
+                        .padding(.bottom, 10)
+                        Text("Choose whether this animation will be publicly available or kept private.")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                            .padding(.bottom, 20)
+                    }
+
+                    // File Upload Section (Image Picker)
+                    VStack {
+                        Text("Upload Design")
+                            .font(.headline)
+                            .padding(.bottom, 5)
+                        Button(action: {
+                            showFilePicker = true
+                        }) {
+                            Text("Select Image (jpg, png, gif, mov, mp4)")
+                                .padding()
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                        }
+                        .padding(.bottom, 10)
+                        
+    //                    FilePicker(
+    //                        selectedFile: $selectedAnimation,
+    //                        isPresented: $showFilePicker
+    //                    )
+                        
+                        Text("Upload an image or video for your animation. Accepted formats: jpg, png, gif, mov, mp4.")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                            .padding(.bottom, 20)
+                    }
+                    
+                    // Thumbnail Section
+                    VStack {
+                        Text("Thumbnail")
+                            .font(.headline)
+                            .padding(.bottom, 5)
+                        Button(action: {
+                            showThumbnailPicker.toggle()
+                        }) {
+                            Text(selectedThumbnail == nil ? "Select Thumbnail" : "Change Thumbnail")
+                                .padding()
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                        }
+                        .padding(.bottom, 10)
+
+                        if let thumbnail = selectedThumbnail {
+                            Image(uiImage: thumbnail)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 150)
+                                .cornerRadius(10)
+                                .padding(.bottom, 10)
+                        }
+
+                        Text("Choose a thumbnail that represents your animation. This will appear on the Explore page.")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                            .padding(.bottom, 20)
+                    }
+
+
+                    // Physical Size Section
+                    VStack(alignment: .leading) {
+                        Text("Physical Size")
+                            .font(.headline)
+                            .padding(.bottom, 5)
+                        HStack {
+                            TextField("Width (cm)", text: $animationData.physicalWidth)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .keyboardType(.decimalPad)
+                                .frame(width: 150)
+                            TextField("Height (cm)", text: $animationData.physicalHeight)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .keyboardType(.decimalPad)
+                                .frame(width: 150)
+                        }
+                        .padding(.bottom, 10)
+                        Text("Specify the real-world width and height of your animation in centimeters.")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                            .padding(.bottom, 20)
+                    }
+                    
+                    // Loading Indicator
+                    if showLoadingIndicator {
+                        ProgressView("Submitting...").padding()
+                    }
+
+                    // Success/Failure Message
+                    if !errorMessage.isEmpty {
+                        Text(errorMessage)
+                            .foregroundColor(.red)
+                            .padding(.top)
+                    } else if uploadSuccess {
+                        Text("Design submitted successfully!")
+                            .foregroundColor(.green)
+                            .padding(.top)
+                    }
+                    
+                    if !validationMessage.isEmpty {
+                        Text(validationMessage)
+                            .font(.subheadline)
+                            .foregroundColor(.red)
+                            .padding(.top)
+                    }
+                    
+                    
+                    // Submit Button Section
                     Button(action: {
-                        showImagePicker.toggle()
+                        validateAndSubmit()
                     }) {
-                        Text("Select Image (jpg, png, gif, mov, mp4)")
+                        Text("Submit Design")
                             .padding()
-                            .background(Color.blue)
+                            .background(Color.green)
                             .foregroundColor(.white)
                             .cornerRadius(8)
                     }
-                    .padding(.bottom, 10)
-
-                    Text("Upload an image or video for your animation. Accepted formats: jpg, png, gif, mov, mp4.")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
-                        .padding(.bottom, 20)
+                    .padding(.top)
                 }
-
-                // Physical Size Section
-                VStack(alignment: .leading) {
-                    Text("Physical Size")
-                        .font(.headline)
-                        .padding(.bottom, 5)
-                    HStack {
-                        TextField("Width (cm)", text: $physicalWidth)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .keyboardType(.decimalPad)
-                            .frame(width: 150)
-                        TextField("Height (cm)", text: $physicalHeight)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .keyboardType(.decimalPad)
-                            .frame(width: 150)
-                    }
-                    .padding(.bottom, 10)
-                    Text("Specify the real-world width and height of your animation in centimeters.")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
-                        .padding(.bottom, 20)
-                }
-
-                // Animation Mode Section (Selection Menu)
-                VStack {
-                    Text("Select Animation Mode")
-                        .font(.headline)
-                        .padding(.bottom, 5)
-                    Menu {
-                        Button("Custom Clothing") { selectedMode = "Custom Clothing" }
-                        Button("Japanese Edition") { selectedMode = "Japanese Edition" }
-                        Button("Password Edition") { selectedMode = "Password Edition" }
-                    } label: {
-                        Text(selectedMode)
-                            .font(.body)
-                            .padding()
-                            .background(Color.gray.opacity(0.2))
-                            .cornerRadius(8)
-                    }
-                    .padding(.bottom, 10)
-                    Text("Choose the mode that best describes how the animation should be displayed.")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
-                        .padding(.bottom, 20)
-                }
-
-                // Additional Fields based on Mode
-                if selectedMode == "Custom Clothing" {
-                    VStack(alignment: .leading) {
-                        Text("Create Anchor")
-                            .font(.headline)
-                            .padding(.bottom, 5)
-                        Text("Select an image from your gallery or take a picture. This image will serve as the anchor point for your animation. Ensure the object has good lighting, a unique shape, and visible colors.")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                            .padding(.bottom, 10)
-                        
-                        // Using TakingImagesSelection component here
-                        TakingImagesSelection(
-                            selectedImage: $selectedAnchor,
-                            onImageSelected: { onUploadAnchor() }
-                        )
-//                            .frame(height: 250)
-                        if !validationMessage.isEmpty {
-                            Text(validationMessage)
-                                .foregroundColor(.red)
-                                .padding()
-                        }
-                    }
-                } else if selectedMode == "Password Edition" || selectedMode == "Japanese Edition" {
-                    VStack(alignment: .leading) {
-                        Text("Select Clothing from Your Wardrobe")
-                            .font(.headline)
-                            .padding(.bottom, 5)
-                        Text("Choose a clothing item from your existing wardrobe.")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                            .padding(.bottom, 10)
-                        
-                        GarmentSelectionView(selectedGarment: $selectedGarment, selectedMode: $selectedMode)
-                                    .environmentObject(userDataStore)
-
-                        
-                    
-                    }
-                }
-
-                // Loading Indicator
-                if showLoadingIndicator {
-                    ProgressView("Submitting...").padding()
-                }
-
-                // Success/Failure Message
-                if !errorMessage.isEmpty {
-                    Text(errorMessage)
-                        .foregroundColor(.red)
-                        .padding(.top)
-                } else if uploadSuccess {
-                    Text("Design submitted successfully!")
-                        .foregroundColor(.green)
-                        .padding(.top)
-                }
+                .padding()
+                .navigationTitle("Create your new design")
+                .navigationBarTitleDisplayMode(.inline)
                 
-                
-                // Submit Button Section
-                Button(action: {
-                    validateAndSubmit()
-                }) {
-                    Text("Submit Design")
-                        .padding()
-                        .background(Color.green)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
-                }
-                .padding(.top)
             }
-            .padding()
         }
-        .sheet(isPresented: $showImagePicker) {
-//            
-//            ImagePicker(selectedImage: $selectedImage, sourceType: .photoLibrary, isPresented: $showImagePicker)
+        .sheet(isPresented: $showThumbnailPicker) {
+            ImagePicker(
+                selectedImage: $selectedThumbnail,
+                sourceType: .photoLibrary,
+                isPresented: $showThumbnailPicker
+            )
+        }
+        .sheet(isPresented: $showFilePicker) {
+            ImagePicker(selectedImage: $selectedAnimation, sourceType: .photoLibrary, isPresented: $showFilePicker)
         }
     }
     
-    func onUploadAnchor() {
+    func checkImageQuality(image: UIImage) {
         // Check if selected media is valid and upload accordingly
         print("validation updated")
         
-        if let image = selectedAnchor {
-            validationMessage = ""
-            if !isResolutionSufficient(image: image) {
-                validationMessage = "Image resolution is too low. For better quality use at least 480x480 resolution."
-            }
-            
-            if !isHistogramDistributionGood(image: image) {
-                validationMessage += "\nRecognition works better on images with more unique colors and patterns."
-            }
-            
-            validationMessage = "\n\nImage uploaded successfully."
+        validationMessage = ""
+        if !isResolutionSufficient(image: image) {
+            validationMessage = "Image resolution is too low. For better quality use at least 480x480 resolution."
         }
+        
+        if !isHistogramDistributionGood(image: image) {
+            validationMessage += "\nRecognition works better on images with more unique colors and patterns."
+        }
+        
+        validationMessage = "\n\nImage uploaded successfully."
     }
                
     private func validateAndSubmit() {
         // Validation Function
-        guard !animationName.isEmpty, !animationDescription.isEmpty, !physicalWidth.isEmpty, !physicalHeight.isEmpty else {
+        print("validation started")
+        guard !animationData.animationName.isEmpty, !animationData.animationDescription.isEmpty, !animationData.physicalWidth.isEmpty, !animationData.physicalHeight.isEmpty else {
             errorMessage = "Please fill out all required fields and upload a design."
             return
         }
+        print("Validation passed")
 
         errorMessage = ""
         submitDesign()
     }
+    
+    // File type validation function
+    private func isValidFileType(_ fileURL: URL) -> Bool {
+        let allowedExtensions = ["mp3", "jpg", "png", "mov"]
+        return allowedExtensions.contains(fileURL.pathExtension.lowercased())
+    }
+    
+    private func flushAttributes() {
+        animationData = AnimationData()
+        uploadSuccess = false
+        errorMessage = ""
+        
+        isLoading = false
+        showFilePicker = false
+    }
 
-    private func submitDesign() {
+
+    private func successfulUpload() {
+        uploadSuccess = true
+        showLoadingIndicator = false
+        flushAttributes()
+        validationMessage = "Animation created successfully."
+
+    }
+    
+    private func failedUpload() {
+        uploadSuccess = false
+        showLoadingIndicator = false
+        validationMessage = "Something went wrong during creation of animation."
+    }
+    
+    private func submitMockupDesign() {
         // Simulate submission with a delay for mockup
         showLoadingIndicator = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             // Mock submission success
-            uploadSuccess = true
-            showLoadingIndicator = false
-            flushAttributes()
+            successfulUpload()
         }
     }
     
-    private func flushAttributes() {
+    private func submitDesign() {
+        print("going to submit")
+        guard let selectedAnimation = selectedAnimation else {
+            errorMessage = "Please upload an animation file."
+            return
+        }
+        guard let selectedThumbnail = selectedThumbnail else {
+            errorMessage = "Please select a thumbnail image."
+            return
+        }
         
-        animationName = ""
-        animationDescription = ""
-        isPublic = false
-        selectedAnimation = nil
-        selectedAnchor = nil
-        
-        physicalWidth = ""
-        physicalHeight = ""
-        selectedMode = "Custom Clothing"
-        showImagePicker = false
-        uploadSuccess = false
-        errorMessage = ""
-        showCreateAnchor = false
-//        selectedClothing = nil
-//        wardrobeItems = []
-        
-        isLoading = false
-        showFilePicker = false
-        validationMessage = "Animation created successfully."
+        Task {
+            do {
+                showLoadingIndicator = true
+                print("Sending design")
+                // Assuming you have an APIClient for the network request
+                try await APIClient.shared.sendAnimation(animation:animationData, thumbnail: selectedThumbnail, image: selectedAnimation, source: appStateStore)
+                successfulUpload()
+            }
+            catch {
+                failedUpload()
+            }
+        }
     }
+
+    
 }
 
 #Preview {

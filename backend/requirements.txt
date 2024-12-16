@@ -2,3 +2,6 @@ fastapi[standard]
 sqlalchemy
 pymongo
 motor
+python-jose[cryptography]
+passlib[bcrypt]
+PyJWT

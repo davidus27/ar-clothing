@@ -17,25 +17,6 @@ struct SettingsView: View {
     
     var body: some View {
         VStack(spacing: 0) { // Zero spacing to tightly control layout
-            // Fixed Header
-            VStack {
-                HStack(spacing: 5) {
-                    Text("Settings")
-                        .font(.title2)
-                        .fontWeight(.semibold)
-                    
-                    Image(systemName: "gearshape")
-                        .font(.title2) // Match the text size
-                        .foregroundColor(.yellow)
-                        .onAppear {
-                            withAnimation(.easeInOut(duration: 1).repeatForever(autoreverses: true)) {
-                                // Custom bounce effect if needed
-                            }
-                        }
-                }
-                .padding(10)
-            }
-            
             // Dynamic Content
             NavigationView {
                 List {
@@ -123,8 +104,11 @@ struct SettingsView: View {
                         }
                     }
                 }
+                .background(Color.clear)
+                .scrollContentBackground(.hidden)
                 .listStyle(GroupedListStyle())
-                .navigationBarTitleDisplayMode(.large)
+                .navigationTitle("Settings")
+                .navigationBarTitleDisplayMode(.inline)
             }
         }
     }
