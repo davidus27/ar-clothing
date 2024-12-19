@@ -8,31 +8,40 @@
 import UIKit
 import ARKit
 
+import UIKit
+
 class TestController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Set background color for visibility (optional)
+        // Set background color for visibility while debugging (optional)
         view.backgroundColor = .white
         
-        // Create the UILabel
-        let label = UILabel()
-        label.text = "This is AR view!"
-        label.textColor = .black     // Text color
-        label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 24) // Adjust font size
-        label.translatesAutoresizingMaskIntoConstraints = false
+        // Load the image
+        let imageView = UIImageView()
+        if let image = UIImage(named: "background.HEIC") {
+            imageView.image = image
+        } else {
+            print("Error: Image 'background.HEIC' not found.")
+        }
         
-        // Add the label to the view
-        view.addSubview(label)
+        // Configure the image view
+        imageView.contentMode = .scaleAspectFill // Adjusts how the image fits the screen
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         
-        // Center the label in the view
+        // Add the image view to the view hierarchy
+        view.addSubview(imageView)
+        
+        // Constrain the image view to fill the entire screen
         NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            imageView.topAnchor.constraint(equalTo: view.topAnchor),
+            imageView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 }
+
 
 #Preview {
     TestController()

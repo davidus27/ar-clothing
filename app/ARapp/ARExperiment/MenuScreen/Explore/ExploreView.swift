@@ -112,7 +112,7 @@ struct ArtistProfileView: View {
             Text("Joined: \(animation.created_at)")
                 .font(.subheadline)
 
-            Text("Description: Placeholder for backend description.")
+            Text("Description: \(animation.author_description)")
                 .font(.body)
                 .padding()
 
@@ -230,7 +230,7 @@ class ExplorePageData: ObservableObject {
     @Published var animations: [AnimationModel] = []
 
     func fetchData() {
-          guard let url = URL(string: "http://localhost:8000/explore/animations") else {
+          guard let url = URL(string: "http://192.168.1.23:8000/explore/animations") else {
               print("Invalid URL")
               return
           }
@@ -269,6 +269,7 @@ class ExplorePageData: ObservableObject {
                   let animation_id = animationData["animation_id"] as? String,
                   let animation_name = animationData["animation_name"] as? String,
                   let author_name = animationData["author_name"] as? String,
+                  let author_description = animationData["author_description"] as? String,
                   let base64ProfileImage = animationData["author_profile_image"] as? String,
                   let author_id = animationData["author_id"] as? String,
                   let description = animationData["description"] as? String,
@@ -291,6 +292,7 @@ class ExplorePageData: ObservableObject {
                           animation_id: animation_id,
                           author_id: author_id,
                           author_name: author_name,
+                          author_description: author_description,
                           description: description,
                           created_at: created_at,
                           physical_width: physical_width,
@@ -350,6 +352,7 @@ struct AnimationModel: Identifiable {
     let animation_id: String
     let author_id: String
     let author_name: String
+    let author_description: String
     let description: String
     let created_at: String
     let physical_width: Int

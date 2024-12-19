@@ -172,31 +172,171 @@ struct AnimationCard: View {
 }
 
 
-// Mock Data Structures
 class LibraryPageData: ObservableObject {
     @Published var purchasedAnimations: [AnimationModel] = []
     @Published var garments: [GarmentModel] = []
 
     func fetch() {
-        // Fetch mock data
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.purchasedAnimations = [
-                AnimationModel(animation_name: "Animation 1", animation_id: "1", author_id: "1", author_name: "Alice", description: "Beautiful animation", created_at: "2024-12-10", physical_width: 10, physical_height: 10, thumbnail: Image(systemName: "star.fill"), author_profile_image: Image(systemName: "star.fill")),
-                AnimationModel(animation_name: "Animation 2", animation_id: "2", author_id: "2", author_name: "Bob", description: "Beautiful animation", created_at: "2024-12-10", physical_width: 10, physical_height: 10, thumbnail: Image(systemName: "star.fill"), author_profile_image: Image(systemName: "star.fill")),
-            ]
+        fetchPurchasedAnimations()
+        fetchGarments()
+    }
 
-            self.garments = [
-                GarmentModel(id: "1", name: "T-Shirt", uid: "UID1234"),
-                GarmentModel(id: "2", name: "Hoodie", uid: "UID5678"),
-                GarmentModel(id: "3", name: "T-Shirt", uid: "UID1234"),
-                GarmentModel(id: "4", name: "T-Shirt", uid: "UID1234"),
-                GarmentModel(id: "5", name: "T-Shirt", uid: "UID1234"),
-                GarmentModel(id: "6", name: "T-Shirt", uid: "UID1234"),
+    private func fetchPurchasedAnimations() {
+        guard let url = URL(string: "http://192.168.1.23:8000/library/animations") else {
+            print("Invalid URL for purchased animations")
+            return
+        }
 
-            ]
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                print("Error fetching purchased animations: \(error.localizedDescription)")
+                return
+            }
+
+            guard let data = data else {
+                print("No data received for purchased animations")
+                return
+            }
+
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                
+                if let animationsArray = json?["purchasedAnimations"] as? [[String: Any]] {
+                    DispatchQueue.main.async {
+                        self.processPurchasedAnimations(animationsArray)
+                    }
+                }
+            } catch {
+                print("Error parsing JSON for purchased animations: \(error.localizedDescription)")
+            }
+        }.resume()
+    }
+
+    private func processPurchasedAnimations(_ animationsArray: [[String: Any]]) {
+        var fetchedAnimations: [AnimationModel] = []
+        let group = DispatchGroup()
+
+        for animationData in animationsArray {
+            guard
+                let animation_id = animationData["animation_id"] as? String,
+                let animation_name = animationData["animation_name"] as? String,
+                let author_name = animationData["author_name"] as? String,
+                let author_description = animationData["author_description"] as? String,
+                let base64ProfileImage = animationData["author_profile_image"] as? String,
+                let author_id = animationData["author_id"] as? String,
+                let description = animationData["description"] as? String,
+                let created_at = animationData["created_at"] as? String,
+                let physical_width = animationData["physical_width"] as? Int,
+                let physical_height = animationData["physical_height"] as? Int
+            else {
+                print("Did not parse purchased animation data correctly")
+                continue
+            }
+
+            group.enter()
+
+            let authorProfileImage = getImage(base64String: base64ProfileImage)
+
+            fetchThumbnail(animation_id: animation_id) { thumbnailImage in
+                if let thumbnailImage = thumbnailImage {
+                    let animationModel = AnimationModel(
+                        animation_name: animation_name,
+                        animation_id: animation_id,
+                        author_id: author_id,
+                        author_name: author_name,
+                        author_description: author_description,
+                        description: description,
+                        created_at: created_at,
+                        physical_width: physical_width,
+                        physical_height: physical_height,
+                        thumbnail: thumbnailImage,
+                        author_profile_image: authorProfileImage
+                    )
+                    fetchedAnimations.append(animationModel)
+                }
+                group.leave()
+            }
+        }
+
+        group.notify(queue: .main) {
+            self.purchasedAnimations = fetchedAnimations
         }
     }
+
+    private func fetchGarments() {
+        guard let url = URL(string: "http://192.168.1.23:8000/library/garments") else {
+            print("Invalid URL for garments")
+            return
+        }
+
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                print("Error fetching garments: \(error.localizedDescription)")
+                return
+            }
+
+            guard let data = data else {
+                print("No data received for garments")
+                return
+            }
+
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                
+                if let garmentsArray = json?["garments"] as? [[String: Any]] {
+                    DispatchQueue.main.async {
+                        self.garments = garmentsArray.compactMap { garmentData in
+                            guard
+                                let id = garmentData["id"] as? String,
+                                let name = garmentData["name"] as? String,
+                                let uid = garmentData["uid"] as? String
+                            else {
+                                print("Did not parse garment data correctly")
+                                return nil
+                            }
+                            return GarmentModel(id: id, name: name, uid: uid)
+                        }
+                    }
+                }
+            } catch {
+                print("Error parsing JSON for garments: \(error.localizedDescription)")
+            }
+        }.resume()
+    }
+
+    private func fetchThumbnail(animation_id: String, completion: @escaping (Image?) -> Void) {
+        guard let url = URL(string: "http://192.168.1.23:8000/animations/\(animation_id)/thumbnail") else {
+            print("Invalid thumbnail URL")
+            completion(nil)
+            return
+        }
+
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                print("Error fetching thumbnail: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+
+            guard let data = data, let uiImage = UIImage(data: data) else {
+                print("Invalid thumbnail data")
+                completion(nil)
+                return
+            }
+
+            let image = Image(uiImage: uiImage)
+            completion(image)
+        }.resume()
+    }
+
+    private func getImage(base64String: String) -> Image {
+        guard let data = Data(base64Encoded: base64String), let uiImage = UIImage(data: data) else {
+            return Image(systemName: "person.circle") // Default image in case of error
+        }
+        return Image(uiImage: uiImage)
+    }
 }
+
 
 
 struct GarmentModel: Identifiable {

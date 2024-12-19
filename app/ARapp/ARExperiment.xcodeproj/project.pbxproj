@@ -18,6 +18,7 @@
 		911EC4492C9606BC009EDF2B /* ARExperimentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911EC4482C9606BC009EDF2B /* ARExperimentUITests.swift */; };
 		911EC44B2C9606BC009EDF2B /* ARExperimentUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911EC44A2C9606BC009EDF2B /* ARExperimentUITestsLaunchTests.swift */; };
 		911ED0832CF8AA5E0060A9D3 /* AnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911ED0822CF8AA550060A9D3 /* AnimationView.swift */; };
+		9129A7E92D11AEC600756956 /* background.HEIC in Resources */ = {isa = PBXBuildFile; fileRef = 9129A7E82D11AEC600756956 /* background.HEIC */; };
 		912B2FA02CD00C2A001437F9 /* pinguin.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 912B2F9F2CD00C2A001437F9 /* pinguin.usdz */; };
 		913039082CA630CA00835C35 /* TabOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913039072CA630CA00835C35 /* TabOption.swift */; };
 		9130390A2CA635AE00835C35 /* BottomSheetHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913039092CA635AE00835C35 /* BottomSheetHelper.swift */; };
@@ -100,6 +101,7 @@
 		911EC4482C9606BC009EDF2B /* ARExperimentUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARExperimentUITests.swift; sourceTree = "<group>"; };
 		911EC44A2C9606BC009EDF2B /* ARExperimentUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARExperimentUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		911ED0822CF8AA550060A9D3 /* AnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationView.swift; sourceTree = "<group>"; };
+		9129A7E82D11AEC600756956 /* background.HEIC */ = {isa = PBXFileReference; lastKnownFileType = file; name = background.HEIC; path = /Users/daviddrobny/Downloads/background.HEIC; sourceTree = "<absolute>"; };
 		912B2F9F2CD00C2A001437F9 /* pinguin.usdz */ = {isa = PBXFileReference; lastKnownFileType = file; path = pinguin.usdz; sourceTree = "<group>"; };
 		913039072CA630CA00835C35 /* TabOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabOption.swift; sourceTree = "<group>"; };
 		913039092CA635AE00835C35 /* BottomSheetHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetHelper.swift; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 				91521C7E2CE7515100994EA5 /* japanese.heic */,
 				91183B862CD933FF0024924E /* AR assets.scnassets */,
 				91A7E3C02CEDF54D00EDD1C8 /* TestController.swift */,
+				9129A7E82D11AEC600756956 /* background.HEIC */,
 				91A35F322CE2AFDF007D92DE /* Protocols */,
 				91A35F2F2CE2AF37007D92DE /* Services */,
 				918788D32CAD9EA100F67C6C /* AR assets */,
@@ -562,6 +565,7 @@
 				915EE42F2CAEC7AA0083340D /* Markers.xcassets in Resources */,
 				918A52142CAEB9BD008827C7 /* Cosmonaut_Suit.reality in Resources */,
 				913355CC2CCB898D00462BAF /* movie.2.mov in Resources */,
+				9129A7E92D11AEC600756956 /* background.HEIC in Resources */,
 				912B2FA02CD00C2A001437F9 /* pinguin.usdz in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
