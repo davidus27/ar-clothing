@@ -22,7 +22,7 @@ class UserBase(BaseModel):
     name: str
 
     # garments
-    garments: Optional[List[Garment]] = []
+    garments: Optional[List[str]] = []
 
 
 class UserCreate(UserBase):
@@ -34,7 +34,7 @@ class UserUpdate(BaseModel):
     name: Optional[str] = None
     description: Optional[str] = None
     imageBase64: Optional[str] = None
-    garments: Optional[List[Garment]] = []
+    garments: Optional[List[str]] = []
 
 
 class UserResponse(UserBase):

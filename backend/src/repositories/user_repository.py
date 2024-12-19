@@ -58,23 +58,32 @@ class UserRepository:
         result = db.users.delete_many({})
         return result.deleted_count
     
-    @staticmethod
-    def add_garment_to_user(user_id: str, garment: GarmentCreate):
-        user = UserRepository.get_user_by_id(user_id)
-        if not user:
-            return None
-        new_garment = Garment(**garment.model_dump())
+    # @staticmethod
+    # def add_garment_to_user(user_id: str, garment: GarmentCreate):
+    #     user = UserRepository.get_user_by_id(user_id)
+    #     if not user:
+    #         return None
+    #     new_garment = Garment(**garment.model_dump())
 
-        # Add the new garment to the user's garments array in the database
+    #     # Add the new garment to the user's garments array in the database
+    #     result = db.users.update_one(
+    #         {"_id": ObjectId(user_id)},
+    #         {"$push": {"garments": new_garment.model_dump()}}
+    #     )
+
+    #     if result.modified_count == 0:
+    #         return None
+
+    #     return new_garment
+
+
+    @staticmethod
+    def add_garment_to_user(user_id: str, garment_id: str):
         result = db.users.update_one(
             {"_id": ObjectId(user_id)},
-            {"$push": {"garments": new_garment.model_dump()}}
+            {"$push": {"garment_ids": garment_id}}
         )
-
-        if result.modified_count == 0:
-            return None
-
-        return new_garment
+        return result.matched_count > 0
     
     @staticmethod
     def update_user(user_id: str, update_data: dict):

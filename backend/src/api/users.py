@@ -3,6 +3,7 @@ from fastapi import APIRouter, HTTPException, Request
 from ..models.user import UserCreate, UserResponse, UserUpdate
 from ..models.garments_model import Garment, GarmentCreate
 from ..repositories.user_repository import UserRepository
+from ..repositories.garment_repository import GarmentRepository
 from ..utils.security import create_access_token
 
 router = APIRouter()
@@ -70,13 +71,28 @@ async def get_user_garments(user_id: str):
         raise HTTPException(status_code=404, detail="User not found")
     return user["garments"]
 
+# @router.post("/{user_id}/garments", response_model=Garment)
+# async def add_garment_to_user(user_id: str, garment: GarmentCreate, request: Request):
+#     updated_user = UserRepository.add_garment_to_user(user_id, garment)
+#     if not updated_user:
+#         raise HTTPException(status_code=404, detail="User not found")
+    
+#     garment_data = garment.model_dump()
+#     garment_data['links'] = [
+#         {"rel": "self", "href": str(request.url_for("get_user_garments", user_id=user_id))}
+#     ]
+#     return garment_data
+
 @router.post("/{user_id}/garments", response_model=Garment)
 async def add_garment_to_user(user_id: str, garment: GarmentCreate, request: Request):
-    updated_user = UserRepository.add_garment_to_user(user_id, garment)
-    if not updated_user:
-        raise HTTPException(status_code=404, detail="User not found")
+    garment.user_id = user_id
+    created_garment = GarmentRepository.create_garment(garment)
+    if not created_garment:
+        raise HTTPException(status_code=400, detail="Failed to create garment")
     
-    garment_data = garment.model_dump()
+    UserRepository.add_garment_to_user(user_id, created_garment.id)
+    
+    garment_data = created_garment.model_dump()
     garment_data['links'] = [
         {"rel": "self", "href": str(request.url_for("get_user_garments", user_id=user_id))}
     ]
