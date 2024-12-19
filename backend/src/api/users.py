@@ -85,8 +85,7 @@ async def get_user_garments(user_id: str):
 
 @router.post("/{user_id}/garments", response_model=Garment)
 async def add_garment_to_user(user_id: str, garment: GarmentCreate, request: Request):
-    garment.user_id = user_id
-    created_garment = GarmentRepository.create_garment(garment)
+    created_garment = GarmentRepository.create_garment(user_id, garment)
     if not created_garment:
         raise HTTPException(status_code=400, detail="Failed to create garment")
     
@@ -97,3 +96,4 @@ async def add_garment_to_user(user_id: str, garment: GarmentCreate, request: Req
         {"rel": "self", "href": str(request.url_for("get_user_garments", user_id=user_id))}
     ]
     return garment_data
+

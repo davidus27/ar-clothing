@@ -1,16 +1,18 @@
 from pydantic import BaseModel
 from pydantic import BaseModel, Field
 from bson import ObjectId
+from typing import Optional
 
 class Garment(BaseModel):
-    id: str = Field(default_factory=lambda: str(ObjectId()))
+    id: Optional[str] = None
     name: str
-    user_id: str # who owns it
+    user_id: Optional[str] = None # who owns it
     uid: str
-    animation_id: str # what animation it should show
+    animation_id: Optional[str] = None # what animation it should show
 
-class GarmentCreate(BaseModel):
+class GarmentCreate(Garment):
     name: str
     uid: str
-    user_id: str
+
+class UpdateAnimationId(BaseModel):
     animation_id: str

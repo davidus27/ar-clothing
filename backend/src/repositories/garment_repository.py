@@ -5,7 +5,8 @@ from bson import ObjectId
 class GarmentRepository:
 
     @staticmethod
-    def create_garment(garment_data: GarmentCreate):
+    def create_garment(user_id: str, garment_data: GarmentCreate):
+        garment_data.user_id = user_id
         result = db.garments.insert_one(garment_data.model_dump())
         garment_data.id = str(result.inserted_id)
         return garment_data
@@ -43,3 +44,11 @@ class GarmentRepository:
     def delete_all_garments():
         result = db.garments.delete_many({})
         return result.deleted_count
+    
+    @staticmethod
+    def get_all_garments():
+        garments = list(db.garments.find())
+        for garment in garments:
+            garment['id'] = str(garment['_id'])
+            del garment['_id']
+        return garments
