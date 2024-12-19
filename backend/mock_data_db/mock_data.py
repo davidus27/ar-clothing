@@ -31,7 +31,8 @@ ANIMATIONS = [
     {"name": "Burger", "description": "Best burger in town", "width": 7, "height": 7},
 ]
 
-TOKEN = ""
+# Dictionary to store user tokens
+USER_TOKENS = {}
 
 # Helper function to read and encode an image file
 def encode_image(file_path):
@@ -40,9 +41,7 @@ def encode_image(file_path):
 
 # Create users
 def create_users():
-
     for user, image_file in zip(USERS, os.listdir(PROFILE_PICS)):
-        # image_file = random.choice(os.listdir(IMAGES_FOLDER))
         image_path = os.path.join(PROFILE_PICS, image_file)
 
         user_payload = {
@@ -54,12 +53,8 @@ def create_users():
 
         response = requests.post(f"{BASE_URL}/users/", json=user_payload)
         if response.status_code == 200:
-            if "David" in user["name"]:
-                body = json.loads(response.content)
-                print(body)
-                global TOKEN
-                TOKEN = body["token"]
-
+            body = response.json()
+            USER_TOKENS[user["name"]] = body["token"]
             print(f"Created user: {user['name']}")
         else:
             print(f"Failed to create user: {user['name']} - {response.text}")
@@ -73,11 +68,13 @@ def add_garments():
             for garment in GARMENTS:
                 garment_payload = {
                     "name": garment["name"],
-                    "uid": garment["uid"], 
+                    "uid": garment["uid"],
+                    "user_id": user["id"],
+                    "animation_id": random.choice(ANIMATIONS)["name"]
                 }
-                
+
                 headers = {
-                   "Authorization": f"Bearer {TOKEN}"
+                    "Authorization": f"Bearer {USER_TOKENS[user['name']]}"
                 }
                 user_id = user["id"]
                 garment_response = requests.post(f"{BASE_URL}/users/{user_id}/garments", json=garment_payload, headers=headers)
@@ -90,8 +87,7 @@ def add_garments():
 
 # Create animations
 def create_animations():
-    for animation, image_name in zip(ANIMATIONS, os.listdir(IMAGES_FOLDER)): 
-        
+    for animation, image_name in zip(ANIMATIONS, os.listdir(IMAGES_FOLDER)):
         thumbnail_path = os.path.join(IMAGES_FOLDER, image_name)
         animation_path = os.path.join(IMAGES_FOLDER, image_name)
 
@@ -108,8 +104,10 @@ def create_animations():
             "file": open(animation_path, "rb"),
         }
 
+        # Use a random user's token for creating animations
+        user_name = random.choice(list(USER_TOKENS.keys()))
         headers = {
-            "Authorization": f"Bearer {TOKEN}"
+            "Authorization": f"Bearer {USER_TOKENS[user_name]}"
         }
 
         response = requests.post(f"{BASE_URL}/animations/", data=animation_payload, files=files, headers=headers)
