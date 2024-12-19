@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import os
 import requests
 from dotenv import load_dotenv
@@ -40,8 +41,8 @@ def save_to_git(filename, output_dir):
     os.rename(filename, dest_path)
 
     # Add, commit, and manage history
-    subprocess.run(["git", "add", "-A"], cwd=output_dir)
-    subprocess.run(["git", "commit", "-m", f"Thesis backup on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"], cwd=output_dir)
+    # subprocess.run(["git", "add", "."], cwd=output_dir)
+    # subprocess.run(["git", "commit", "-m", f"Thesis backup on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"], cwd=output_dir)
 
 if __name__ == "__main__":
     try:
