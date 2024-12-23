@@ -126,8 +126,11 @@ struct ArtistProfileView: View {
 }
 
 struct AnimationPreviewView: View {
+    @EnvironmentObject var appStateStore: AppStateStore
     let animation: AnimationModel
     let exploreData: ExplorePageData
+    
+    @State private var isLoading: Bool = false // Track loading state
 
     var body: some View {
         VStack(spacing: 20) {
@@ -137,10 +140,9 @@ struct AnimationPreviewView: View {
                     .aspectRatio(1, contentMode: .fit)
                 
                 animation.thumbnail
-                        .resizable()
-//                        .frame(width: 400, height: 500)
-                        .aspectRatio(contentMode: .fill)
-                        .clipped()
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .clipped()
             }
             .cornerRadius(8)
 
@@ -156,19 +158,39 @@ struct AnimationPreviewView: View {
                 .padding()
 
             Button(action: {
-                // Purchase action logic
-                exploreData.purchaseAnimation(animation_id: animation.id) {_ in 
-                    print("Animation purchased")
+                // Set loading state to true when the button is pressed
+                isLoading = true
+
+                // Purchase and download action
+                exploreData.purchaseAnimation(animation_id: animation.id) { _ in
+                    appStateStore.downloadAnimation(animationId: animation.id) { result in
+                        // Set loading state to false once download is complete
+                        isLoading = false
+                        switch result {
+                        case .success:
+                            print("Animation downloaded and saved successfully!")
+                        case .failure(let error):
+                            print("Failed to download animation: \(error)")
+                        }
+                    }
                 }
             }) {
-                Text("Purchase and Download")
-                    .font(.headline)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
+                // Show ProgressView if loading, otherwise show "Purchase and Download"
+                if isLoading {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white)) // White spinner
+                        .frame(width: 20, height: 20) // Size of the spinner
+                } else {
+                    Text("Purchase and Download")
+                        .font(.headline)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                }
             }
+            .disabled(isLoading) // Disable the button while loading
 
             Spacer()
         }

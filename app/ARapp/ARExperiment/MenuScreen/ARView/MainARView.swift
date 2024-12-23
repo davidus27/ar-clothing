@@ -9,22 +9,34 @@ import SwiftUI
 
 struct MainARView: View {
     @Binding var isGuideShown: Bool
-    @Binding var appStatus: String
+    @EnvironmentObject var appStateStore: AppStateStore
+    @EnvironmentObject var userDataStore: UserDataStore
+//    @Binding var appStatus: String
     @State private var selectedImage: UIImage?
     
+    private func getFirstGarment() -> String {
+        print("Get first garment: \(userDataStore.garments)")
+        if let garment = userDataStore.garments.first {
+            return garment.animation_id
+        }
+        return ""
+    }
+    
+    @State private var selectedAnimationPath: URL?
     
     var body: some View {
         ZStack {
             // Background layer: AR video stream
             GenericControllerConverter(
-                bindingValue: $selectedImage,
+                bindingValue: $selectedAnimationPath,
                 makeUIViewController: {
                     // Only for mockups
                      TestController()
 //                    DynamicReferenceController()
                 },
-                updateUIViewController: { (controller, image) in
-                    // controller.selectedImage = image
+                updateUIViewController: { (controller, animation) in
+//                    print("Updating controller with animation: \(selectedAnimationPath)")
+//                    controller.selectedAnimationPath = selectedAnimationPath
                 }
             )
             .edgesIgnoringSafeArea(.all)
@@ -33,7 +45,7 @@ struct MainARView: View {
             VStack {
                 // Top row with StatusView and HelpMenuButton
                 HStack {
-                    StatusView(appState: $appStatus)
+                    StatusView(appState: $appStateStore.state.appStatus)
                     
                     HelpMenuButton(
                         onReset: {
@@ -45,6 +57,12 @@ struct MainARView: View {
                         }
                     )
                 }
+            }
+        }
+        .onAppear {
+            if let url = appStateStore.animations[getFirstGarment()] {
+                selectedAnimationPath = url
+                print("Selected animation path: \(selectedAnimationPath)") // Check the value here
             }
         }
     }

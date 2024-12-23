@@ -199,44 +199,6 @@ struct AnimationCard: View {
     }
 }
 
-//class LibraryPageData: ObservableObject {
-//    @Published var purchasedAnimations: [AnimationModel] = []
-//    @Published var garments: [GarmentModel] = []
-//    private var animationMap: [String: AnimationModel] = [:]
-//
-//
-//    func fetch() {
-//        // Fetch mock data
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//            self.purchasedAnimations = [
-////                AnimationModel(animation_name: "Animation 1", animation_id: "1", author_id: "1", author_name: "Alice", author_description: "", description: "Beautiful animation", created_at: "2024-12-10", physical_width: 10, physical_height: 10, thumbnail: Image(systemName: "star.fill"), author_profile_image: Image(systemName: "star.fill")),
-////                AnimationModel(animation_name: "Animation 2", animation_id: "2", author_id: "2", author_name: "Bob", author_description: "", description: "Beautiful animation",  created_at: "2024-12-10", physical_width: 10, physical_height: 10, thumbnail: Image(systemName: "star.fill"), author_profile_image: Image(systemName: "star.fill")),
-//            ]
-//
-//            self.garments = [
-//                GarmentModel(id: "1", animation_id: "1", name: "T-Shirt", uid: "UID1234"),
-//                GarmentModel(id: "2", animation_id: "2",name: "Hoodie", uid: "UID5678"),
-//                GarmentModel(id: "3", animation_id: "1",name: "T-Shirt", uid: "UID1234"),
-//                GarmentModel(id: "4", animation_id: "2",name: "T-Shirt", uid: "UID1234"),
-//                GarmentModel(id: "5", animation_id: "2",name: "T-Shirt", uid: "UID1234"),
-//                GarmentModel(id: "6", animation_id: "1", name: "T-Shirt", uid: "UID1234"),
-//
-//            ]
-//            self.constructAnimationMap()
-//        }
-//    }
-//    
-//    
-//    func constructAnimationMap() {
-//        animationMap = Dictionary(uniqueKeysWithValues: purchasedAnimations.map { ($0.animation_id, $0) })
-//    }
-//
-//    func getAnimation(for animationID: String) -> AnimationModel? {
-//        return animationMap[animationID]
-//    }
-//}
-
-
 
 #Preview {
     LibraryView()

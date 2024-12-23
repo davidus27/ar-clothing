@@ -76,6 +76,7 @@ struct GarmentAnimationLinkView: View {
                 // Save Button
                 Button(action: {
                     updateGarment()
+                    print("On save changes animations: \(libraryData.purchasedAnimations)")
                 }) {
                     Text("Save Changes")
                         .font(.headline)

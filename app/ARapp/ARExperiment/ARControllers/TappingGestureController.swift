@@ -5,6 +5,7 @@
 //  Created by David Drobny on 02/10/2024.
 //
 
+/*
 import ARKit
 import RealityKit
 
@@ -111,3 +112,5 @@ extension TappingGestureController: ARSessionDelegate {
 //        // Update your UIViewController when SwiftUI state changes
 //    }
 //}
+
+*/

@@ -50,10 +50,6 @@ class ExplorePageData: ObservableObject {
         task.resume()
     }
     
-    func downloadAnimation(animation: Animation, completion: @escaping (Result<Void, Error>) -> Void) {
-        
-    }
-    
     func fetchData(store: AppState) {
         setup(store: store)
         guard let url = URL(string: "\(address)/explore/animations") else {

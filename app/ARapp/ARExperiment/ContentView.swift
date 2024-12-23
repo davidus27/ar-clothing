@@ -25,7 +25,9 @@ struct ContentView: View {
             }
             else {
                 ZStack(alignment: .bottom) {
-                    MainARView(isGuideShown: $isGuideShown, appStatus: $appStateStore.state.appStatus)
+                    MainARView(isGuideShown: $isGuideShown)
+                        .environmentObject(appStateStore)
+                        .environmentObject(profileStore)
                     
                     // Main menu
                     TabBarView(activeTab: $activeTab)

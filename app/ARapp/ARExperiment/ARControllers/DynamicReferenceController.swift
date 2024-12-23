@@ -12,11 +12,19 @@ import UIKit
 
 class DynamicReferenceController: UIViewController, ARSCNViewDelegate {
     
-    var selectedImage: UIImage? {
+//    var selectedImage: UIImage? {
+//        didSet {
+//            updateReferenceImage(to: selectedImage)
+//        }
+//    }
+    
+    var selectedAnimationPath: URL? {
         didSet {
-            updateReferenceImage(to: selectedImage)
+            print("Updated the animation to \(selectedAnimationPath)")
+            updateAnimation(to: selectedAnimationPath)
         }
     }
+
     
     // MARK: - Properties
     var sceneView: ARSCNView!
@@ -85,7 +93,7 @@ class DynamicReferenceController: UIViewController, ARSCNViewDelegate {
         }
         configuration.environmentTexturing = .automatic
         configuration.detectionImages = referenceImages
-        configuration.maximumNumberOfTrackedImages = 1
+        configuration.maximumNumberOfTrackedImages = 4
         
         sceneView.session.run(configuration)
     }
@@ -99,6 +107,79 @@ class DynamicReferenceController: UIViewController, ARSCNViewDelegate {
         textGeometry.string = authorName
     }
     
+    func updateAnimation(to path: URL?) {
+        guard let path = path else { return }
+        
+        let fileExtension = path.pathExtension.lowercased()
+        
+        // Print to debug
+        print("Updating animation: \(path.lastPathComponent), file extension: \(fileExtension)")
+        
+        // If it's a video file
+        if fileExtension == "mov" || fileExtension == "mp4" || fileExtension == "mp3" {
+            stopCurrentPlayer()
+            
+            // Set up and play the video
+            videoPlayer = createPlayer(from: path)
+            print("Creating new player for \(path)")
+            setMaterial(forNodeNamed: "video", with: videoPlayer)
+            loopPlayer(videoPlayer)
+            videoPlayer?.play()
+            videoReady = true
+            
+            // Ensure video container is visible
+            if let node = sceneView.scene.rootNode.childNode(withName: "video", recursively: true) {
+                if let videoContainer = node.parent?.childNode(withName: "videoContainer", recursively: true) {
+                    print("Unhiding video container")
+                    videoContainer.isHidden = false
+                }
+            }
+        }
+        // If it's an image file
+        else if fileExtension == "jpg" || fileExtension == "jpeg" || fileExtension == "png" {
+            videoReady = false
+            displayImage(from: path)
+        }
+    }
+
+//    private func setMaterial(forNodeNamed nodeName: String, with player: AVPlayer?) {
+//        guard let node = sceneView.scene.rootNode.childNode(withName: nodeName, recursively: true) else { return }
+//        let material = SCNMaterial()
+//        material.diffuse.contents = player
+//        node.geometry?.materials = [material]
+//
+//        // Make sure the video container is visible
+//        guard let videoContainer = node.parent?.childNode(withName: "videoContainer", recursively: true) else { return }
+//        videoContainer.isHidden = false // Unhide the container when a new video is set
+//    }
+
+
+
+    
+    private func createPlayer(from url: URL) -> AVQueuePlayer? {
+        return AVQueuePlayer(url: url)
+    }
+
+
+    private func displayImage(from path: URL) {
+        print("Displaying new image instead of video")
+        guard let node = sceneView.scene.rootNode.childNode(withName: "video", recursively: true) else { return }
+        
+        // Load the image as a texture
+        let image = UIImage(contentsOfFile: path.path)
+        let material = SCNMaterial()
+        material.diffuse.contents = image
+        node.geometry?.materials = [material]
+        
+        // Hide the video player container if we're showing an image
+        guard let videoContainer = node.parent?.childNode(withName: "videoContainer", recursively: true) else { return }
+        videoContainer.isHidden = true
+    }
+    
+    private func stopCurrentPlayer() {
+        videoPlayer?.pause()
+        videoPlayer = nil
+    }
     
     // MARK: - Player Setup
     func setupLoadingPlayer() {

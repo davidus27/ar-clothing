@@ -12,6 +12,7 @@ struct LinkedGarmentData: Codable, Identifiable {
     var id: String // Unique ID for the clothing
     var name: String
     var uid: String // Encoded UID of the clothing
+    var animation_id: String
 }
 
 struct Link: Codable {
@@ -164,9 +165,10 @@ class UserDataStore: ObservableObject {
                                 fatalError("Did not parse garment data correctly")
                             }
                             
-                            return LinkedGarmentData(id: id, name: name, uid: uid)
+                            let animation_id = (garmentData["animation_id"] as? String) ?? ""
+                            
+                            return LinkedGarmentData(id: id, name: name, uid: uid, animation_id: animation_id)
                         }
-                        print("Garments: \(self.garments)")
                     }
                 } else {
                     print("Error: Data is not an array of animations.")
@@ -191,9 +193,9 @@ class UserDataStore: ObservableObject {
             links: []
         )
         garments = [
-            LinkedGarmentData(id: "1", name: "T-Shirt", uid: "je:asdiuasibd"),
-            LinkedGarmentData(id: "2", name: "Jeans", uid: "je:daiosubdob"),
-            LinkedGarmentData(id: "3", name: "Jacket", uid: "pe:jabsbdiasbd")
+            LinkedGarmentData(id: "1", name: "T-Shirt", uid: "je:asdiuasibd", animation_id: ""),
+            LinkedGarmentData(id: "2", name: "Jeans", uid: "je:daiosubdob", animation_id:""),
+            LinkedGarmentData(id: "3", name: "Jacket", uid: "pe:jabsbdiasbd", animation_id: "")
         ]
         
         decodedImage = getImage(base64String: user.imageBase64!)
