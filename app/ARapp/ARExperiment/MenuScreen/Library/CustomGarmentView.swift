@@ -14,6 +14,7 @@ struct CustomGarmentView: View {
     @State var validationMessage: String = ""
     @State private var garment: GarmentModel = GarmentModel(
         id: "",
+        animation_id: "",
         name: "",
         uid: ""
     )
@@ -171,6 +172,7 @@ struct CustomGarmentView: View {
         // Add the custom garment to the library
         let customGarment = GarmentModel(
             id: UUID().uuidString, // Generate a unique ID
+            animation_id: "",
             name: "Custom Garment",
             uid: "Custom-\(UUID().uuidString.prefix(4))" // Example UID
         )
