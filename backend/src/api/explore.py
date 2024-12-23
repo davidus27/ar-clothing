@@ -19,14 +19,13 @@ async def get_animations_for_explore(
         "animations": [
             {
                 "animation_id": animation["id"],
-                "thumbnail": animation.get("thumbnail", ""),
                 "animation_name": animation.get("animationName", ""),
                 "author_description": UserRepository.get_user_by_id(animation["author_id"]).get("description", ""),
                 "author_id": animation.get("author_id", ""),
                 "author_name": UserRepository.get_user_by_id(animation["author_id"]).get("name", ""),
                 "author_profile_image": UserRepository.get_user_by_id(animation["author_id"]).get("imageBase64", ""),
                 "description": animation.get("animationName", ""),
-                "created_at": animation.get("created_at", ""),
+                "createdAt": animation.get("createdAt", ""),
                 "physical_width": animation.get("physicalWidth", ""),
                 "physical_height": animation.get("physicalHeight", ""),
             }
