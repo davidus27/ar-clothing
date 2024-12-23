@@ -16,13 +16,18 @@ async def get_user_garments(user = Depends(get_current_user)):
 async def delete_all_animations():
     return GarmentRepository.delete_all_garments()
 
+
 @router.put("/{garment_id}", response_model=Garment)
-async def update_garment_animation_id(garment_id: str, request: UpdateAnimationId):
+async def update_garment_animation(garment_id: str, request: UpdateAnimationId, user=Depends(get_current_user)):
+    garment = GarmentRepository.get_garment_by_id(garment_id)
+    if not garment:
+        raise HTTPException(status_code=404, detail="Garment not found")
+    if garment.get("user_id") != user["id"]:
+        raise HTTPException(status_code=403, detail="You do not own this garment")
     updated = GarmentRepository.update_garment(garment_id, {"animation_id": request.animation_id})
     if not updated:
-        raise HTTPException(status_code=404, detail="Garment not found")
+        raise HTTPException(status_code=400, detail="Failed to update garment")
     return GarmentRepository.get_garment_by_id(garment_id)
-
 
 @router.put("/{users_id}", response_model=Garment)
 async def get_users_garments(users_id: str):
