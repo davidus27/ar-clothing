@@ -17,6 +17,6 @@ class AnimationRequest(AnimationBase):
 class AnimationCreate(AnimationRequest):
     id: str
     author_id: str 
-    created_at: str
+    createdAt: str
     file: UploadFile = File(...)
     thumbnail: str
