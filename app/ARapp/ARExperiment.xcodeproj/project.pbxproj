@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		910A5A432CF0D0CF004BB9C4 /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910A5A422CF0D0CB004BB9C4 /* EditProfileView.swift */; };
+		91100BC12D190DE5008341D5 /* UpdateLibraryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91100BC02D190DDB008341D5 /* UpdateLibraryData.swift */; };
 		9112F63F2D0B64C9003F97AE /* CustomGarmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9112F63E2D0B64C2003F97AE /* CustomGarmentView.swift */; };
 		9112F6412D0B6599003F97AE /* GarmentAnimationLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9112F6402D0B6598003F97AE /* GarmentAnimationLinkView.swift */; };
 		91149F692D15ED5100B15D4E /* ExplorePageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91149F682D15ED4D00B15D4E /* ExplorePageData.swift */; };
@@ -89,6 +90,7 @@
 
 /* Begin PBXFileReference section */
 		910A5A422CF0D0CB004BB9C4 /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
+		91100BC02D190DDB008341D5 /* UpdateLibraryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateLibraryData.swift; sourceTree = "<group>"; };
 		9112F63E2D0B64C2003F97AE /* CustomGarmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomGarmentView.swift; sourceTree = "<group>"; };
 		9112F6402D0B6598003F97AE /* GarmentAnimationLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GarmentAnimationLinkView.swift; sourceTree = "<group>"; };
 		91149F682D15ED4D00B15D4E /* ExplorePageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorePageData.swift; sourceTree = "<group>"; };
@@ -328,6 +330,7 @@
 		91A7E3CC2CEE02CC00EDD1C8 /* DataFormats */ = {
 			isa = PBXGroup;
 			children = (
+				91100BC02D190DDB008341D5 /* UpdateLibraryData.swift */,
 				913AB6D72D0777570024DB30 /* AppStateStore.swift */,
 				91CB4A912CFB9D5A00E2A844 /* UserDataStore.swift */,
 				91F09C742D17215B0020E2CB /* LibraryPageData.swift */,
@@ -613,6 +616,7 @@
 				9191FEBE2CFF20BF002ED16D /* ProfileContent.swift in Sources */,
 				91A7E3CA2CEDFFBD00EDD1C8 /* CreateView.swift in Sources */,
 				91149F692D15ED5100B15D4E /* ExplorePageData.swift in Sources */,
+				91100BC12D190DE5008341D5 /* UpdateLibraryData.swift in Sources */,
 				910A5A432CF0D0CF004BB9C4 /* EditProfileView.swift in Sources */,
 				91CB4A902CFB8B9B00E2A844 /* ImageAnalysis.swift in Sources */,
 				911EC4302C9606BB009EDF2B /* ContentView.swift in Sources */,
