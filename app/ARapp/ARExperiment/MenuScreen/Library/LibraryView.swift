@@ -10,7 +10,8 @@ import SwiftUI
 struct LibraryView: View {
     @EnvironmentObject private var appStateStore: AppStateStore
     @StateObject private var libraryData = LibraryPageData()
-
+    @State private var shouldRefresh: Bool = false
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -18,7 +19,7 @@ struct LibraryView: View {
                     .font(.body)
                     .foregroundColor(.gray)
                 // Pass `libraryData` to the child view
-                GarmentListView(libraryData: libraryData)
+                GarmentListView(libraryData: libraryData, shouldRefresh: $shouldRefresh)
 
                 VStack {
                     Text("Want to create a custom garment?")
@@ -30,7 +31,7 @@ struct LibraryView: View {
                         .foregroundColor(.gray)
                         .padding(.bottom, 10)
                     
-                    NavigationLink(destination: CustomGarmentView(libraryData: libraryData)) {
+                    NavigationLink(destination: CustomGarmentView(libraryData: libraryData, shouldRefresh: $shouldRefresh)) {
                         Text("Add Custom Piece of Garment")
                             .font(.headline)
                             .frame(maxWidth: .infinity)
@@ -45,12 +46,19 @@ struct LibraryView: View {
         .onAppear {
             libraryData.fetch(store: appStateStore.state)
         }
+        .onChange(of: shouldRefresh) {
+            // Refresh the main view or fetch updated data
+            print("Refreshing data...")
+            libraryData.fetch(store: appStateStore.state)
+            shouldRefresh = false
+        }
     }
 }
 
 struct GarmentListView: View {
     @ObservedObject var libraryData: LibraryPageData
-
+    @Binding var shouldRefresh: Bool
+    
     var body: some View {
         Group {
             if libraryData.garments.isEmpty {
@@ -78,7 +86,7 @@ struct GarmentListView: View {
             } else {
                 // List of garments
                 List(libraryData.garments) { garment in
-                    NavigationLink(destination: GarmentAnimationLinkView(garment: garment, libraryData: libraryData)) {
+                    NavigationLink(destination: GarmentAnimationLinkView(shouldRefresh: $shouldRefresh, garment: garment, libraryData: libraryData)) {
                         HStack {
                             // Garment Image and Details
                             GarmentCard(garment: garment)

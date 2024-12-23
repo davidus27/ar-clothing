@@ -11,6 +11,7 @@ import SwiftUI
 // View for Linking Garment to Animation
 struct GarmentAnimationLinkView: View {
     @EnvironmentObject var appStateStore: AppStateStore
+    @Binding var shouldRefresh: Bool
     let garment: GarmentModel
     @ObservedObject var libraryData: LibraryPageData
     @State private var selectedAnimation: AnimationModel?
@@ -112,9 +113,14 @@ struct GarmentAnimationLinkView: View {
 //        libraryData.purchasedAnimations.append(selectedAnimation) // Placeholder operation
         saveConfirmationMessage = "Changes saved! Returning back..."
         
+        DispatchQueue.main.async {
+            appStateStore.updatedAnimations = true
+        }
+        
         // Simulate delay and navigate back
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             presentationMode.wrappedValue.dismiss()
+            shouldRefresh = true
         }
     }
     

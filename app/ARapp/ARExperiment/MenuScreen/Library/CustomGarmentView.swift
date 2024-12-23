@@ -10,6 +10,8 @@ struct CustomGarmentView: View {
     @ObservedObject var libraryData: LibraryPageData
     @State private var customImage: UIImage? // For user-uploaded or captured image
     @State private var selectedAnimation: AnimationModel? // Selected animation
+    @Binding var shouldRefresh: Bool
+
     @Environment(\.presentationMode) var presentationMode
     @State var validationMessage: String = ""
     @State private var garment: GarmentModel = GarmentModel(
@@ -93,7 +95,7 @@ struct CustomGarmentView: View {
                                 .foregroundColor(.secondary)
                         }
                         
-                        NavigationLink(destination: GarmentAnimationLinkView(garment: garment, libraryData: libraryData)) {
+                        NavigationLink(destination: GarmentAnimationLinkView(shouldRefresh: $shouldRefresh, garment: garment, libraryData: libraryData)) {
                             HStack {
                                 // Garment Image and Details
                                 GarmentCard(garment: garment)

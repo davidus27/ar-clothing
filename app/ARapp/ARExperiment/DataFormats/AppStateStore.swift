@@ -80,6 +80,7 @@ enum AnimationStorage: Codable {
 class AppStateStore: ObservableObject {
     @Published var state: AppState
     @Published var animations: [String: URL] = [:]
+    @Published var updatedAnimations: Bool = false
     
     public var didFail: Bool = false
     

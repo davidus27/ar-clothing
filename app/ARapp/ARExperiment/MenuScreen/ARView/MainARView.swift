@@ -31,12 +31,12 @@ struct MainARView: View {
                 bindingValue: $selectedAnimationPath,
                 makeUIViewController: {
                     // Only for mockups
-                     TestController()
-//                    DynamicReferenceController()
+//                     TestController()
+                    DynamicReferenceController()
                 },
                 updateUIViewController: { (controller, animation) in
-//                    print("Updating controller with animation: \(selectedAnimationPath)")
-//                    controller.selectedAnimationPath = selectedAnimationPath
+                    print("Updating controller with animation: \(selectedAnimationPath)")
+                    controller.selectedAnimationPath = selectedAnimationPath
                 }
             )
             .edgesIgnoringSafeArea(.all)
@@ -65,6 +65,15 @@ struct MainARView: View {
                 print("Selected animation path: \(selectedAnimationPath)") // Check the value here
             }
         }
+        .onChange(of: appStateStore.updatedAnimations) {
+            print("Check updated animations")
+            if appStateStore.updatedAnimations {
+                print("Animations updated")
+                selectedAnimationPath = appStateStore.animations[getFirstGarment()]
+                appStateStore.updatedAnimations = false
+            }
+        }
+
     }
 
     
