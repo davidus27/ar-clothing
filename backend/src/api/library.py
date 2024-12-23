@@ -8,7 +8,7 @@ from ..utils.dependencies import get_current_user
 
 router = APIRouter()
 
-@router.post("/{animation_id}", response_model=bool)
+@router.put("/{animation_id}", response_model=bool)
 async def add_animation_to_library(animation_id: str, user = Depends(get_current_user)):
     # Validate if the animation_id exists
     animation = AnimationRepository.get_animation_by_id(animation_id)
@@ -53,6 +53,7 @@ async def list_user_library(user = Depends(get_current_user)):
 async def list_owned_animations(user = Depends(get_current_user)):
     owned_animations = AnimationRepository.get_animations_by_author_id(user["id"])
     return owned_animations
+
 
 def filter_none_animations(animations: List[dict]) -> List[dict]:
     return [animation for animation in animations if animation is not None]
