@@ -18,7 +18,7 @@ class AnimationRepository:
 
     @staticmethod
     def create_animation(animation_data: AnimationRequest):
-        animation_data['created_at'] = datetime.now().strftime("%d/%m/%Y")
+        animation_data['createdAt'] = datetime.now().strftime("%d/%m/%Y")
 
         result = db.animations.insert_one(animation_data)
         animation_data["id"] = str(result.inserted_id)
@@ -34,11 +34,14 @@ class AnimationRepository:
 
     @staticmethod
     def get_animation_by_id(animation_id: str):
-        animation = db.animations.find_one({"_id": ObjectId(animation_id)})
-        if animation:
-            animation['id'] = str(animation['_id'])
-            del animation['_id']
-        return animation
+        try:
+            animation = db.animations.find_one({"_id": ObjectId(animation_id)})
+            if animation:
+                animation['id'] = str(animation['_id'])
+                del animation['_id']
+            return animation
+        except:
+            return None
 
     @staticmethod
     async def get_animation_file(file_id: str):
@@ -60,6 +63,14 @@ class AnimationRepository:
     @staticmethod
     def get_all_animations(limit: int = 10, offset: int = 0):
         animations = list(db.animations.find().skip(offset).limit(limit))
+        for animation in animations:
+            animation['id'] = str(animation['_id'])
+            del animation['_id']
+        return animations
+    
+    @staticmethod
+    def get_animations_by_author_id(author_id: str):
+        animations = list(db.animations.find({"author_id": author_id}))
         for animation in animations:
             animation['id'] = str(animation['_id'])
             del animation['_id']

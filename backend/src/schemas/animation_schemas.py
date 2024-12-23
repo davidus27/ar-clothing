@@ -15,5 +15,5 @@ class AnimationResponse(AnimationCreate):
     id: str
     author_id: str
     animationFileId: Optional[str] = None
-    created_at: Optional[str] = None
+    createdAt: Optional[str] = None
     links: Optional[List[Link]] = None

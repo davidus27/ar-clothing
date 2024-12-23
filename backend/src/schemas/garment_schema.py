@@ -10,5 +10,5 @@ class GarmentCreate(BaseModel):
 class GarmentResponse(GarmentCreate):
     id: str
     author_id: str
-    created_at: Optional[str] = None
+    createdAt: Optional[str] = None
     links: List[Link] = []  # Added links field
