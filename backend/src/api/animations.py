@@ -82,26 +82,40 @@ async def get_animation_file(animation_id: str):
     animation = AnimationRepository.get_animation_by_id(animation_id)
     if not animation:
         raise HTTPException(status_code=404, detail="Animation not found")
-    
+
     file_id = animation.get("animationFileId")
     if not file_id:
         raise HTTPException(status_code=404, detail="Animation file not found")
-    
-    try:
-        # Retrieve the file from GridFS
-        grid_out = await AnimationRepository.get_animation_file(file_id)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail="Error retrieving the file")
-    
+
+    grid_out = await AnimationRepository.get_animation_file(file_id)
     if not grid_out:
         raise HTTPException(status_code=404, detail="File not found in storage")
-    
+
+    # Determine media type from filename
+    filename = grid_out.filename.lower() if grid_out.filename else ""
+    if filename.endswith(".heic"):
+        media_type = "image/heic"
+    elif filename.endswith(".jpeg") or filename.endswith(".jpg"):
+        media_type = "image/jpeg"
+    elif filename.endswith(".gif"):
+        media_type = "image/gif"
+    elif filename.endswith(".webp"):
+        media_type = "image/webp"
+    elif filename.endswith(".mp3"):
+        media_type = "audio/mpeg"
+    elif filename.endswith(".mov"):
+        media_type = "video/quicktime"
+    elif filename.endswith(".png"):
+        media_type = "image/png"
+    else:
+        media_type = "application/octet-stream"
+
     file_stream = BytesIO(grid_out.read())
     return StreamingResponse(
         file_stream,
-        media_type=grid_out.content_type or "application/octet-stream",
+        media_type=media_type,
         headers={
-            "Content-Disposition": f"attachment; filename={grid_out.filename}"
+            "Content-Disposition": f'attachment; filename="{grid_out.filename}"'
         }
     )
 
