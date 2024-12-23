@@ -49,7 +49,8 @@ struct GarmentAnimationLinkView: View {
                     onAnimationChange()
                 }) {
                     HStack {
-                        animation.thumbnail                               .resizable()
+                        animation.thumbnail
+                            .resizable()
                             .aspectRatio(contentMode: .fill)
                             .frame(width: 50, height: 50)
                             .clipShape(RoundedRectangle(cornerRadius: 8))
