@@ -28,6 +28,7 @@ class LibraryPageData: ObservableObject {
         
         group.enter()
         fetchPurchasedAnimations {
+            print("Fetched animations 2: \(self.purchasedAnimations)")
             group.leave()
         }
         
@@ -35,8 +36,11 @@ class LibraryPageData: ObservableObject {
         fetchGarments {
             group.leave()
         }
+
         
         group.notify(queue: .main) {
+            print("Fetched animations: \(self.purchasedAnimations)")
+            print("Fetched garments: \(self.garments)")
             self.constructAnimationMap()
         }
     }
@@ -223,8 +227,54 @@ class LibraryPageData: ObservableObject {
     }
     
     func getAnimation(for animationID: String) -> AnimationModel? {
+        print(animationMap)
+        print("Animation detail: \(animationMap[animationID]?.author_name ?? "No author name")")
         return animationMap[animationID]
     }
+    
+    
+    func updateGarmentAnimation(store: AppState, garmentId: String, animationId: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        // Define the URL
+        guard let url = URL(string: "\(store.externalSource)/garments/\(garmentId)") else {
+            completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
+            return
+        }
+        
+        // Create the URLRequest
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        request.setValue("Bearer \(store.authToken)", forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // Create the request body
+        let requestBody: [String: Any] = [
+            "animation_id": animationId
+        ]
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: requestBody, options: [])
+        } catch {
+            completion(.failure(error))
+            return
+        }
+        
+        // Perform the request
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            // Check the response status code
+            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
+                completion(.success(()))
+            } else {
+                let error = NSError(domain: "", code: (response as? HTTPURLResponse)?.statusCode ?? -1, userInfo: [NSLocalizedDescriptionKey: "Failed to update garment animation"])
+                completion(.failure(error))
+            }
+        }
+        task.resume()
+    }
+
 }
 
 

@@ -17,6 +17,43 @@ class ExplorePageData: ObservableObject {
         self.token = store.authToken
     }
     
+    func purchaseAnimation(animation_id: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        
+        // Define the URL
+        guard let url = URL(string: "\(self.address)/library/\(animation_id)") else {
+            completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
+            return
+        }
+        
+        // Create the URLRequest
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        request.setValue("Bearer \(self.token)", forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        
+        // Perform the request
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            // Check the response status code
+            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
+                completion(.success(()))
+            } else {
+                let error = NSError(domain: "", code: (response as? HTTPURLResponse)?.statusCode ?? -1, userInfo: [NSLocalizedDescriptionKey: "Failed to update garment animation"])
+                completion(.failure(error))
+            }
+        }
+        task.resume()
+    }
+    
+    func downloadAnimation(animation: Animation, completion: @escaping (Result<Void, Error>) -> Void) {
+        
+    }
+    
     func fetchData(store: AppState) {
         setup(store: store)
         guard let url = URL(string: "\(address)/explore/animations") else {
@@ -65,7 +102,7 @@ class ExplorePageData: ObservableObject {
                 let base64ProfileImage = animationData["author_profile_image"] as? String,
                 let author_id = animationData["author_id"] as? String,
                 let description = animationData["description"] as? String,
-                let created_at = animationData["created_at"] as? String,
+                let created_at = animationData["createdAt"] as? String,
                 let physical_width = animationData["physical_width"] as? Int,
                 let physical_height = animationData["physical_height"] as? Int
             else {

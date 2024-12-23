@@ -10,6 +10,7 @@ import SwiftUI
 
 // View for Linking Garment to Animation
 struct GarmentAnimationLinkView: View {
+    @EnvironmentObject var appStateStore: AppStateStore
     let garment: GarmentModel
     @ObservedObject var libraryData: LibraryPageData
     @State private var selectedAnimation: AnimationModel?
@@ -74,7 +75,7 @@ struct GarmentAnimationLinkView: View {
             if animationWasChanged {
                 // Save Button
                 Button(action: {
-                    saveChanges()
+                    updateGarment()
                 }) {
                     Text("Save Changes")
                         .font(.headline)
@@ -114,6 +115,17 @@ struct GarmentAnimationLinkView: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             presentationMode.wrappedValue.dismiss()
         }
+    }
+    
+    private func updateGarment() {
+        if let selectedAnimation = selectedAnimation {
+            libraryData.updateGarmentAnimation(store: appStateStore.state, garmentId: garment.id, animationId: selectedAnimation.id) { result in
+                saveChanges()
+            }
+        } else {
+            print("No selected animation")
+        }
+  
     }
 }
 

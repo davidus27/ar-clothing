@@ -57,7 +57,7 @@ struct ExploreView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 16) {
                             ForEach(exploreData.animations.sorted(by: { $0.created_at > $1.created_at }).prefix(3), id: \ .id) { animation in
-                                NavigationLink(destination: AnimationPreviewView(animation: animation)) {
+                                NavigationLink(destination: AnimationPreviewView(animation: animation, exploreData: exploreData)) {
                                     AnimationGridItem(animation: animation)
                                 }
                                 .foregroundStyle(.black)
@@ -76,7 +76,7 @@ struct ExploreView: View {
                         GridItem(.adaptive(minimum: 150), spacing: 16)
                     ], spacing: 16) {
                         ForEach(exploreData.animations, id: \.id) { animation in
-                            NavigationLink(destination: AnimationPreviewView(animation: animation)) {
+                            NavigationLink(destination: AnimationPreviewView(animation: animation, exploreData: exploreData)) {
                                 AnimationGridItem(animation: animation)
                             }
                             .foregroundStyle(.black)
@@ -127,6 +127,7 @@ struct ArtistProfileView: View {
 
 struct AnimationPreviewView: View {
     let animation: AnimationModel
+    let exploreData: ExplorePageData
 
     var body: some View {
         VStack(spacing: 20) {
@@ -156,8 +157,11 @@ struct AnimationPreviewView: View {
 
             Button(action: {
                 // Purchase action logic
+                exploreData.purchaseAnimation(animation_id: animation.id) {_ in 
+                    print("Animation purchased")
+                }
             }) {
-                Text("Purchase")
+                Text("Purchase and Download")
                     .font(.headline)
                     .padding()
                     .frame(maxWidth: .infinity)

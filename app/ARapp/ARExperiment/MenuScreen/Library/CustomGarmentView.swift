@@ -114,7 +114,10 @@ struct CustomGarmentView: View {
                                 .padding()
                                 
                                 // Placeholder for Animation (empty or populated)
-                                AnimationCard(animation: libraryData.purchasedAnimations.first)
+//                                AnimationCard(animation: libraryData.purchasedAnimations.first)
+                                if let selectedAnimation = selectedAnimation {
+                                    AnimationCard(animation: libraryData.getAnimation(for: selectedAnimation.id))
+                                }
                             }
                             .padding(.vertical, 8)
                         }
