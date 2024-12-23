@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "Screenshot 2024-11-30 at 19.15.58.png",
+      "filename" : "IMG_3482.heic",
       "idiom" : "universal"
     }
   ],
@@ -10,6 +10,7 @@
     "version" : 1
   },
   "properties" : {
-    "width" : 0
+    "unit" : "centimeters",
+    "width" : 10
   }
 }
