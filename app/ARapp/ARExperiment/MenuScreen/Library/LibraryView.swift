@@ -8,6 +8,7 @@ import SwiftUI
 
 // Main Library View
 struct LibraryView: View {
+    @EnvironmentObject private var appStateStore: AppStateStore
     @StateObject private var libraryData = LibraryPageData()
 
     var body: some View {
@@ -41,6 +42,9 @@ struct LibraryView: View {
                 }
             }
         }
+        .onAppear {
+            libraryData.fetch(store: appStateStore.state)
+        }
     }
 }
 
@@ -48,37 +52,61 @@ struct GarmentListView: View {
     @ObservedObject var libraryData: LibraryPageData
 
     var body: some View {
-        List(libraryData.garments) { garment in
-            NavigationLink(destination: GarmentAnimationLinkView(garment: garment, libraryData: libraryData)) {
-                HStack {
-                    // Garment Image and Details
-                    GarmentCard(garment: garment)
+        Group {
+            if libraryData.garments.isEmpty {
+                // Placeholder when no garments are available
+                VStack {
+                    Text("No garments found")
+                        .font(.title)
+                        .foregroundColor(.secondary)
+                        .padding()
                     
-                    // Arrow and Link Text
-                    VStack {
-                        Image(systemName: "arrow.right.circle.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 30, height: 30)
-                            .foregroundColor(.blue)
-                        
-                        Text("Linked to")
-                            .font(.caption2)
-                            .foregroundColor(.secondary)
-                            .multilineTextAlignment(.center)
-                    }
-                    .padding()
+                    Text("Try to add it from your profile tab or try out Custom piece of clothing down bellow.")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                        .padding()
                     
-                    // Placeholder for Animation (empty or populated)
-                    AnimationCard(animation: libraryData.purchasedAnimations.first)
+                    Image(systemName: "tshirt")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 100, height: 100)
+                        .foregroundColor(.secondary)
                 }
-                .padding(.vertical, 8)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color(.systemGroupedBackground))
+            } else {
+                // List of garments
+                List(libraryData.garments) { garment in
+                    NavigationLink(destination: GarmentAnimationLinkView(garment: garment, libraryData: libraryData)) {
+                        HStack {
+                            // Garment Image and Details
+                            GarmentCard(garment: garment)
+                            
+                            // Arrow and Link Text
+                            VStack {
+                                Image(systemName: "arrow.right.circle.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 30, height: 30)
+                                    .foregroundColor(.blue)
+                                
+                                Text("Linked to")
+                                    .font(.caption2)
+                                    .foregroundColor(.secondary)
+                                    .multilineTextAlignment(.center)
+                            }
+                            .padding()
+                            
+                            // Placeholder for Animation (empty or populated)
+                            AnimationCard(animation: libraryData.getAnimation(for: garment.animation_id))
+                        }
+                        .padding(.vertical, 8)
+                    }
+                }
+                .navigationTitle("Library")
+                .navigationBarTitleDisplayMode(.inline)
             }
-        }
-        .navigationTitle("Library")
-        .navigationBarTitleDisplayMode(.inline)
-        .onAppear {
-            libraryData.fetch()
         }
     }
 }
@@ -171,180 +199,46 @@ struct AnimationCard: View {
     }
 }
 
-
-class LibraryPageData: ObservableObject {
-    @Published var purchasedAnimations: [AnimationModel] = []
-    @Published var garments: [GarmentModel] = []
-
-    func fetch() {
-        fetchPurchasedAnimations()
-        fetchGarments()
-    }
-
-    private func fetchPurchasedAnimations() {
-        guard let url = URL(string: "http://192.168.1.23:8000/library/animations") else {
-            print("Invalid URL for purchased animations")
-            return
-        }
-
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                print("Error fetching purchased animations: \(error.localizedDescription)")
-                return
-            }
-
-            guard let data = data else {
-                print("No data received for purchased animations")
-                return
-            }
-
-            do {
-                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-                
-                if let animationsArray = json?["purchasedAnimations"] as? [[String: Any]] {
-                    DispatchQueue.main.async {
-                        self.processPurchasedAnimations(animationsArray)
-                    }
-                }
-            } catch {
-                print("Error parsing JSON for purchased animations: \(error.localizedDescription)")
-            }
-        }.resume()
-    }
-
-    private func processPurchasedAnimations(_ animationsArray: [[String: Any]]) {
-        var fetchedAnimations: [AnimationModel] = []
-        let group = DispatchGroup()
-
-        for animationData in animationsArray {
-            guard
-                let animation_id = animationData["animation_id"] as? String,
-                let animation_name = animationData["animation_name"] as? String,
-                let author_name = animationData["author_name"] as? String,
-                let author_description = animationData["author_description"] as? String,
-                let base64ProfileImage = animationData["author_profile_image"] as? String,
-                let author_id = animationData["author_id"] as? String,
-                let description = animationData["description"] as? String,
-                let created_at = animationData["created_at"] as? String,
-                let physical_width = animationData["physical_width"] as? Int,
-                let physical_height = animationData["physical_height"] as? Int
-            else {
-                print("Did not parse purchased animation data correctly")
-                continue
-            }
-
-            group.enter()
-
-            let authorProfileImage = getImage(base64String: base64ProfileImage)
-
-            fetchThumbnail(animation_id: animation_id) { thumbnailImage in
-                if let thumbnailImage = thumbnailImage {
-                    let animationModel = AnimationModel(
-                        animation_name: animation_name,
-                        animation_id: animation_id,
-                        author_id: author_id,
-                        author_name: author_name,
-                        author_description: author_description,
-                        description: description,
-                        created_at: created_at,
-                        physical_width: physical_width,
-                        physical_height: physical_height,
-                        thumbnail: thumbnailImage,
-                        author_profile_image: authorProfileImage
-                    )
-                    fetchedAnimations.append(animationModel)
-                }
-                group.leave()
-            }
-        }
-
-        group.notify(queue: .main) {
-            self.purchasedAnimations = fetchedAnimations
-        }
-    }
-
-    private func fetchGarments() {
-        guard let url = URL(string: "http://192.168.1.23:8000/library/garments") else {
-            print("Invalid URL for garments")
-            return
-        }
-
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                print("Error fetching garments: \(error.localizedDescription)")
-                return
-            }
-
-            guard let data = data else {
-                print("No data received for garments")
-                return
-            }
-
-            do {
-                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-                
-                if let garmentsArray = json?["garments"] as? [[String: Any]] {
-                    DispatchQueue.main.async {
-                        self.garments = garmentsArray.compactMap { garmentData in
-                            guard
-                                let id = garmentData["id"] as? String,
-                                let name = garmentData["name"] as? String,
-                                let uid = garmentData["uid"] as? String
-                            else {
-                                print("Did not parse garment data correctly")
-                                return nil
-                            }
-                            return GarmentModel(id: id, name: name, uid: uid)
-                        }
-                    }
-                }
-            } catch {
-                print("Error parsing JSON for garments: \(error.localizedDescription)")
-            }
-        }.resume()
-    }
-
-    private func fetchThumbnail(animation_id: String, completion: @escaping (Image?) -> Void) {
-        guard let url = URL(string: "http://192.168.1.23:8000/animations/\(animation_id)/thumbnail") else {
-            print("Invalid thumbnail URL")
-            completion(nil)
-            return
-        }
-
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                print("Error fetching thumbnail: \(error.localizedDescription)")
-                completion(nil)
-                return
-            }
-
-            guard let data = data, let uiImage = UIImage(data: data) else {
-                print("Invalid thumbnail data")
-                completion(nil)
-                return
-            }
-
-            let image = Image(uiImage: uiImage)
-            completion(image)
-        }.resume()
-    }
-
-    private func getImage(base64String: String) -> Image {
-        guard let data = Data(base64Encoded: base64String), let uiImage = UIImage(data: data) else {
-            return Image(systemName: "person.circle") // Default image in case of error
-        }
-        return Image(uiImage: uiImage)
-    }
-}
+//class LibraryPageData: ObservableObject {
+//    @Published var purchasedAnimations: [AnimationModel] = []
+//    @Published var garments: [GarmentModel] = []
+//    private var animationMap: [String: AnimationModel] = [:]
+//
+//
+//    func fetch() {
+//        // Fetch mock data
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//            self.purchasedAnimations = [
+////                AnimationModel(animation_name: "Animation 1", animation_id: "1", author_id: "1", author_name: "Alice", author_description: "", description: "Beautiful animation", created_at: "2024-12-10", physical_width: 10, physical_height: 10, thumbnail: Image(systemName: "star.fill"), author_profile_image: Image(systemName: "star.fill")),
+////                AnimationModel(animation_name: "Animation 2", animation_id: "2", author_id: "2", author_name: "Bob", author_description: "", description: "Beautiful animation",  created_at: "2024-12-10", physical_width: 10, physical_height: 10, thumbnail: Image(systemName: "star.fill"), author_profile_image: Image(systemName: "star.fill")),
+//            ]
+//
+//            self.garments = [
+//                GarmentModel(id: "1", animation_id: "1", name: "T-Shirt", uid: "UID1234"),
+//                GarmentModel(id: "2", animation_id: "2",name: "Hoodie", uid: "UID5678"),
+//                GarmentModel(id: "3", animation_id: "1",name: "T-Shirt", uid: "UID1234"),
+//                GarmentModel(id: "4", animation_id: "2",name: "T-Shirt", uid: "UID1234"),
+//                GarmentModel(id: "5", animation_id: "2",name: "T-Shirt", uid: "UID1234"),
+//                GarmentModel(id: "6", animation_id: "1", name: "T-Shirt", uid: "UID1234"),
+//
+//            ]
+//            self.constructAnimationMap()
+//        }
+//    }
+//    
+//    
+//    func constructAnimationMap() {
+//        animationMap = Dictionary(uniqueKeysWithValues: purchasedAnimations.map { ($0.animation_id, $0) })
+//    }
+//
+//    func getAnimation(for animationID: String) -> AnimationModel? {
+//        return animationMap[animationID]
+//    }
+//}
 
 
-
-struct GarmentModel: Identifiable {
-    let id: String
-    var name: String
-    let uid: String
-}
 
 #Preview {
     LibraryView()
+        .environmentObject(AppStateStore())
 }

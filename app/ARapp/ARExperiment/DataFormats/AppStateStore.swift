@@ -18,10 +18,10 @@ struct AppState {
     // mockup user
     static let initialState: AppState = .init(
         value: 0,
-        externalSource: "http://192.168.1.23:8000",
+        externalSource: "http://192.168.1.191:8000",
         appStatus: "Initializing...",
-        userId: "67582f2fbdad884371e8fdc1",
-        authToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzU4MmYyZmJkYWQ4ODQzNzFlOGZkYzEiLCJpYXQiOjE3MzM4MzI0OTV9.3zV4UplyaeiwPGoG9AXeW2sX3jnqs7SY4iXT_mf5XBI"
+        userId: "6766eda5ae90948e331e4a86",
+        authToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY2ZWRhNWFlOTA5NDhlMzMxZTRhODYiLCJpYXQiOjE3MzQ3OTg3NTd9.CcEN-NH-OvuBEC4MDHSEockfLuITpcCe-S6msPmzC_Q"
     )
 }
 
