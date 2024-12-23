@@ -26,7 +26,7 @@ struct UserData: Identifiable, Codable {
     var name: String
     var description: String
     var joinedDate: String
-    var garments: [LinkedGarmentData]
+    var garments: [String]
     var links: [Link]
     
     static let mockupUser = UserData(
@@ -44,30 +44,57 @@ class UserDataStore: ObservableObject {
     @Published var user: UserData
     var isMockup: Bool = false
     var isLoaded: Bool = false
+    @Published var garments: [LinkedGarmentData] = []
+    var address: String = ""
+    var token: String = ""
+    var user_id: String = ""
     
     init() {
         user = UserData.mockupUser
         isMockup = true
     }
     
+    func setup(store: AppState) {
+        self.address = store.externalSource
+        self.token = store.authToken
+        self.user_id = store.userId
+    }
+    
     public var didFail: Bool = false
     public var decodedImage: Image = Image(systemName: "exclamationmark.icloud.fill")
     
     // Example function for fetching user data from a REST API
-    func fetchUserData(urlAddress: String) {
+    func fetchUserData(store: AppState) {
+        setup(store: store)
+        print("Setup done. Starting fetch.")
+
+        fetchUser {
+            print("Fetched user successfully")
+            self.fetchGarments {
+                print("Fetched garments successfully: \(self.garments)")
+            }
+        }
+    }
+    
+    private func fetchUser(completion: @escaping () -> Void) {
         print("Starting to fetch user data")
-        guard let url = URL(string: urlAddress) else {
-            print("Invalid URL: \(urlAddress)")
+        guard let url = URL(string: "\(self.address)/users/\(self.user_id)") else {
+            print("Invalid URL: \(self.address)")
             didFail = true
+            completion()
             return
         }
+        
+        var request = URLRequest(url: url)
+        request.addValue("Bearer \(self.token)", forHTTPHeaderField: "Authorization")
 
-        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+        URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
             if let error = error {
                 DispatchQueue.main.async {
                     print("Error fetching data: \(error.localizedDescription)")
                     self?.didFail = true
                 }
+                completion()
                 return
             }
             
@@ -76,6 +103,7 @@ class UserDataStore: ObservableObject {
                     print("No data received.")
                     self?.didFail = true
                 }
+                completion()
                 return
             }
             
@@ -97,6 +125,57 @@ class UserDataStore: ObservableObject {
                     self?.didFail = true
                 }
             }
+            completion()
+        }.resume()
+    }
+    
+    private func fetchGarments(completion: @escaping () -> Void) {
+        guard let url = URL(string: "\(address)/garments/") else {
+            print("Invalid URL for garments")
+            completion()
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error fetching garments: \(error.localizedDescription)")
+                completion()
+                return
+            }
+            
+            guard let data = data else {
+                print("No data received for garments")
+                completion()
+                return
+            }
+            
+            do {
+                if let garmentsArray = try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]] {
+                    DispatchQueue.main.async {
+                        self.garments = garmentsArray.compactMap { garmentData in
+                            guard
+                                let id = garmentData["id"] as? String,
+                                let name = garmentData["name"] as? String,
+                                let uid = garmentData["uid"] as? String
+                            else {
+                                fatalError("Did not parse garment data correctly")
+                            }
+                            
+                            return LinkedGarmentData(id: id, name: name, uid: uid)
+                        }
+                        print("Garments: \(self.garments)")
+                    }
+                } else {
+                    print("Error: Data is not an array of animations.")
+                }
+                
+            } catch {
+                print("Error parsing JSON for garments: \(error.localizedDescription)")
+            }
+            completion()
         }.resume()
     }
 
@@ -108,13 +187,14 @@ class UserDataStore: ObservableObject {
             name: "John Doe",
             description: "Creative designer with a passion for art and AR.",
             joinedDate: "01/01/24",
-            garments: [
-                LinkedGarmentData(id: "1", name: "T-Shirt", uid: "je:asdiuasibd"),
-                LinkedGarmentData(id: "2", name: "Jeans", uid: "je:daiosubdob"),
-                LinkedGarmentData(id: "3", name: "Jacket", uid: "pe:jabsbdiasbd")
-            ],
+            garments: [],
             links: []
         )
+        garments = [
+            LinkedGarmentData(id: "1", name: "T-Shirt", uid: "je:asdiuasibd"),
+            LinkedGarmentData(id: "2", name: "Jeans", uid: "je:daiosubdob"),
+            LinkedGarmentData(id: "3", name: "Jacket", uid: "pe:jabsbdiasbd")
+        ]
         
         decodedImage = getImage(base64String: user.imageBase64!)
     }

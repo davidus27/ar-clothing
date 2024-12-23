@@ -132,7 +132,7 @@ struct LinkClothingView: View {
 
                 if httpResponse.statusCode == 200 {
                     // Success: Add clothing and dismiss view
-                    profileStore.user.garments.append(LinkedGarmentData(id: scannedUID, name: garmentName, uid: scannedUID))
+                    profileStore.garments.append(LinkedGarmentData(id: scannedUID, name: garmentName, uid: scannedUID))
                     dismiss()
                 } else {
                     // Parse error message from response
@@ -156,7 +156,7 @@ struct LinkClothingView: View {
         DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) {
             DispatchQueue.main.async {
                 isSaving = false
-                profileStore.user.garments.append(LinkedGarmentData(id: scannedUID, name: garmentName, uid: scannedUID))
+                profileStore.garments.append(LinkedGarmentData(id: scannedUID, name: garmentName, uid: scannedUID))
                 dismiss()  // Close the view after successful save
             }
         }

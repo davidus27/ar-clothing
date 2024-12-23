@@ -20,7 +20,7 @@ final class APIClient {
         image: UIImage,
         source: AppStateStore
     ) async throws {
-        let url = URL(string: source.animationAddress)!
+        let url = URL(string: source.state.animationAddress)!
 
         // Create the boundary for multipart/form-data
         let boundary = "Boundary-\(UUID().uuidString)"

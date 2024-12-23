@@ -70,12 +70,12 @@ struct ProfileView: View {
                                     .padding(.bottom, 5)
                                 
                                 
-                                if profileStore.user.garments.isEmpty {
+                                if profileStore.garments.isEmpty {
                                     Text("No clothing linked yet.")
                                         .font(.caption)
                                         .foregroundColor(.gray)
                                 } else {
-                                    ForEach(profileStore.user.garments) { clothing in
+                                    ForEach(profileStore.garments) { clothing in
                                         HStack {
                                             Text(clothing.name)
                                                 .font(.body)
@@ -125,7 +125,7 @@ struct ProfileView: View {
     private func loadProfileData() {
         Task {
             do {
-                profileStore.fetchUserData(urlAddress: appStateStore.userAddress)
+                profileStore.fetchUserData(store: appStateStore.state)
 //                isLoading = false
             }
         }
