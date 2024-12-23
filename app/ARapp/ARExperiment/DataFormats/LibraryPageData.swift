@@ -21,33 +21,33 @@ class LibraryPageData: ObservableObject {
         self.token = store.authToken
         self.userId = store.userId
     }
-
+    
     func fetch(store: AppState) {
         setup(store: store)
         let group = DispatchGroup()
-
+        
         group.enter()
         fetchPurchasedAnimations {
             group.leave()
         }
-
+        
         group.enter()
         fetchGarments {
             group.leave()
         }
-
+        
         group.notify(queue: .main) {
             self.constructAnimationMap()
         }
     }
-
+    
     private func fetchPurchasedAnimations(completion: @escaping () -> Void) {
         guard let url = URL(string: "\(address)/library/list") else {
             print("Invalid URL for purchased animations")
             completion()
             return
         }
-
+        
         var request = URLRequest(url: url)
         request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
@@ -57,7 +57,7 @@ class LibraryPageData: ObservableObject {
                 completion()
                 return
             }
-
+            
             guard let data = data else {
                 print("No data received for purchased animations")
                 completion()
@@ -66,24 +66,23 @@ class LibraryPageData: ObservableObject {
             
             do {
                 if let animationsArray = try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]] {
-                        DispatchQueue.main.async {
-                            print("animation array: \(animationsArray)")
-                            self.processPurchasedAnimations(animationsArray)
-                        }
-                    } else {
-                        print("Error: Data is not an array of animations.")
+                    DispatchQueue.main.async {
+                        self.processPurchasedAnimations(animationsArray)
                     }
+                } else {
+                    print("Error: Data is not an array of animations.")
+                }
             } catch {
                 print("Error parsing JSON for purchased animations: \(error.localizedDescription)")
             }
             completion()
         }.resume()
     }
-
+    
     private func processPurchasedAnimations(_ animationsArray: [[String: Any]]) {
         var fetchedAnimations: [AnimationModel] = []
         let group = DispatchGroup()
-
+        
         for animationData in animationsArray {
             
             guard
@@ -103,9 +102,9 @@ class LibraryPageData: ObservableObject {
             }
             
             group.enter()
-
+            
             let authorProfileImage = getImage(base64String: base64ProfileImage)
-
+            
             fetchThumbnail(animation_id: animation_id) { thumbnailImage in
                 if let thumbnailImage = thumbnailImage {
                     let animationModel = AnimationModel(
@@ -126,12 +125,12 @@ class LibraryPageData: ObservableObject {
                 group.leave()
             }
         }
-
+        
         group.notify(queue: .main) {
             self.purchasedAnimations = fetchedAnimations
         }
     }
-
+    
     private func fetchGarments(completion: @escaping () -> Void) {
         guard let url = URL(string: "\(address)/garments/") else {
             print("Invalid URL for garments")
@@ -148,17 +147,15 @@ class LibraryPageData: ObservableObject {
                 completion()
                 return
             }
-
+            
             guard let data = data else {
                 print("No data received for garments")
                 completion()
                 return
             }
-
+            
             do {
-                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-                
-                if let garmentsArray = json?["garments"] as? [[String: Any]] {
+                if let garmentsArray = try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]] {
                     DispatchQueue.main.async {
                         self.garments = garmentsArray.compactMap { garmentData in
                             guard
@@ -170,19 +167,22 @@ class LibraryPageData: ObservableObject {
                             }
                             
                             let animation_id = (garmentData["animation_id"] as? String) ?? ""
-                                // Allow null values
+                            // Allow null values
                             
                             return GarmentModel(id: id, animation_id: animation_id, name: name, uid: uid)
                         }
                     }
+                } else {
+                    print("Error: Data is not an array of animations.")
                 }
+                
             } catch {
                 print("Error parsing JSON for garments: \(error.localizedDescription)")
             }
             completion()
         }.resume()
     }
-
+    
     private func fetchThumbnail(animation_id: String, completion: @escaping (Image?) -> Void) {
         guard let url = URL(string: "\(address)/animations/\(animation_id)/thumbnail") else {
             print("Invalid thumbnail URL")
@@ -192,25 +192,25 @@ class LibraryPageData: ObservableObject {
         
         var request = URLRequest(url: url)
         request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-
+        
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 print("Error fetching thumbnail: \(error.localizedDescription)")
                 completion(nil)
                 return
             }
-
+            
             guard let data = data, let uiImage = UIImage(data: data) else {
                 print("Invalid thumbnail data")
                 completion(nil)
                 return
             }
-
+            
             let image = Image(uiImage: uiImage)
             completion(image)
         }.resume()
     }
-
+    
     private func getImage(base64String: String) -> Image {
         guard let data = Data(base64Encoded: base64String), let uiImage = UIImage(data: data) else {
             return Image(systemName: "person.circle") // Default image in case of error
@@ -221,7 +221,7 @@ class LibraryPageData: ObservableObject {
     func constructAnimationMap() {
         animationMap = Dictionary(uniqueKeysWithValues: purchasedAnimations.map { ($0.animation_id, $0) })
     }
-
+    
     func getAnimation(for animationID: String) -> AnimationModel? {
         return animationMap[animationID]
     }
